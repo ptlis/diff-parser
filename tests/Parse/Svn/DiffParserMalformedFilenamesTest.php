@@ -17,7 +17,7 @@ use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
-class DiffParserMalformedTest extends \PHPUnit_Framework_TestCase
+class DiffParserMalformedFilenamesTest extends \PHPUnit_Framework_TestCase
 {
     public function testParseCount()
     {
@@ -27,7 +27,7 @@ class DiffParserMalformedTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_malformed', FILE_IGNORE_NEW_LINES);
+        $data = file(__DIR__ . '/data/diff_malformed_filenames', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
 
@@ -43,7 +43,7 @@ class DiffParserMalformedTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_malformed', FILE_IGNORE_NEW_LINES);
+        $data = file(__DIR__ . '/data/diff_malformed_filenames', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
         $fileList = $diff->getChangedFiles();
