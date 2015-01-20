@@ -1,0 +1,21 @@
+From c03a079ff0547542d2067bd6c6714554b7628aa7 Mon Sep 17 00:00:00 2001
+From: brian ridley <ptlis@ptlis.net>
+Date: Tue, 6 Jan 2015 21:28:15 +0000
+Subject: [PATCH] removed file
+
+---
+ README.md | 1 -
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 README.md
+
+diff --git a/README.md b/README.md
+deleted file mode 100644
+index 04a86f5..0000000
+--- a/README.md
++++ /dev/null
+@@ -1 +0,0 @@
+-# My project
+\ No newline at end of file
+-- 
+1.9.1
+

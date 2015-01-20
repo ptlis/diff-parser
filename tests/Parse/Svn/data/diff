@@ -1,0 +1,83 @@
+Index: README.md
+===================================================================
+--- README.md	(revision 2)
++++ README.md	(revision 3)
+@@ -3,7 +3,7 @@
+ A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.
+
+
+-[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)
++[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)
+
+
+ ## Cautions
+Index: build/phpmd.xml
+===================================================================
+--- build/phpmd.xml	(revision 2)
++++ build/phpmd.xml	(revision 3)
+@@ -1,5 +1,5 @@
+ <?xml version="1.0"?>
+-<ruleset name="ConNeg"
++<ruleset name="VCS"
+          xmlns="http://pmd.sf.net/ruleset/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+Index: src/Svn/SvnVcs.php
+===================================================================
+--- src/Svn/SvnVcs.php	(revision 2)
++++ src/Svn/SvnVcs.php	(revision 3)
+@@ -40,8 +40,11 @@ class SvnVcs implements VcsInterface
+      * @param RepositoryConfig $repoConfig
+      * @param string $currentBranch
+      */
+-    public function __construct(CommandExecutorInterface $executor, RepositoryConfig $repoConfig, $currentBranch = 'trunk')
+-    {
++    public function __construct(
++        CommandExecutorInterface $executor,
++        RepositoryConfig $repoConfig,
++        $currentBranch = 'trunk'
++    ) {
+         $this->executor = $executor;
+         $this->repoConfig = $repoConfig;
+         $this->currentBranch = $currentBranch;
+@@ -65,7 +68,7 @@ class SvnVcs implements VcsInterface
+      */
+     public function changeBranch($branch)
+     {
+-        if (!$this->meta->branchExists((string)$branch)) {
++        if (!$this->meta->branchExists((string)$branch) && $this->repoConfig->getTrunkName() !== $branch) {
+             throw new \RuntimeException('Branch named "' . $branch . '" not found.');
+         }
+
+Index: tests/RepositoryConfigTest.php
+===================================================================
+--- tests/RepositoryConfigTest.php	(revision 2)
++++ tests/RepositoryConfigTest.php	(revision 3)
+@@ -10,7 +10,6 @@
+
+ namespace ptlis\Vcs\Test;
+
+-
+ use ptlis\Vcs\Svn\RepositoryConfig;
+
+ class RepositoryConfigTest extends \PHPUnit_Framework_TestCase
+Index: tests/Vcs/Git/ChangeBranchTest.php
+===================================================================
+--- tests/Vcs/Git/ChangeBranchTest.php	(revision 2)
++++ tests/Vcs/Git/ChangeBranchTest.php	(revision 3)
+@@ -48,6 +48,7 @@ class ChangeBranchTest extends \PHPUnit_Framework_TestCase
+             $commandExecutor->getArguments()
+         );
+     }
++
+     public function testBranchDoesntExist()
+     {
+         $this->setExpectedException(
+@@ -68,7 +69,5 @@ class ChangeBranchTest extends \PHPUnit_Framework_TestCase
+         $vcs = new GitVcs($commandExecutor);
+
+         $vcs->changeBranch('feat-new-badness');
+-
+-
+     }
+ }

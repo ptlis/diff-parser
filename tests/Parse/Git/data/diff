@@ -1,0 +1,99 @@
+From 5343cdf20269e7e8657045d19fde61de3edb070d Mon Sep 17 00:00:00 2001
+From: ptlis <ptlis@ptlis.net>
+Date: Wed, 24 Dec 2014 14:40:24 +0000
+Subject: [PATCH] Fix: Minor code-style fixes.
+
+---
+ README.md                          | 2 +-
+ build/phpmd.xml                    | 2 +-
+ src/Svn/SvnVcs.php                 | 9 ++++++---
+ tests/RepositoryConfigTest.php     | 1 -
+ tests/Vcs/Git/ChangeBranchTest.php | 3 +--
+ 5 files changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/README.md b/README.md
+index 5708db3..288dc87 100644
+--- a/README.md
++++ b/README.md
+@@ -3,7 +3,7 @@
+ A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.
+ 
+ 
+-[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)
++[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)
+ 
+ 
+ ## Cautions
+diff --git a/build/phpmd.xml b/build/phpmd.xml
+index 76314b1..20a4b35 100644
+--- a/build/phpmd.xml
++++ b/build/phpmd.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0"?>
+-<ruleset name="ConNeg"
++<ruleset name="VCS"
+          xmlns="http://pmd.sf.net/ruleset/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+diff --git a/src/Svn/SvnVcs.php b/src/Svn/SvnVcs.php
+index e025c01..76756c7 100644
+--- a/src/Svn/SvnVcs.php
++++ b/src/Svn/SvnVcs.php
+@@ -40,8 +40,11 @@ class SvnVcs implements VcsInterface
+      * @param RepositoryConfig $repoConfig
+      * @param string $currentBranch
+      */
+-    public function __construct(CommandExecutorInterface $executor, RepositoryConfig $repoConfig, $currentBranch = 'trunk')
+-    {
++    public function __construct(
++        CommandExecutorInterface $executor,
++        RepositoryConfig $repoConfig,
++        $currentBranch = 'trunk'
++    ) {
+         $this->executor = $executor;
+         $this->repoConfig = $repoConfig;
+         $this->currentBranch = $currentBranch;
+@@ -65,7 +68,7 @@ class SvnVcs implements VcsInterface
+      */
+     public function changeBranch($branch)
+     {
+-        if (!$this->meta->branchExists((string)$branch)) {
++        if (!$this->meta->branchExists((string)$branch) && $this->repoConfig->getTrunkName() !== $branch) {
+             throw new \RuntimeException('Branch named "' . $branch . '" not found.');
+         }
+ 
+diff --git a/tests/RepositoryConfigTest.php b/tests/RepositoryConfigTest.php
+index a95acad..f53e1f9 100644
+--- a/tests/RepositoryConfigTest.php
++++ b/tests/RepositoryConfigTest.php
+@@ -10,7 +10,6 @@
+ 
+ namespace ptlis\Vcs\Test;
+ 
+-
+ use ptlis\Vcs\Svn\RepositoryConfig;
+ 
+ class RepositoryConfigTest extends \PHPUnit_Framework_TestCase
+diff --git a/tests/Vcs/Git/ChangeBranchTest.php b/tests/Vcs/Git/ChangeBranchTest.php
+index 0abff18..ea11fcd 100644
+--- a/tests/Vcs/Git/ChangeBranchTest.php
++++ b/tests/Vcs/Git/ChangeBranchTest.php
+@@ -48,6 +48,7 @@ class ChangeBranchTest extends \PHPUnit_Framework_TestCase
+             $commandExecutor->getArguments()
+         );
+     }
++
+     public function testBranchDoesntExist()
+     {
+         $this->setExpectedException(
+@@ -68,7 +69,5 @@ class ChangeBranchTest extends \PHPUnit_Framework_TestCase
+         $vcs = new GitVcs($commandExecutor);
+ 
+         $vcs->changeBranch('feat-new-badness');
+-
+-
+     }
+ }
+-- 
+1.9.1
+

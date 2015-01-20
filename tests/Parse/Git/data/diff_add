@@ -1,0 +1,21 @@
+From 466f32cba2f114cd5f40f80b047a31c2900ce3e2 Mon Sep 17 00:00:00 2001
+From: brian ridley <ptlis@ptlis.net>
+Date: Tue, 6 Jan 2015 21:48:37 +0000
+Subject: [PATCH] Re-add readme
+
+---
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..c409365
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1 @@
++## Test
+\ No newline at end of file
+-- 
+1.9.1
+
