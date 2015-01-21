@@ -14,7 +14,7 @@ Uses __toString() to serialize back into unified diff format.
 Either from the console:
 
 ```shell
-    $ composer require ptlis/parser:"~0.2"
+    $ composer require ptlis/diff-parser:"~0.2"
 ```
 
 Or by Editing composer.json:
