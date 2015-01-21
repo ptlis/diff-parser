@@ -32,7 +32,7 @@ class DiffParserTest extends \PHPUnit_Framework_TestCase
         $diff = $parser->parse($data);
 
         $this->assertInstanceOf('ptlis\DiffParser\Changeset', $diff);
-        $this->assertEquals(5, count($diff->getChangedFiles()));
+        $this->assertEquals(5, count($diff->getFiles()));
     }
 
     public function testFirstFile()
@@ -46,7 +46,7 @@ class DiffParserTest extends \PHPUnit_Framework_TestCase
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getChangedFiles();
+        $fileList = $diff->getFiles();
 
         $this->assertEquals(1, count($fileList[0]->getHunks()));
 
@@ -88,7 +88,7 @@ class DiffParserTest extends \PHPUnit_Framework_TestCase
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getChangedFiles();
+        $fileList = $diff->getFiles();
 
         $this->assertEquals(1, count($fileList[1]->getHunks()));
 
@@ -128,7 +128,7 @@ class DiffParserTest extends \PHPUnit_Framework_TestCase
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getChangedFiles();
+        $fileList = $diff->getFiles();
 
         $this->assertEquals(2, count($fileList[2]->getHunks()));
 
@@ -191,7 +191,7 @@ class DiffParserTest extends \PHPUnit_Framework_TestCase
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getChangedFiles();
+        $fileList = $diff->getFiles();
 
         $this->assertEquals(1, count($fileList[3]->getHunks()));
 
@@ -232,7 +232,7 @@ class DiffParserTest extends \PHPUnit_Framework_TestCase
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getChangedFiles();
+        $fileList = $diff->getFiles();
 
         $this->assertEquals(2, count($fileList[4]->getHunks()));
 

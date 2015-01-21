@@ -34,7 +34,7 @@ class Changeset
      *
      * @return File[]
      */
-    public function getChangedFiles()
+    public function getFiles()
     {
         return $this->changedFileList;
     }

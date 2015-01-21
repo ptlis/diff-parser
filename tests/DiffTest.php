@@ -114,6 +114,6 @@ class DiffTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($fileString, $this->diff->__toString());
-        $this->assertEquals(1, count($this->diff->getChangedFiles()));
+        $this->assertEquals(1, count($this->diff->getFiles()));
     }
 }

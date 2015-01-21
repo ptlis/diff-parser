@@ -24,7 +24,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = new Parser();
         $changeset = $parser->parseFile($filename, Parser::VCS_GIT);
 
-        $fileList = $changeset->getChangedFiles();
+        $fileList = $changeset->getFiles();
 
         $this->assertEquals(1, count($fileList[0]->getHunks()));
 
@@ -55,7 +55,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = new Parser();
         $changeset = $parser->parseFile($filename, Parser::VCS_SVN);
 
-        $fileList = $changeset->getChangedFiles();
+        $fileList = $changeset->getFiles();
 
         $this->assertEquals(1, count($fileList[0]->getHunks()));
 
@@ -86,7 +86,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $parser = new Parser();
         $changeset = $parser->parseFile($filename);
 
-        $fileList = $changeset->getChangedFiles();
+        $fileList = $changeset->getFiles();
 
         $this->assertEquals(1, count($fileList[0]->getHunks()));
 
@@ -120,7 +120,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             Parser::VCS_GIT
         );
 
-        $fileList = $changeset->getChangedFiles();
+        $fileList = $changeset->getFiles();
 
         $this->assertEquals(1, count($fileList[0]->getHunks()));
 
