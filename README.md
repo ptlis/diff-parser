@@ -14,7 +14,7 @@ Uses __toString() to serialize back into unified diff format.
 Either from the console:
 
 ```shell
-    $ composer require ptlis/diff-parser:"~0.2"
+    $ composer require ptlis/diff-parser:"~0.3"
 ```
 
 Or by Editing composer.json:
@@ -23,7 +23,7 @@ Or by Editing composer.json:
     {
         "require": {
             ...
-            "ptlis/diff-parser": "~0.2",
+            "ptlis/diff-parser": "~0.3",
             ...
         }
     }
@@ -169,7 +169,7 @@ Get the operation:
 Get the value of the line:
 
 ```php
-    $line->getValue();              // Eg ' $foo = bar;'
+    $line->getContent();              // Eg ' $foo = bar;'
 ```
 
 

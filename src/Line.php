@@ -31,7 +31,7 @@ class Line
     private $operation;
 
     /** @var string The value of this line. */
-    private $value;
+    private $content;
 
 
     /**
@@ -40,14 +40,14 @@ class Line
      * @param int $originalLineNo
      * @param int $newLineNo
      * @param string $operation
-     * @param string $value
+     * @param string $content
      */
-    public function __construct($originalLineNo, $newLineNo, $operation, $value)
+    public function __construct($originalLineNo, $newLineNo, $operation, $content)
     {
         $this->originalLineNo = $originalLineNo;
         $this->newLineNo = $newLineNo;
         $this->operation = $operation;
-        $this->value = $value;
+        $this->content = $content;
     }
 
     /**
@@ -81,13 +81,13 @@ class Line
     }
 
     /**
-     * Get the value at this line.
+     * Get the content of the line.
      *
      * @return string
      */
-    public function getValue()
+    public function getContent()
     {
-        return $this->value;
+        return $this->content;
     }
 
     /**
@@ -109,7 +109,7 @@ class Line
                 break;
         }
 
-        $string .= $this->value;
+        $string .= $this->content;
 
         return $string;
     }

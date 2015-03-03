@@ -26,7 +26,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(5, $line->getOriginalLineNo());
         $this->assertEquals(6, $line->getNewLineNo());
         $this->assertEquals(Line::UNCHANGED, $line->getOperation());
-        $this->assertEquals('bob', $line->getValue());
+        $this->assertEquals('bob', $line->getContent());
         $this->assertEquals(' bob', $line->__toString());
     }
 
@@ -42,7 +42,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(9, $line->getOriginalLineNo());
         $this->assertEquals(-1, $line->getNewLineNo());
         $this->assertEquals(Line::REMOVED, $line->getOperation());
-        $this->assertEquals('some stuff', $line->getValue());
+        $this->assertEquals('some stuff', $line->getContent());
         $this->assertEquals('-some stuff', $line->__toString());
     }
 
@@ -58,7 +58,7 @@ class LineTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(-1, $line->getOriginalLineNo());
         $this->assertEquals(11, $line->getNewLineNo());
         $this->assertEquals(Line::ADDED, $line->getOperation());
-        $this->assertEquals('really good comment', $line->getValue());
+        $this->assertEquals('really good comment', $line->getContent());
         $this->assertEquals('+really good comment', $line->__toString());
     }
 }
