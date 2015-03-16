@@ -57,7 +57,7 @@ class Line
      */
     public function getOriginalLineNo()
     {
-        return $this->originalLineNo;
+        return intval($this->originalLineNo);
     }
 
     /**
@@ -67,7 +67,7 @@ class Line
      */
     public function getNewLineNo()
     {
-        return $this->newLineNo;
+        return intval($this->newLineNo);
     }
 
     /**
@@ -87,7 +87,7 @@ class Line
      */
     public function getContent()
     {
-        return $this->content;
+        return strval($this->content);
     }
 
     /**

@@ -56,7 +56,7 @@ class Hunk
      */
     public function getOriginalStart()
     {
-        return $this->originalStart;
+        return intval($this->originalStart);
     }
 
     /**
@@ -66,7 +66,7 @@ class Hunk
      */
     public function getOriginalCount()
     {
-        return $this->originalCount;
+        return intval($this->originalCount);
     }
 
     /**
@@ -76,7 +76,7 @@ class Hunk
      */
     public function getNewStart()
     {
-        return $this->newStart;
+        return intval($this->newStart);
     }
 
     /**
@@ -86,7 +86,7 @@ class Hunk
      */
     public function getNewCount()
     {
-        return $this->newCount;
+        return intval($this->newCount);
     }
 
     /**
