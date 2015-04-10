@@ -49,7 +49,8 @@ class UnifiedDiffParser
 
         $fileList = array();
         $startIndex = 0;
-        for ($i = 0; $i < count($tokenList); $i++) {
+        $tokenCount = count($tokenList);
+        for ($i = 0; $i < $tokenCount; $i++) {
 
             // File begin
             if (Token::ORIGINAL_FILENAME === $tokenList[$i]->getType()) {
@@ -82,7 +83,8 @@ class UnifiedDiffParser
         $hunkList = array();
         $startIndex = 0;
 
-        for ($i = 2; $i < count($fileTokenList); $i++) {
+        $tokenCount = count($fileTokenList);
+        for ($i = 2; $i < $tokenCount; $i++) {
 
             // Hunk begin
             if ($this->hunkStart($fileTokenList[$i])) {
@@ -131,7 +133,9 @@ class UnifiedDiffParser
         $originalLineNo = $originalStart;
         $newLineNo = $newStart;
         $lineList = array();
-        for ($i = $tokensReadCount; $i < count($hunkTokenList); $i++) {
+
+        $tokenCount = count($hunkTokenList);
+        for ($i = $tokensReadCount; $i < $tokenCount; $i++) {
             $operation = $this->mapLineOperation($hunkTokenList[$i]);
 
             $lineList[] = new Line(

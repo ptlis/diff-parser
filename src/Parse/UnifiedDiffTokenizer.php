@@ -73,7 +73,8 @@ class UnifiedDiffTokenizer
         $tokenList = array();
         $hasStarted = false;
 
-        for ($i = 0; $i < count($diffLineList); $i++) {
+        $lineCount = count($diffLineList);
+        for ($i = 0; $i < $lineCount; $i++) {
 
             // First line of a file
             if ($this->isFileStart($diffLineList, $i)) {
@@ -150,7 +151,8 @@ class UnifiedDiffTokenizer
         $tokenList = array();
 
         // Iterate until we have the correct number of original & new lines
-        for ($i = $currentLine; $i < count($diffLineList); $i++) {
+        $lineCount = count($diffLineList);
+        for ($i = $currentLine; $i < $lineCount; $i++) {
 
             $tokenList[] = $this->getHunkLineToken(
                 $addedCount,
