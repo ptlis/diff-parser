@@ -140,7 +140,7 @@ Get the hunk metadata:
     $hunk->getNewCount();           // Eg '7'
 ```
 
-Get the changed files:
+Get the changed lines:
 
 ```php
     $lineList = $hunk->getLines();  // Array of ptlis\DiffParser\Line instances.  
