@@ -1,0 +1,12 @@
+Index: branches/7.0/trunk
+===================================================================
+--- branches/7.0/trunk  (revision 115793)
++++ branches/7.0/trunk  (revision 115794)
+
+Property changes on: branches/7.0/trunk
+___________________________________________________________________
+Modified: svn:mergeinfo
+   Merged /branches/7.0/dev/7.3.3-5959:r115410-115793
+   Merged /branches/7.0/dev/7.3.2-5968:r115162-115780
+
+------------------------------------------------------------------------

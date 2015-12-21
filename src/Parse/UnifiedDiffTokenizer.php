@@ -241,29 +241,36 @@ class UnifiedDiffTokenizer
      */
     private function getFilenameTokens(array $diffLineList, $currentLine)
     {
+        $filenameTokens = array();
+
         // Get hunk metadata
         $hunkTokens = $this->getHunkStartTokens($diffLineList[$currentLine+2]);
 
-        // Simple change
-        if (4 == count($hunkTokens)) {
-            $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
-            $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine+1]);
+        // In some cases we may have a diff with no contents (e.g. diff of svn propedit)
+        if (count($hunkTokens)) {
+            // Simple change
+            if (4 == count($hunkTokens)) {
+                $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
+                $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine + 1]);
 
-        // File deletion
-        } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
-            $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
-            $newFilename = '';
+            // File deletion
+            } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
+                $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
+                $newFilename = '';
 
-        // File creation
-        } else {
-            $originalFilename = '';
-            $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine+1]);
+            // File creation
+            } else {
+                $originalFilename = '';
+                $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine + 1]);
+            }
+
+            $filenameTokens = array(
+                new Token(Token::ORIGINAL_FILENAME, $originalFilename),
+                new Token(Token::NEW_FILENAME, $newFilename)
+            );
         }
 
-        return array(
-            new Token(Token::ORIGINAL_FILENAME, $originalFilename),
-            new Token(Token::NEW_FILENAME, $newFilename)
-        );
+        return $filenameTokens;
     }
 
     /**
