@@ -15,7 +15,7 @@ use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
 
-class DiffTest extends \PHPUnit_Framework_TestCase
+class ChangesetTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Changeset */
     private $diff;
