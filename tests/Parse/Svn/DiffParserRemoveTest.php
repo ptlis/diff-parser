@@ -35,7 +35,7 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($diff->getFiles()));
     }
 
-    public function testFileRemove()
+    public function testFileRemovePre19()
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -62,6 +62,43 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
                     0,
                     array(
                         new Line(0, -1, Line::REMOVED, '## Test')
+                    )
+                )
+            )
+        );
+
+        $this->assertEquals($file, $fileList[0]);
+    }
+
+    public function testFileRemovePost19()
+    {
+        $parser = new UnifiedDiffParser(
+            new UnifiedDiffTokenizer(
+                new SvnDiffNormalizer()
+            )
+        );
+
+        $data = file(__DIR__ . '/data/diff_remove_1.9', FILE_IGNORE_NEW_LINES);
+
+        $diff = $parser->parse($data);
+        $fileList = $diff->getFiles();
+
+        $this->assertEquals(1, count($fileList[0]->getHunks()));
+
+        $file = new File(
+            'bar',
+            '',
+            File::DELETED,
+            array(
+                new Hunk(
+                    1,
+                    3,
+                    0,
+                    0,
+                    array(
+                        new Line(1, -1, Line::REMOVED, '<?php'),
+                        new Line(2, -1, Line::REMOVED, ''),
+                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';')
                     )
                 )
             )
