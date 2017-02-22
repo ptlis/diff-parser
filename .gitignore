@@ -5,7 +5,6 @@
 /build/pdepend/
 /build/phpdoc/
 /build/tmp/
-/bin/
 /vendor/
 /composer.phar
 /.idea/
