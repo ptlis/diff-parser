@@ -13,7 +13,7 @@ namespace ptlis\DiffParser\Parse;
 /**
  * Normalize generic diff (no specific behaviours expected).
  */
-class StandardDiffNormalizer implements DiffNormalizerInterface
+final class StandardDiffNormalizer implements DiffNormalizerInterface
 {
     /**
      * Accepts a raw file start line from a unified diff & returns a normalized version of the filename.

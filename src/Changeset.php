@@ -13,7 +13,7 @@ namespace ptlis\DiffParser;
 /**
  * Class storing data for a single changeset.
  */
-class Changeset
+final class Changeset
 {
     /** @var File[] Array of changed files in this diff. */
     private $changedFileList;

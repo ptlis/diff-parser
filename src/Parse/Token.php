@@ -13,7 +13,7 @@ namespace ptlis\DiffParser\Parse;
 /**
  * A token from a unified diff file.
  */
-class Token
+final class Token
 {
     const ORIGINAL_FILENAME = 'original_filename';
     const NEW_FILENAME = 'new_filename';

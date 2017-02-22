@@ -13,7 +13,7 @@ namespace ptlis\DiffParser\Parse;
 /**
  * Tokenizer for working with unified diffs.
  */
-class UnifiedDiffTokenizer
+final class UnifiedDiffTokenizer
 {
     /**
      * Regex used to determine if the current line is a hunk start.

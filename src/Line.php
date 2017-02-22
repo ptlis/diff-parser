@@ -13,7 +13,7 @@ namespace ptlis\DiffParser;
 /**
  * Class storing metadata about a single line from a hunk.
  */
-class Line
+final class Line
 {
     const ADDED = 'added';
     const REMOVED = 'removed';

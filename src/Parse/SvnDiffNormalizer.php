@@ -13,7 +13,7 @@ namespace ptlis\DiffParser\Parse;
 /**
  * Normalize git-specific behaviours when unified diff is generated.
  */
-class SvnDiffNormalizer implements DiffNormalizerInterface
+final class SvnDiffNormalizer implements DiffNormalizerInterface
 {
     const FILENAME_REGEX = '/^
             (?:(?:\+){3}|(?:\-){3}) # +++ or ---

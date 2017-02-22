@@ -13,7 +13,7 @@ namespace ptlis\DiffParser;
 /**
  * Class storing data about hunks in changed files.
  */
-class Hunk
+final class Hunk
 {
     /** @var int The original starting line. */
     private $originalStart;

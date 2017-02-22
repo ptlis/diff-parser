@@ -13,7 +13,7 @@ namespace ptlis\DiffParser\Parse;
 /**
  * Normalize git-specific behaviours when unified diff is generated.
  */
-class GitDiffNormalizer implements DiffNormalizerInterface
+final class GitDiffNormalizer implements DiffNormalizerInterface
 {
     /**
      * Accepts a raw file start line from a unified diff & returns a normalized version of the filename.

@@ -13,7 +13,7 @@ namespace ptlis\DiffParser;
 /**
  * Class storing data about changed files.
  */
-class File
+final class File
 {
     const CREATED = 'created';
     const DELETED = 'deleted';

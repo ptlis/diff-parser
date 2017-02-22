@@ -18,7 +18,7 @@ use ptlis\DiffParser\Line;
 /**
  * Class that parses a unified diff into a data-structure for convenient manipulation.
  */
-class UnifiedDiffParser
+final class UnifiedDiffParser
 {
     /** @var UnifiedDiffTokenizer */
     private $tokenizer;

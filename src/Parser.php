@@ -20,7 +20,7 @@ use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 /**
  * Utility class providing a simple API through which parsing can be performed.
  */
-class Parser
+final class Parser
 {
     const VCS_GIT = 'git';
     const VCS_SVN = 'svn';
