@@ -8,10 +8,13 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test;
+namespace ptlis\DiffParser\Test\Unit;
 
 use ptlis\DiffParser\Line;
 
+/**
+ * @covers \ptlis\DiffParser\Line
+ */
 class LineTest extends \PHPUnit_Framework_TestCase
 {
     public function testLineUnchanged()

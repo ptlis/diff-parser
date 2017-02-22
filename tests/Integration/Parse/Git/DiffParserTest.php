@@ -8,7 +8,7 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test\Parse\Git;
+namespace ptlis\DiffParser\Integration\Test\Parse\Git;
 
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;

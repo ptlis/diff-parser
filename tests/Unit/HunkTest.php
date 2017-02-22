@@ -8,22 +8,26 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test;
+namespace ptlis\DiffParser\Test\Unit;
 
-use ptlis\DiffParser\Changeset;
-use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
 
-class ChangesetTest extends \PHPUnit_Framework_TestCase
+/**
+ * @covers \ptlis\DiffParser\Hunk
+ */
+class HunkTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Changeset */
-    private $diff;
+    /** @var Hunk */
+    private $hunk;
+
+    /** @var Line[] */
+    private $lineList;
 
 
     protected function setUp()
     {
-        $lineList = array(
+        $this->lineList = array(
             new Line(
                 3,
                 4,
@@ -74,33 +78,20 @@ class ChangesetTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $hunkList = array(
-            new Hunk(
-                3,
-                7,
-                4,
-                6,
-                $lineList
-            )
+        $this->hunk = new Hunk(
+            3,
+            7,
+            4,
+            6,
+            $this->lineList
         );
-
-        $file = new File(
-            'README.md',
-            'README.md',
-            File::CHANGED,
-            $hunkList
-        );
-
-        $this->diff = new Changeset(array($file));
     }
 
     public function testHunk()
     {
-        $fileString = implode(
+        $hunkString = implode(
             PHP_EOL,
             array(
-                '--- README.md',
-                '+++ README.md',
                 '@@ -3,7 +4,6 @@',
                 ' A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.',
                 ' ',
@@ -113,7 +104,11 @@ class ChangesetTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($fileString, $this->diff->__toString());
-        $this->assertEquals(1, count($this->diff->getFiles()));
+        $this->assertEquals($hunkString, $this->hunk->__toString());
+        $this->assertEquals(3, $this->hunk->getOriginalStart());
+        $this->assertEquals(7, $this->hunk->getOriginalCount());
+        $this->assertEquals(4, $this->hunk->getNewStart());
+        $this->assertEquals(6, $this->hunk->getNewCount());
+        $this->assertEquals($this->lineList, $this->hunk->getLines());
     }
 }

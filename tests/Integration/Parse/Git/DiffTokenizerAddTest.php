@@ -8,17 +8,17 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test\Parse\Svn;
+namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
 use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
-use ptlis\DiffParser\Parse\SvnDiffNormalizer;
+use ptlis\DiffParser\Parse\GitDiffNormalizer;
 
 class DiffTokenizerAddTest extends \PHPUnit_Framework_TestCase
 {
     public function testFileAdd()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff_add', FILE_IGNORE_NEW_LINES);
 

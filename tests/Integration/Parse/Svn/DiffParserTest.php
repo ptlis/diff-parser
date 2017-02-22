@@ -8,7 +8,7 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test\Parse\Svn;
+namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;

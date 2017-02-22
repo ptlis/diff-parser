@@ -8,17 +8,17 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test\Parse\Git;
+namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
 use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
-use ptlis\DiffParser\Parse\GitDiffNormalizer;
+use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
 class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 {
     public function testTokenCount()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
@@ -29,7 +29,7 @@ class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testFirstFile()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
@@ -55,7 +55,7 @@ class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testSecondFile()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
@@ -79,7 +79,7 @@ class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testThirdFileFirstChunk()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
@@ -110,7 +110,7 @@ class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testThirdFileSecondChunk()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
@@ -133,7 +133,7 @@ class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testFourthFile()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
@@ -158,7 +158,7 @@ class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testFifthFileFirstChunk()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 
@@ -183,7 +183,7 @@ class DiffTokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testFifthFileSecondChunk()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff', FILE_IGNORE_NEW_LINES);
 

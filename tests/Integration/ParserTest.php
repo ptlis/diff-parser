@@ -8,13 +8,16 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test;
+namespace ptlis\DiffParser\Test\Integration;
 
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
 use ptlis\DiffParser\Parser;
 
+/**
+ * @covers \ptlis\DiffParser\Parser
+ */
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testParseFileGitSuccess()

@@ -8,12 +8,15 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test;
+namespace ptlis\DiffParser\Test\Unit;
 
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
 
+/**
+ * @covers \ptlis\DiffParser\File
+ */
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /** @var File */

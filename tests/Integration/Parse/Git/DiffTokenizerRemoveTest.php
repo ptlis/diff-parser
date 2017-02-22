@@ -8,17 +8,17 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Test\Parse\Svn;
+namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
 use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
-use ptlis\DiffParser\Parse\SvnDiffNormalizer;
+use ptlis\DiffParser\Parse\GitDiffNormalizer;
 
 class DiffTokenizerRemoveTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFileAdd()
+    public function testFileRemove()
     {
-        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
+        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
         $data = file(__DIR__ . '/data/diff_remove', FILE_IGNORE_NEW_LINES);
 
@@ -33,6 +33,6 @@ class DiffTokenizerRemoveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_START, 0), $tokenList[3]);
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 0), $tokenList[4]);
 
-        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '## Test'), $tokenList[5]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '# My project'), $tokenList[5]);
     }
 }
