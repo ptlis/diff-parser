@@ -20,9 +20,7 @@ use ptlis\DiffParser\Line;
  */
 class UnifiedDiffParser
 {
-    /**
-     * @var UnifiedDiffTokenizer
-     */
+    /** @var UnifiedDiffTokenizer */
     private $tokenizer;
 
 

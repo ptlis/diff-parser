@@ -45,9 +45,7 @@ class UnifiedDiffTokenizer
         \s@@/x
     ";
 
-    /**
-     * @var DiffNormalizerInterface
-     */
+    /** @var DiffNormalizerInterface */
     private $diffNormalizer;
 
 
