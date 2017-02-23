@@ -20,7 +20,7 @@ class DiffTokenizerAddTest extends \PHPUnit_Framework_TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file(__DIR__ . '/data/diff_add', FILE_IGNORE_NEW_LINES);
+        $data = file(__DIR__ . '/data/diff_add_single_line', FILE_IGNORE_NEW_LINES);
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -34,5 +34,22 @@ class DiffTokenizerAddTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Token(Token::FILE_CREATION_LINE_COUNT, 1), $tokenList[4]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '## Test'), $tokenList[5]);
+    }
+
+    public function testFileAddIssue3()
+    {
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
+
+        $data = file(__DIR__ . '/data/diff_add_multi_line', FILE_IGNORE_NEW_LINES);
+
+        $tokenList = $tokenizer->tokenize($data);
+
+        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php'), $tokenList[0]);
+        $this->assertEquals(new Token(Token::NEW_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php'), $tokenList[1]);
+
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 0), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 0), $tokenList[3]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, 1), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 74), $tokenList[5]);
     }
 }

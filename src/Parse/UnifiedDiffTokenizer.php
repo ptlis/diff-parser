@@ -202,26 +202,26 @@ final class UnifiedDiffTokenizer
             // File deletion
             if ($this->hasToken($matches, Token::FILE_DELETION_LINE_COUNT)) {
                 $tokenList = array(
-                    new Token(Token::FILE_DELETION_LINE_COUNT, $matches[Token::FILE_DELETION_LINE_COUNT]),
-                    new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START]),
-                    new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT])
+                    new Token(Token::FILE_DELETION_LINE_COUNT, intval($matches[Token::FILE_DELETION_LINE_COUNT])),
+                    new Token(Token::HUNK_NEW_START, intval($matches[Token::HUNK_NEW_START])),
+                    new Token(Token::HUNK_NEW_COUNT, intval($matches[Token::HUNK_NEW_COUNT]))
                 );
 
             // File creation
             } elseif ($this->hasToken($matches, Token::FILE_CREATION_LINE_COUNT)) {
                 $tokenList = array(
-                    new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START]),
-                    new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT]),
-                    new Token(Token::FILE_CREATION_LINE_COUNT, $matches[Token::FILE_CREATION_LINE_COUNT]),
+                    new Token(Token::HUNK_ORIGINAL_START, intval($matches[Token::HUNK_ORIGINAL_START])),
+                    new Token(Token::HUNK_ORIGINAL_COUNT, intval($matches[Token::HUNK_ORIGINAL_COUNT])),
+                    new Token(Token::FILE_CREATION_LINE_COUNT, intval($matches[Token::FILE_CREATION_LINE_COUNT])),
                 );
 
             // Standard Case
             } else {
                 $tokenList = array(
-                    new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START]),
-                    new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT]),
-                    new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START]),
-                    new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT])
+                    new Token(Token::HUNK_ORIGINAL_START, intval($matches[Token::HUNK_ORIGINAL_START])),
+                    new Token(Token::HUNK_ORIGINAL_COUNT, intval($matches[Token::HUNK_ORIGINAL_COUNT])),
+                    new Token(Token::HUNK_NEW_START, intval($matches[Token::HUNK_NEW_START])),
+                    new Token(Token::HUNK_NEW_COUNT, intval($matches[Token::HUNK_NEW_COUNT]))
                 );
             }
         }

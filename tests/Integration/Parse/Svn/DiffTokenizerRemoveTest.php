@@ -16,11 +16,11 @@ use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
 class DiffTokenizerRemoveTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFileAdd()
+    public function testFileRemoveSingleLine()
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file(__DIR__ . '/data/diff_remove', FILE_IGNORE_NEW_LINES);
+        $data = file(__DIR__ . '/data/diff_remove_single_line', FILE_IGNORE_NEW_LINES);
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -34,5 +34,28 @@ class DiffTokenizerRemoveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 0), $tokenList[4]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '## Test'), $tokenList[5]);
+    }
+
+    public function testFileRemoveMultiLine()
+    {
+        $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
+
+        $data = file(__DIR__ . '/data/diff_remove_multi_line', FILE_IGNORE_NEW_LINES);
+
+        $tokenList = $tokenizer->tokenize($data);
+
+        $this->assertEquals(9, count($tokenList));
+
+        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'bar'), $tokenList[0]);
+        $this->assertEquals(new Token(Token::NEW_FILENAME, 'bar'), $tokenList[1]);
+
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 1), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 3), $tokenList[3]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, 0), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 0), $tokenList[5]);
+
+        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '<?php'), $tokenList[6]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, ''), $tokenList[7]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, 'echo \'different test\';'), $tokenList[8]);
     }
 }

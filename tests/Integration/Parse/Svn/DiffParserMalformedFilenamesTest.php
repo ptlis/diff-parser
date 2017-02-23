@@ -58,10 +58,10 @@ class DiffParserMalformedFilenamesTest extends \PHPUnit_Framework_TestCase
                 new Hunk(
                     0,
                     0,
-                    0,
+                    1,
                     1,
                     array(
-                        new Line(-1, 0, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test')
                     )
                 )
             )

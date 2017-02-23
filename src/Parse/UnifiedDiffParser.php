@@ -106,7 +106,7 @@ final class UnifiedDiffParser
         return new File(
             $originalName,
             $newName,
-            $this->getFileOperation($originalName, $newName),
+            $this->getFileOperation($fileTokenList),
             $hunkList
         );
     }
@@ -175,7 +175,7 @@ final class UnifiedDiffParser
     {
         switch (true) {
             case Token::FILE_DELETION_LINE_COUNT === $hunkTokenList[0]->getType():
-                $originalStart = 0;
+                $originalStart = 1;
                 $originalCount = intval($hunkTokenList[0]->getValue());
                 $newStart = intval($hunkTokenList[1]->getValue());
                 $newCount = intval($hunkTokenList[2]->getValue());
@@ -185,7 +185,7 @@ final class UnifiedDiffParser
             case Token::FILE_CREATION_LINE_COUNT === $hunkTokenList[2]->getType():
                 $originalStart = intval($hunkTokenList[0]->getValue());
                 $originalCount = intval($hunkTokenList[1]->getValue());
-                $newStart = 0;
+                $newStart = 1;
                 $newCount = intval($hunkTokenList[2]->getValue());
                 $tokensReadCount = 3;
                 break;
@@ -260,21 +260,25 @@ final class UnifiedDiffParser
     /**
      * Get the operation performed on the file (create, delete, change).
      *
-     * @param string $originalName
-     * @param string $newName
+     * @param Token[] $fileTokenList
      *
-     * @return string
+     * @return string One of class constants File::CREATED, File::DELETED, File::CHANGED
      */
-    private function getFileOperation($originalName, $newName)
+    private function getFileOperation(array $fileTokenList)
     {
-        if (!strlen($originalName)) {
+
+        $operation = File::CHANGED;
+        if (
+            Token::FILE_CREATION_LINE_COUNT === $fileTokenList[4]->getType()
+            || (0 === $fileTokenList[2]->getValue() && (0 === $fileTokenList[2]->getValue()))
+        ) {
             $operation = File::CREATED;
 
-        } elseif (!strlen($newName)) {
+        } else if (
+            Token::FILE_DELETION_LINE_COUNT === $fileTokenList[2]->getType()
+            || (0 === $fileTokenList[4]->getValue() && (0 === $fileTokenList[5]->getValue()))
+        ) {
             $operation = File::DELETED;
-
-        } else {
-            $operation = File::CHANGED;
         }
 
         return $operation;

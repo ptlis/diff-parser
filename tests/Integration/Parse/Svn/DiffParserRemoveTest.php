@@ -27,7 +27,7 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_remove', FILE_IGNORE_NEW_LINES);
+        $data = file(__DIR__ . '/data/diff_remove_single_line', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
 
@@ -35,7 +35,7 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($diff->getFiles()));
     }
 
-    public function testFileRemovePre19()
+    public function testFileRemoveSingleLinePre19()
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -43,7 +43,7 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_remove', FILE_IGNORE_NEW_LINES);
+        $data = file(__DIR__ . '/data/diff_remove_single_line', FILE_IGNORE_NEW_LINES);
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -56,12 +56,12 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
             File::DELETED,
             array(
                 new Hunk(
-                    0,
+                    1,
                     1,
                     0,
                     0,
                     array(
-                        new Line(0, -1, Line::REMOVED, '## Test')
+                        new Line(1, -1, Line::REMOVED, '## Test')
                     )
                 )
             )
@@ -88,6 +88,43 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
         $file = new File(
             'bar',
             '',
+            File::DELETED,
+            array(
+                new Hunk(
+                    1,
+                    3,
+                    0,
+                    0,
+                    array(
+                        new Line(1, -1, Line::REMOVED, '<?php'),
+                        new Line(2, -1, Line::REMOVED, ''),
+                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';')
+                    )
+                )
+            )
+        );
+
+        $this->assertEquals($file, $fileList[0]);
+    }
+
+    public function testFileRemoveMultiLine()
+    {
+        $parser = new UnifiedDiffParser(
+            new UnifiedDiffTokenizer(
+                new SvnDiffNormalizer()
+            )
+        );
+
+        $data = file(__DIR__ . '/data/diff_remove_multi_line', FILE_IGNORE_NEW_LINES);
+
+        $diff = $parser->parse($data);
+        $fileList = $diff->getFiles();
+
+        $this->assertEquals(1, count($fileList[0]->getHunks()));
+
+        $file = new File(
+            'bar',
+            'bar',
             File::DELETED,
             array(
                 new Hunk(

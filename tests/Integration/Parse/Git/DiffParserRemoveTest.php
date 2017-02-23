@@ -56,12 +56,12 @@ class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
             File::DELETED,
             array(
                 new Hunk(
-                    0,
+                    1,
                     1,
                     0,
                     0,
                     array(
-                        new Line(0, -1, Line::REMOVED, '# My project')
+                        new Line(1, -1, Line::REMOVED, '# My project')
                     )
                 )
             )

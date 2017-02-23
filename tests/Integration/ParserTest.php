@@ -39,10 +39,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 new Hunk(
                     0,
                     0,
-                    0,
+                    1,
                     1,
                     array(
-                        new Line(-1, 0, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test')
                     )
                 )
             )
@@ -53,7 +53,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParseFileSvnSuccess()
     {
-        $filename = __DIR__ . '/Parse/Svn/data/diff_add';
+        $filename = __DIR__ . '/Parse/Svn/data/diff_add_single_line';
 
         $parser = new Parser();
         $changeset = $parser->parseFile($filename, Parser::VCS_SVN);
@@ -70,10 +70,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 new Hunk(
                     0,
                     0,
-                    0,
+                    1,
                     1,
                     array(
-                        new Line(-1, 0, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test')
                     )
                 )
             )
@@ -101,10 +101,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 new Hunk(
                     0,
                     0,
-                    0,
+                    1,
                     1,
                     array(
-                        new Line(-1, 0, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test')
                     )
                 )
             )
@@ -135,10 +135,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 new Hunk(
                     0,
                     0,
-                    0,
+                    1,
                     1,
                     array(
-                        new Line(-1, 0, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test')
                     )
                 )
             )
