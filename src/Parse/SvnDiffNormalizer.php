@@ -20,7 +20,7 @@ final class SvnDiffNormalizer implements DiffNormalizerInterface
             \s
             (?<filename>.*)         # the filename
             \s
-            (:?\(revision\s\d\))    # the revision number
+            (:?\(revision\s(:?\d+)\))    # the revision number
             |
             (:?\(nonexistent\))     # or nonexistent
             \s*$
