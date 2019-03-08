@@ -118,20 +118,7 @@ final class UnifiedDiffTokenizer
         int &$currentLine
     ): array {
 
-        // Simple change
-        if (4 == count($hunkTokens)) {
-            $originalLineCount = (int)$hunkTokens[1]->getValue();
-            $newLineCount = (int)$hunkTokens[3]->getValue();
-        // File deletion
-        } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
-            $originalLineCount = (int)$hunkTokens[0]->getValue();
-            $newLineCount = 0;
-        // File creation
-        } else {
-            $originalLineCount = 0;
-            $newLineCount = (int)$hunkTokens[2]->getValue();
-        }
-
+        [$originalLineCount, $newLineCount] = $this->getHunkLineCounts($hunkTokens);
         $addedCount = 0;
         $removedCount = 0;
         $unchangedCount = 0;
@@ -157,6 +144,25 @@ final class UnifiedDiffTokenizer
         }
 
         return $tokenList;
+    }
+
+    private function getHunkLineCounts(array $hunkTokens): array
+    {
+        // Simple change
+        if (4 == count($hunkTokens)) {
+            $originalLineCount = (int)$hunkTokens[1]->getValue();
+            $newLineCount = (int)$hunkTokens[3]->getValue();
+        // File deletion
+        } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
+            $originalLineCount = (int)$hunkTokens[0]->getValue();
+            $newLineCount = 0;
+        // File creation
+        } else {
+            $originalLineCount = 0;
+            $newLineCount = (int)$hunkTokens[2]->getValue();
+        }
+
+        return [$originalLineCount, $newLineCount];
     }
 
     /**
