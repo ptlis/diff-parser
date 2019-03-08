@@ -12,7 +12,6 @@ namespace ptlis\DiffParser;
 
 use ptlis\DiffParser\Parse\DiffNormalizerInterface;
 use ptlis\DiffParser\Parse\GitDiffNormalizer;
-use ptlis\DiffParser\Parse\StandardDiffNormalizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
@@ -89,14 +88,12 @@ final class Parser
      */
     private function getNormalizer($vcsType)
     {
-        if (self::VCS_GIT === $vcsType) {
-            $normalizer = new GitDiffNormalizer();
-
-        } elseif (self::VCS_SVN === $vcsType) {
+        $normalizer = new GitDiffNormalizer();
+        if (self::VCS_SVN === $vcsType) {
             $normalizer = new SvnDiffNormalizer();
 
         } else {
-            $normalizer = new StandardDiffNormalizer();
+            $normalizer = new GitDiffNormalizer();
         }
 
         return $normalizer;

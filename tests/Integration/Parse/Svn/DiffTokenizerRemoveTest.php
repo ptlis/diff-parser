@@ -10,11 +10,12 @@
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
-class DiffTokenizerRemoveTest extends \PHPUnit_Framework_TestCase
+final class DiffTokenizerRemoveTest extends TestCase
 {
     public function testFileRemoveSingleLine()
     {

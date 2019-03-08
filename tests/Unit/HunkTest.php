@@ -10,13 +10,14 @@
 
 namespace ptlis\DiffParser\Test\Unit;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
 
 /**
  * @covers \ptlis\DiffParser\Hunk
  */
-class HunkTest extends \PHPUnit_Framework_TestCase
+final class HunkTest extends TestCase
 {
     /** @var Hunk */
     private $hunk;

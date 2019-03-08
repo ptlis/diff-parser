@@ -10,11 +10,12 @@
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\GitDiffNormalizer;
 
-class DiffTokenizerRemoveTest extends \PHPUnit_Framework_TestCase
+final class DiffTokenizerRemoveTest extends TestCase
 {
     public function testFileRemove()
     {

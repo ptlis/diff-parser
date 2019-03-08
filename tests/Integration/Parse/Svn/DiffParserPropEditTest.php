@@ -10,14 +10,12 @@
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
-use ptlis\DiffParser\File;
-use ptlis\DiffParser\Hunk;
-use ptlis\DiffParser\Line;
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
-class DiffParserPropEditTest extends \PHPUnit_Framework_TestCase
+final class DiffParserPropEditTest extends TestCase
 {
     public function testPropEdit()
     {

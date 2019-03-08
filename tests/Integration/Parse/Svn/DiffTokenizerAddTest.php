@@ -10,11 +10,12 @@
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
-class DiffTokenizerAddTest extends \PHPUnit_Framework_TestCase
+final class DiffTokenizerAddTest extends TestCase
 {
     public function testFileAdd()
     {

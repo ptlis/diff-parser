@@ -10,6 +10,7 @@
 
 namespace ptlis\DiffParser\Test\Integration;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
@@ -18,7 +19,7 @@ use ptlis\DiffParser\Parser;
 /**
  * @covers \ptlis\DiffParser\Parser
  */
-class ParserTest extends \PHPUnit_Framework_TestCase
+final class ParserTest extends TestCase
 {
     public function testParseFileGitSuccess()
     {
@@ -95,7 +96,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $file = new File(
             '',
-            'b/README.md',
+            'README.md',
             File::CREATED,
             array(
                 new Hunk(
@@ -149,10 +150,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParseFileGitFileNotFound()
     {
-        $this->setExpectedException(
-            'RuntimeException',
-            'File "' . __DIR__ . '/Parse/Git/data/diff_wibble' . '" not found.'
-        );
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('File "' . __DIR__ . '/Parse/Git/data/diff_wibble' . '" not found.');
 
         $filename = __DIR__ . '/Parse/Git/data/diff_wibble';
 

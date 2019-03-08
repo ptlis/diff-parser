@@ -10,6 +10,7 @@
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
@@ -17,7 +18,7 @@ use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
-class DiffParserRemoveTest extends \PHPUnit_Framework_TestCase
+final class DiffParserRemoveTest extends TestCase
 {
     public function testParseCount()
     {

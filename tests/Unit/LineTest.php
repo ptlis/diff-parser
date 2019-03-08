@@ -10,12 +10,13 @@
 
 namespace ptlis\DiffParser\Test\Unit;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Line;
 
 /**
  * @covers \ptlis\DiffParser\Line
  */
-class LineTest extends \PHPUnit_Framework_TestCase
+final class LineTest extends TestCase
 {
     public function testLineUnchanged()
     {

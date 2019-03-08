@@ -10,6 +10,7 @@
 
 namespace ptlis\DiffParser\Test\Unit;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
@@ -18,7 +19,7 @@ use ptlis\DiffParser\Line;
 /**
  * @covers \ptlis\DiffParser\Changeset
  */
-class ChangesetTest extends \PHPUnit_Framework_TestCase
+final class ChangesetTest extends TestCase
 {
     /** @var Changeset */
     private $diff;

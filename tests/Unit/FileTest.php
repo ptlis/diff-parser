@@ -10,6 +10,7 @@
 
 namespace ptlis\DiffParser\Test\Unit;
 
+use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
@@ -17,7 +18,7 @@ use ptlis\DiffParser\Line;
 /**
  * @covers \ptlis\DiffParser\File
  */
-class FileTest extends \PHPUnit_Framework_TestCase
+final class FileTest extends TestCase
 {
     /** @var File */
     private $file;
