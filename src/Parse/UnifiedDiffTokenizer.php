@@ -66,7 +66,6 @@ final class UnifiedDiffTokenizer
 
         $lineCount = count($diffLineList);
         for ($i = 0; $i < $lineCount; $i++) {
-
             // First line of a file
             if ($this->isFileStart($diffLineList, $i)) {
                 $hasStarted = true;
@@ -80,7 +79,6 @@ final class UnifiedDiffTokenizer
 
             // Only proceed once a file beginning has been found
             } elseif ($hasStarted) {
-
                 $hunkTokens = $this->getHunkStartTokens($diffLineList[$i]);
 
                 // We have found a hunk start, process hunk lines
@@ -148,7 +146,6 @@ final class UnifiedDiffTokenizer
         // Iterate until we have the correct number of original & new lines
         $lineCount = count($diffLineList);
         for ($i = $currentLine; $i < $lineCount; $i++) {
-
             $tokenList[] = $this->getHunkLineToken(
                 $addedCount,
                 $removedCount,
@@ -195,7 +192,6 @@ final class UnifiedDiffTokenizer
         $tokenList = array();
 
         if (preg_match(self::HUNK_START_REGEX, $diffLine, $matches)) {
-
             // File deletion
             if ($this->hasToken($matches, Token::FILE_DELETION_LINE_COUNT)) {
                 $tokenList = array(

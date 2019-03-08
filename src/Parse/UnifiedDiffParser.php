@@ -47,7 +47,6 @@ final class UnifiedDiffParser
         $startIndex = 0;
         $tokenCount = count($tokenList);
         for ($i = 0; $i < $tokenCount; $i++) {
-
             // File begin
             if (Token::ORIGINAL_FILENAME === $tokenList[$i]->getType()) {
                 $startIndex = $i;
@@ -81,7 +80,6 @@ final class UnifiedDiffParser
 
         $tokenCount = count($fileTokenList);
         for ($i = 2; $i < $tokenCount; $i++) {
-
             // Hunk begin
             if ($this->hunkStart($fileTokenList[$i])) {
                 $startIndex = $i;
@@ -143,10 +141,8 @@ final class UnifiedDiffParser
 
             if (Line::ADDED === $operation) {
                 $newLineNo++;
-
             } elseif (Line::REMOVED === $operation) {
                 $originalLineNo++;
-
             } else {
                 $originalLineNo++;
                 $newLineNo++;
@@ -236,10 +232,8 @@ final class UnifiedDiffParser
     {
         if (Token::SOURCE_LINE_ADDED === $token->getType()) {
             $operation = Line::ADDED;
-
         } elseif (Token::SOURCE_LINE_REMOVED === $token->getType()) {
             $operation = Line::REMOVED;
-
         } else {
             $operation = Line::UNCHANGED;
         }
@@ -262,7 +256,6 @@ final class UnifiedDiffParser
             || ("0" === $fileTokenList[2]->getValue() && ("0" === $fileTokenList[2]->getValue()))
         ) {
             $operation = File::CREATED;
-
         } else if (
             Token::FILE_DELETION_LINE_COUNT === $fileTokenList[2]->getType()
             || ("0" === $fileTokenList[4]->getValue() && ("0" === $fileTokenList[5]->getValue()))
