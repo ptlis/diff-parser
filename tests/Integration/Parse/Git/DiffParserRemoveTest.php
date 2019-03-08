@@ -53,17 +53,17 @@ final class DiffParserRemoveTest extends TestCase
             'README.md',
             '',
             File::DELETED,
-            array(
+            [
                 new Hunk(
                     1,
                     1,
                     0,
                     0,
-                    array(
+                    [
                         new Line(1, -1, Line::REMOVED, '# My project')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);

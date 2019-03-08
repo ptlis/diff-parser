@@ -61,7 +61,7 @@ final class UnifiedDiffTokenizer
      */
     public function tokenize(array $diffLineList)
     {
-        $tokenList = array();
+        $tokenList = [];
         $hasStarted = false;
 
         $lineCount = count($diffLineList);
@@ -122,7 +122,7 @@ final class UnifiedDiffTokenizer
         $addedCount = 0;
         $removedCount = 0;
         $unchangedCount = 0;
-        $tokenList = array();
+        $tokenList = [];
 
         // Iterate until we have the correct number of original & new lines
         $lineCount = count($diffLineList);
@@ -189,33 +189,33 @@ final class UnifiedDiffTokenizer
      */
     private function getHunkStartTokens(string $diffLine): array
     {
-        $tokenList = array();
+        $tokenList = [];
 
         if (preg_match(self::HUNK_START_REGEX, $diffLine, $matches)) {
             // File deletion
             if ($this->hasToken($matches, Token::FILE_DELETION_LINE_COUNT)) {
-                $tokenList = array(
+                $tokenList = [
                     new Token(Token::FILE_DELETION_LINE_COUNT, $matches[Token::FILE_DELETION_LINE_COUNT]),
                     new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START]),
                     new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT])
-                );
+                ];
 
             // File creation
             } elseif ($this->hasToken($matches, Token::FILE_CREATION_LINE_COUNT)) {
-                $tokenList = array(
+                $tokenList = [
                     new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START]),
                     new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT]),
                     new Token(Token::FILE_CREATION_LINE_COUNT, $matches[Token::FILE_CREATION_LINE_COUNT]),
-                );
+                ];
 
             // Standard Case
             } else {
-                $tokenList = array(
+                $tokenList = [
                     new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START]),
                     new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT]),
                     new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START]),
                     new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT])
-                );
+                ];
             }
         }
 
@@ -232,7 +232,7 @@ final class UnifiedDiffTokenizer
      */
     private function getFilenameTokens(array $diffLineList, int $currentLine): array
     {
-        $filenameTokens = array();
+        $filenameTokens = [];
 
         // Get hunk metadata
         $hunkTokens = $this->getHunkStartTokens($diffLineList[$currentLine+2]);
@@ -255,10 +255,10 @@ final class UnifiedDiffTokenizer
                 $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine + 1]);
             }
 
-            $filenameTokens = array(
+            $filenameTokens = [
                 new Token(Token::ORIGINAL_FILENAME, $originalFilename),
                 new Token(Token::NEW_FILENAME, $newFilename)
-            );
+            ];
         }
 
         return $filenameTokens;

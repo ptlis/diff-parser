@@ -27,7 +27,7 @@ final class FileTest extends TestCase
 
     protected function setUp(): void
     {
-        $lineList = array(
+        $lineList = [
             new Line(
                 3,
                 4,
@@ -76,9 +76,9 @@ final class FileTest extends TestCase
                 Line::UNCHANGED,
                 '## Cautions'
             )
-        );
+        ];
 
-        $this->hunkList = array(
+        $this->hunkList = [
             new Hunk(
                 3,
                 7,
@@ -86,7 +86,7 @@ final class FileTest extends TestCase
                 6,
                 $lineList
             )
-        );
+        ];
 
         $this->file = new File(
             'README.md',
@@ -100,7 +100,7 @@ final class FileTest extends TestCase
     {
         $fileString = implode(
             PHP_EOL,
-            array(
+            [
                 '--- README.md',
                 '+++ README.md',
                 '@@ -3,7 +4,6 @@',
@@ -112,7 +112,7 @@ final class FileTest extends TestCase
                 '-',
                 ' ',
                 ' ## Cautions'
-            )
+            ]
         );
 
         $this->assertEquals($fileString, $this->file->__toString());

@@ -53,13 +53,13 @@ final class DiffParserTest extends TestCase
             'README.md',
             'README.md',
             File::CHANGED,
-            array(
+            [
                 new Hunk(
                     3,
                     7,
                     3,
                     7,
-                    array(
+                    [
                         new Line(3, 3, Line::UNCHANGED, 'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.'),
                         new Line(4, 4, Line::UNCHANGED, ''),
                         new Line(5, 5, Line::UNCHANGED, ''),
@@ -68,9 +68,9 @@ final class DiffParserTest extends TestCase
                         new Line(7, 7, Line::UNCHANGED, ''),
                         new Line(8, 8, Line::UNCHANGED, ''),
                         new Line(9, 9, Line::UNCHANGED, '## Cautions')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -95,22 +95,22 @@ final class DiffParserTest extends TestCase
             'build/phpmd.xml',
             'build/phpmd.xml',
             File::CHANGED,
-            array(
+            [
                 new Hunk(
                     1,
                     5,
                     1,
                     5,
-                    array(
+                    [
                         new Line(1, 1, Line::UNCHANGED, '<?xml version="1.0"?>'),
                         new Line(2, -1, Line::REMOVED, '<ruleset name="ConNeg"'),
                         new Line(-1, 2, Line::ADDED, '<ruleset name="VCS"'),
                         new Line(3, 3, Line::UNCHANGED, '         xmlns="http://pmd.sf.net/ruleset/1.0.0"'),
                         new Line(4, 4, Line::UNCHANGED, '         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'),
                         new Line(5, 5, Line::UNCHANGED, '         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[1]);
@@ -135,13 +135,13 @@ final class DiffParserTest extends TestCase
             'src/Svn/SvnVcs.php',
             'src/Svn/SvnVcs.php',
             File::CHANGED,
-            array(
+            [
                 new Hunk(
                     40,
                     8,
                     40,
                     11,
-                    array(
+                    [
                         new Line(40, 40, Line::UNCHANGED, '     * @param RepositoryConfig $repoConfig'),
                         new Line(41, 41, Line::UNCHANGED, '     * @param string $currentBranch'),
                         new Line(42, 42, Line::UNCHANGED, '     */'),
@@ -155,14 +155,14 @@ final class DiffParserTest extends TestCase
                         new Line(45, 48, Line::UNCHANGED, '        $this->executor = $executor;'),
                         new Line(46, 49, Line::UNCHANGED, '        $this->repoConfig = $repoConfig;'),
                         new Line(47, 50, Line::UNCHANGED, '        $this->currentBranch = $currentBranch;')
-                    )
+                    ]
                 ),
                 new Hunk(
                     65,
                     7,
                     68,
                     7,
-                    array(
+                    [
                         new Line(65, 68, Line::UNCHANGED, '     */'),
                         new Line(66, 69, Line::UNCHANGED, '    public function changeBranch($branch)'),
                         new Line(67, 70, Line::UNCHANGED, '    {'),
@@ -171,9 +171,9 @@ final class DiffParserTest extends TestCase
                         new Line(69, 72, Line::UNCHANGED, '            throw new \RuntimeException(\'Branch named "\' . $branch . \'" not found.\');'),
                         new Line(70, 73, Line::UNCHANGED, '        }'),
                         new Line(71, 74, Line::UNCHANGED, '')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[2]);
@@ -198,13 +198,13 @@ final class DiffParserTest extends TestCase
             'tests/RepositoryConfigTest.php',
             'tests/RepositoryConfigTest.php',
             File::CHANGED,
-            array(
+            [
                 new Hunk(
                     10,
                     7,
                     10,
                     6,
-                    array(
+                    [
                         new Line(10, 10, Line::UNCHANGED, ''),
                         new Line(11, 11, Line::UNCHANGED, 'namespace ptlis\Vcs\Test;'),
                         new Line(12, 12, Line::UNCHANGED, ''),
@@ -212,9 +212,9 @@ final class DiffParserTest extends TestCase
                         new Line(14, 13, Line::UNCHANGED, 'use ptlis\Vcs\Svn\RepositoryConfig;'),
                         new Line(15, 14, Line::UNCHANGED, ''),
                         new Line(16, 15, Line::UNCHANGED, 'class RepositoryConfigTest extends \PHPUnit_Framework_TestCase')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[3]);
@@ -239,13 +239,13 @@ final class DiffParserTest extends TestCase
             'tests/Vcs/Git/ChangeBranchTest.php',
             'tests/Vcs/Git/ChangeBranchTest.php',
             File::CHANGED,
-            array(
+            [
                 new Hunk(
                     48,
                     6,
                     48,
                     7,
-                    array(
+                    [
                         new Line(48, 48, Line::UNCHANGED, '            $commandExecutor->getArguments()'),
                         new Line(49, 49, Line::UNCHANGED, '        );'),
                         new Line(50, 50, Line::UNCHANGED, '    }'),
@@ -253,14 +253,14 @@ final class DiffParserTest extends TestCase
                         new Line(51, 52, Line::UNCHANGED, '    public function testBranchDoesntExist()'),
                         new Line(52, 53, Line::UNCHANGED, '    {'),
                         new Line(53, 54, Line::UNCHANGED, '        $this->setExpectedException(')
-                    )
+                    ]
                 ),
                 new Hunk(
                     68,
                     7,
                     69,
                     5,
-                    array(
+                    [
                         new Line(68, 69, Line::UNCHANGED, '        $vcs = new GitVcs($commandExecutor);'),
                         new Line(69, 70, Line::UNCHANGED, ''),
                         new Line(70, 71, Line::UNCHANGED, '        $vcs->changeBranch(\'feat-new-badness\');'),
@@ -268,9 +268,9 @@ final class DiffParserTest extends TestCase
                         new Line(72, -1, Line::REMOVED, ''),
                         new Line(73, 72, Line::UNCHANGED, '    }'),
                         new Line(74, 73, Line::UNCHANGED, '}'),
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[4]);

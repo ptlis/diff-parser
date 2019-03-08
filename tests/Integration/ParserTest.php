@@ -34,17 +34,17 @@ final class ParserTest extends TestCase
             '',
             'README.md',
             File::CREATED,
-            array(
+            [
                 new Hunk(
                     0,
                     0,
                     1,
                     1,
-                    array(
+                    [
                         new Line(-1, 1, Line::ADDED, '## Test')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -65,17 +65,17 @@ final class ParserTest extends TestCase
             '',
             'README.md',
             File::CREATED,
-            array(
+            [
                 new Hunk(
                     0,
                     0,
                     1,
                     1,
-                    array(
+                    [
                         new Line(-1, 1, Line::ADDED, '## Test')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -96,17 +96,17 @@ final class ParserTest extends TestCase
             '',
             'README.md',
             File::CREATED,
-            array(
+            [
                 new Hunk(
                     0,
                     0,
                     1,
                     1,
-                    array(
+                    [
                         new Line(-1, 1, Line::ADDED, '## Test')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -130,17 +130,17 @@ final class ParserTest extends TestCase
             '',
             'README.md',
             File::CREATED,
-            array(
+            [
                 new Hunk(
                     0,
                     0,
                     1,
                     1,
-                    array(
+                    [
                         new Line(-1, 1, Line::ADDED, '## Test')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);

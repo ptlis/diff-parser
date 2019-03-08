@@ -53,17 +53,17 @@ final class DiffParserAddTest extends TestCase
             '',
             'README.md',
             File::CREATED,
-            array(
+            [
                 new Hunk(
                     0,
                     0,
                     1,
                     1,
-                    array(
+                    [
                         new Line(-1, 1, Line::ADDED, '## Test')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -88,19 +88,19 @@ final class DiffParserAddTest extends TestCase
             '',
             'foo',
             File::CREATED,
-            array(
+            [
                 new Hunk(
                     0,
                     0,
                     1,
                     3,
-                    array(
+                    [
                         new Line(-1, 1, Line::ADDED, '<?php'),
                         new Line(-1, 2, Line::ADDED, ''),
                         new Line(-1, 3, Line::ADDED, 'echo \'test\';')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -125,13 +125,13 @@ final class DiffParserAddTest extends TestCase
             'modules/dPcompteRendu/controllers/do_add_doc_object.php',
             'modules/dPcompteRendu/controllers/do_add_doc_object.php',
             File::CREATED,
-            array(
+            [
                 new Hunk(
                     0,
                     0,
                     1,
                     74,
-                    array(
+                    [
                         new Line(-1, 1, Line::ADDED, '<?php'),
                         new Line(-1, 2, Line::ADDED, '/**'),
                         new Line(-1, 3, Line::ADDED, ' * @package Mediboard\CompteRendu'),
@@ -206,9 +206,9 @@ final class DiffParserAddTest extends TestCase
                         new Line(-1, 72, Line::ADDED, '}'),
                         new Line(-1, 73, Line::ADDED, ''),
                         new Line(-1, 74, Line::ADDED, 'echo CAppUI::getMsg();'),
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);

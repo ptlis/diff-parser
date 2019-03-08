@@ -53,17 +53,17 @@ final class DiffParserRemoveTest extends TestCase
             'README.md',
             '',
             File::DELETED,
-            array(
+            [
                 new Hunk(
                     1,
                     1,
                     0,
                     0,
-                    array(
+                    [
                         new Line(1, -1, Line::REMOVED, '## Test')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -88,19 +88,19 @@ final class DiffParserRemoveTest extends TestCase
             'bar',
             '',
             File::DELETED,
-            array(
+            [
                 new Hunk(
                     1,
                     3,
                     0,
                     0,
-                    array(
+                    [
                         new Line(1, -1, Line::REMOVED, '<?php'),
                         new Line(2, -1, Line::REMOVED, ''),
                         new Line(3, -1, Line::REMOVED, 'echo \'different test\';')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);
@@ -125,19 +125,19 @@ final class DiffParserRemoveTest extends TestCase
             'bar',
             'bar',
             File::DELETED,
-            array(
+            [
                 new Hunk(
                     1,
                     3,
                     0,
                     0,
-                    array(
+                    [
                         new Line(1, -1, Line::REMOVED, '<?php'),
                         new Line(2, -1, Line::REMOVED, ''),
                         new Line(3, -1, Line::REMOVED, 'echo \'different test\';')
-                    )
+                    ]
                 )
-            )
+            ]
         );
 
         $this->assertEquals($file, $fileList[0]);

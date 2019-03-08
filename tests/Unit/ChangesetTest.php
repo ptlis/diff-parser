@@ -25,7 +25,7 @@ final class ChangesetTest extends TestCase
 
     protected function setUp(): void
     {
-        $lineList = array(
+        $lineList = [
             new Line(
                 3,
                 4,
@@ -74,9 +74,9 @@ final class ChangesetTest extends TestCase
                 Line::UNCHANGED,
                 '## Cautions'
             )
-        );
+        ];
 
-        $hunkList = array(
+        $hunkList = [
             new Hunk(
                 3,
                 7,
@@ -84,7 +84,7 @@ final class ChangesetTest extends TestCase
                 6,
                 $lineList
             )
-        );
+        ];
 
         $file = new File(
             'README.md',
@@ -93,14 +93,14 @@ final class ChangesetTest extends TestCase
             $hunkList
         );
 
-        $this->diff = new Changeset(array($file));
+        $this->diff = new Changeset([$file]);
     }
 
     public function testHunk(): void
     {
         $fileString = implode(
             PHP_EOL,
-            array(
+            [
                 '--- README.md',
                 '+++ README.md',
                 '@@ -3,7 +4,6 @@',
@@ -112,7 +112,7 @@ final class ChangesetTest extends TestCase
                 '-',
                 ' ',
                 ' ## Cautions'
-            )
+            ]
         );
 
         $this->assertEquals($fileString, $this->diff->__toString());

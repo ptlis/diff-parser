@@ -96,7 +96,7 @@ final class Hunk
     {
         $string = implode(
             '',
-            array(
+            [
                 '@@ -',
                 $this->originalStart,
                 ',',
@@ -107,7 +107,7 @@ final class Hunk
                 $this->newCount,
                 ' @@',
                 PHP_EOL
-            )
+            ]
         );
 
         $string .= implode(PHP_EOL, $this->lineList);

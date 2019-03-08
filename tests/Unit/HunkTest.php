@@ -26,7 +26,7 @@ final class HunkTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->lineList = array(
+        $this->lineList = [
             new Line(
                 3,
                 4,
@@ -75,7 +75,7 @@ final class HunkTest extends TestCase
                 Line::UNCHANGED,
                 '## Cautions'
             )
-        );
+        ];
 
         $this->hunk = new Hunk(
             3,
@@ -90,7 +90,7 @@ final class HunkTest extends TestCase
     {
         $hunkString = implode(
             PHP_EOL,
-            array(
+            [
                 '@@ -3,7 +4,6 @@',
                 ' A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.',
                 ' ',
@@ -100,7 +100,7 @@ final class HunkTest extends TestCase
                 '-',
                 ' ',
                 ' ## Cautions'
-            )
+            ]
         );
 
         $this->assertEquals($hunkString, $this->hunk->__toString());

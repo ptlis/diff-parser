@@ -43,7 +43,7 @@ final class UnifiedDiffParser
     {
         $tokenList = $this->tokenizer->tokenize($diffLineList);
 
-        $fileList = array();
+        $fileList = [];
         $startIndex = 0;
         $tokenCount = count($tokenList);
         for ($i = 0; $i < $tokenCount; $i++) {
@@ -75,7 +75,7 @@ final class UnifiedDiffParser
         $originalName = $fileTokenList[0]->getValue();
         $newName = $fileTokenList[1]->getValue();
 
-        $hunkList = array();
+        $hunkList = [];
         $startIndex = 0;
 
         $tokenCount = count($fileTokenList);
@@ -116,17 +116,10 @@ final class UnifiedDiffParser
      */
     private function parseHunk(array $hunkTokenList): Hunk
     {
-        list(
-            $originalStart,
-            $originalCount,
-            $newStart,
-            $newCount,
-            $tokensReadCount
-        ) = $this->getHunkMeta($hunkTokenList);
-
+        [$originalStart, $originalCount, $newStart, $newCount, $tokensReadCount] = $this->getHunkMeta($hunkTokenList);
         $originalLineNo = $originalStart;
         $newLineNo = $newStart;
-        $lineList = array();
+        $lineList = [];
 
         $tokenCount = count($hunkTokenList);
         for ($i = $tokensReadCount; $i < $tokenCount; $i++) {
@@ -193,13 +186,13 @@ final class UnifiedDiffParser
                 break;
         }
 
-        return array(
+        return [
             $originalStart,
             $originalCount,
             $newStart,
             $newCount,
             $tokensReadCount
-        );
+        ];
     }
 
     /**

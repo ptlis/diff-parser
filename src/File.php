@@ -85,14 +85,14 @@ final class File
     {
         $filenames = implode(
             '',
-            array(
+            [
                 '--- ',
                 $this->originalFilename,
                 PHP_EOL,
                 '+++ ',
                 $this->newFilename,
                 PHP_EOL
-            )
+            ]
         );
 
         return $filenames . implode('', $this->hunkList);
