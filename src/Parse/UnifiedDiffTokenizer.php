@@ -91,30 +91,11 @@ final class UnifiedDiffTokenizer
                 ) {
                     $i++;
 
-                    // Simple change
-                    if (4 == count($hunkTokens)) {
-                        $originalLineCount = $hunkTokens[1]->getValue();
-                        $newLineCount = $hunkTokens[3]->getValue();
-
-                    // File deletion
-                    } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
-                        $originalLineCount = $hunkTokens[0]->getValue();
-                        $newLineCount = 0;
-
-                    // File creation
-                    } else {
-                        $originalLineCount = 0;
-                        $newLineCount = $hunkTokens[2]->getValue();
-                    }
-
-                    $changeTokens = $this->processHunk(
-                        (int)$originalLineCount,
-                        (int)$newLineCount,
-                        $diffLineList,
-                        $i
+                    $tokenList = array_merge(
+                        $tokenList,
+                        $hunkTokens,
+                        $this->getHunkTokens($hunkTokens, $diffLineList, $i)
                     );
-
-                    $tokenList = array_merge($tokenList, $hunkTokens, $changeTokens);
                 }
             }
         }
@@ -125,19 +106,32 @@ final class UnifiedDiffTokenizer
     /**
      * Process a hunk.
      *
-     * @param int $originalLineCount
-     * @param int $newLineCount
+     * @param Token[] $hunkTokens
      * @param string[] $diffLineList
      * @param int $currentLine
      *
      * @return Token[]
      */
-    private function processHunk(
-        int $originalLineCount,
-        int $newLineCount,
+    private function getHunkTokens(
+        array $hunkTokens,
         array $diffLineList,
         int &$currentLine
     ): array {
+
+        // Simple change
+        if (4 == count($hunkTokens)) {
+            $originalLineCount = (int)$hunkTokens[1]->getValue();
+            $newLineCount = (int)$hunkTokens[3]->getValue();
+        // File deletion
+        } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
+            $originalLineCount = (int)$hunkTokens[0]->getValue();
+            $newLineCount = 0;
+        // File creation
+        } else {
+            $originalLineCount = 0;
+            $newLineCount = (int)$hunkTokens[2]->getValue();
+        }
+
         $addedCount = 0;
         $removedCount = 0;
         $unchangedCount = 0;
@@ -155,8 +149,8 @@ final class UnifiedDiffTokenizer
 
             // We have reached the line count for original & new versions of hunk
             if (
-                $removedCount + $unchangedCount == $originalLineCount
-                && $addedCount + $unchangedCount == $newLineCount
+                $removedCount + $unchangedCount === $originalLineCount
+                && $addedCount + $unchangedCount === $newLineCount
             ) {
                 break;
             }
