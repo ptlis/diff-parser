@@ -79,24 +79,10 @@ final class UnifiedDiffTokenizer
 
             // Only proceed once a file beginning has been found
             } elseif ($hasStarted) {
-                $hunkTokens = $this->getHunkStartTokens($diffLineList[$i]);
-
-                // We have found a hunk start, process hunk lines
-                if (
-                    count($hunkTokens)
-                    && (
-                        Token::HUNK_ORIGINAL_START === $hunkTokens[0]->getType()
-                        || Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()
-                    )
-                ) {
-                    $i++;
-
-                    $tokenList = array_merge(
-                        $tokenList,
-                        $hunkTokens,
-                        $this->getHunkTokens($hunkTokens, $diffLineList, $i)
-                    );
-                }
+                $tokenList = array_merge(
+                    $tokenList,
+                    $this->getHunkTokens($diffLineList, $i)
+                );
             }
         }
 
@@ -106,44 +92,54 @@ final class UnifiedDiffTokenizer
     /**
      * Process a hunk.
      *
-     * @param Token[] $hunkTokens
      * @param string[] $diffLineList
      * @param int $currentLine
      *
      * @return Token[]
      */
     private function getHunkTokens(
-        array $hunkTokens,
         array $diffLineList,
         int &$currentLine
     ): array {
-
-        [$originalLineCount, $newLineCount] = $this->getHunkLineCounts($hunkTokens);
-        $addedCount = 0;
-        $removedCount = 0;
-        $unchangedCount = 0;
         $tokenList = [];
+        $hunkTokens = $this->getHunkStartTokens($diffLineList[$currentLine]);
 
-        // Iterate until we have the correct number of original & new lines
-        $lineCount = count($diffLineList);
-        for ($i = $currentLine; $i < $lineCount; $i++) {
-            $tokenList[] = $this->getHunkLineToken(
-                $addedCount,
-                $removedCount,
-                $unchangedCount,
-                $diffLineList[$i]
-            );
+        // We have found a hunk start, process hunk lines
+        if (
+            count($hunkTokens)
+            && (
+                Token::HUNK_ORIGINAL_START === $hunkTokens[0]->getType()
+                || Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()
+            )
+        ) {
+            $currentLine++;
 
-            // We have reached the line count for original & new versions of hunk
-            if (
-                $removedCount + $unchangedCount === $originalLineCount
-                && $addedCount + $unchangedCount === $newLineCount
-            ) {
-                break;
+            [$originalLineCount, $newLineCount] = $this->getHunkLineCounts($hunkTokens);
+            $addedCount = 0;
+            $removedCount = 0;
+            $unchangedCount = 0;
+
+            // Iterate until we have the correct number of original & new lines
+            $lineCount = count($diffLineList);
+            for ($i = $currentLine; $i < $lineCount; $i++) {
+                $tokenList[] = $this->getHunkLineToken(
+                    $addedCount,
+                    $removedCount,
+                    $unchangedCount,
+                    $diffLineList[$i]
+                );
+
+                // We have reached the line count for original & new versions of hunk
+                if (
+                    $removedCount + $unchangedCount === $originalLineCount
+                    && $addedCount + $unchangedCount === $newLineCount
+                ) {
+                    break;
+                }
             }
         }
 
-        return $tokenList;
+        return array_merge($hunkTokens, $tokenList);
     }
 
     private function getHunkLineCounts(array $hunkTokens): array
