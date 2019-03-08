@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -18,7 +16,7 @@ use ptlis\DiffParser\Line;
  */
 final class LineTest extends TestCase
 {
-    public function testLineUnchanged()
+    public function testLineUnchanged(): void
     {
         $line = new Line(
             5,
@@ -34,7 +32,7 @@ final class LineTest extends TestCase
         $this->assertEquals(' bob', $line->__toString());
     }
 
-    public function testLineRemoved()
+    public function testLineRemoved(): void
     {
         $line = new Line(
             9,
@@ -50,7 +48,7 @@ final class LineTest extends TestCase
         $this->assertEquals('-some stuff', $line->__toString());
     }
 
-    public function testLineAdded()
+    public function testLineAdded(): void
     {
         $line = new Line(
             Line::LINE_NOT_PRESENT,

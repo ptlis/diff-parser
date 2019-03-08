@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -29,12 +27,8 @@ final class SvnDiffNormalizer implements DiffNormalizerInterface
 
     /**
      * Accepts a raw file start line from a unified diff & returns a normalized version of the filename.
-     *
-     * @param string $fileStartLine
-     *
-     * @return string
      */
-    public function getFilename($fileStartLine)
+    public function getFilename(string $fileStartLine): string
     {
         // In case of parse error fall back to returning the line minus the plus or minus symbols.
         if (!preg_match(static::FILENAME_REGEX, $fileStartLine, $matches)) {

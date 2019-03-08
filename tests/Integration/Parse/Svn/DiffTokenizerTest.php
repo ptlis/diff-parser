@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -17,7 +15,7 @@ use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
 final class DiffTokenizerTest extends TestCase
 {
-    public function testTokenCount()
+    public function testTokenCount(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -28,7 +26,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(94, count($tokenList));
     }
 
-    public function testFirstFile()
+    public function testFirstFile(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -39,10 +37,10 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'README.md'), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'README.md'), $tokenList[1]);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 3), $tokenList[2]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 7), $tokenList[3]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 3), $tokenList[4]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 7), $tokenList[5]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '3'), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '7'), $tokenList[3]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '3'), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '7'), $tokenList[5]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.'), $tokenList[6]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, ''), $tokenList[7]);
@@ -54,7 +52,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '## Cautions'), $tokenList[13]);
     }
 
-    public function testSecondFile()
+    public function testSecondFile(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -65,10 +63,10 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'build/phpmd.xml'), $tokenList[14]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'build/phpmd.xml'), $tokenList[15]);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 1), $tokenList[16]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 5), $tokenList[17]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 1), $tokenList[18]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 5), $tokenList[19]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '1'), $tokenList[16]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '5'), $tokenList[17]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '1'), $tokenList[18]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '5'), $tokenList[19]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '<?xml version="1.0"?>'), $tokenList[20]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '<ruleset name="ConNeg"'), $tokenList[21]);
@@ -78,7 +76,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"'), $tokenList[25]);
     }
 
-    public function testThirdFileFirstChunk()
+    public function testThirdFileFirstChunk(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -89,10 +87,10 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'src/Svn/SvnVcs.php'), $tokenList[26]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'src/Svn/SvnVcs.php'), $tokenList[27]);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 40), $tokenList[28]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 8), $tokenList[29]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 40), $tokenList[30]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 11), $tokenList[31]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '40'), $tokenList[28]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '8'), $tokenList[29]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '40'), $tokenList[30]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '11'), $tokenList[31]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '     * @param RepositoryConfig $repoConfig'), $tokenList[32]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '     * @param string $currentBranch'), $tokenList[33]);
@@ -109,7 +107,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->currentBranch = $currentBranch;'), $tokenList[44]);
     }
 
-    public function testThirdFileSecondChunk()
+    public function testThirdFileSecondChunk(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -117,10 +115,10 @@ final class DiffTokenizerTest extends TestCase
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 65), $tokenList[45]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 7), $tokenList[46]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 68), $tokenList[47]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 7), $tokenList[48]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '65'), $tokenList[45]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '7'), $tokenList[46]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '68'), $tokenList[47]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '7'), $tokenList[48]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '     */'), $tokenList[49]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    public function changeBranch($branch)'), $tokenList[50]);
@@ -132,7 +130,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, ''), $tokenList[56]);
     }
 
-    public function testFourthFile()
+    public function testFourthFile(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -143,10 +141,10 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'tests/RepositoryConfigTest.php'), $tokenList[57]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'tests/RepositoryConfigTest.php'), $tokenList[58]);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 10), $tokenList[59]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 7), $tokenList[60]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 10), $tokenList[61]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 6), $tokenList[62]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '10'), $tokenList[59]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '7'), $tokenList[60]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '10'), $tokenList[61]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '6'), $tokenList[62]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, ''), $tokenList[63]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'namespace ptlis\Vcs\Test;'), $tokenList[64]);
@@ -157,7 +155,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'class RepositoryConfigTest extends \PHPUnit_Framework_TestCase'), $tokenList[69]);
     }
 
-    public function testFifthFileFirstChunk()
+    public function testFifthFileFirstChunk(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -168,10 +166,10 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'tests/Vcs/Git/ChangeBranchTest.php'), $tokenList[70]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'tests/Vcs/Git/ChangeBranchTest.php'), $tokenList[71]);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 48), $tokenList[72]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 6), $tokenList[73]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 48), $tokenList[74]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 7), $tokenList[75]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '48'), $tokenList[72]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '6'), $tokenList[73]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '48'), $tokenList[74]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '7'), $tokenList[75]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '            $commandExecutor->getArguments()'), $tokenList[76]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        );'), $tokenList[77]);
@@ -182,7 +180,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->setExpectedException('), $tokenList[82]);
     }
 
-    public function testFifthFileSecondChunk()
+    public function testFifthFileSecondChunk(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -190,10 +188,10 @@ final class DiffTokenizerTest extends TestCase
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 68), $tokenList[83]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 7), $tokenList[84]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 69), $tokenList[85]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 5), $tokenList[86]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '68'), $tokenList[83]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '7'), $tokenList[84]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '69'), $tokenList[85]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '5'), $tokenList[86]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $vcs = new GitVcs($commandExecutor);'), $tokenList[87]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, ''), $tokenList[88]);

@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -34,15 +32,7 @@ final class Line
     private $content;
 
 
-    /**
-     * Constructor.
-     *
-     * @param int $originalLineNo
-     * @param int $newLineNo
-     * @param string $operation
-     * @param string $content
-     */
-    public function __construct($originalLineNo, $newLineNo, $operation, $content)
+    public function __construct(int $originalLineNo, int $newLineNo, string $operation, string $content)
     {
         $this->originalLineNo = $originalLineNo;
         $this->newLineNo = $newLineNo;
@@ -52,50 +42,40 @@ final class Line
 
     /**
      * Get the original line number (before change applied), -1 if not present.
-     *
-     * @return int
      */
-    public function getOriginalLineNo()
+    public function getOriginalLineNo(): int
     {
         return intval($this->originalLineNo);
     }
 
     /**
      * Get the new line number (after change applied), -1 if not present.
-     *
-     * @return int
      */
-    public function getNewLineNo()
+    public function getNewLineNo(): int
     {
         return intval($this->newLineNo);
     }
 
     /**
      * Get the operation performed (one of class constants).
-     *
-     * @return string
      */
-    public function getOperation()
+    public function getOperation(): string
     {
         return $this->operation;
     }
 
     /**
      * Get the content of the line.
-     *
-     * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return strval($this->content);
     }
 
     /**
      * Get the string representation of this line.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         switch ($this->operation) {
             case self::ADDED:

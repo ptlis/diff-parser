@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -26,7 +24,7 @@ final class HunkTest extends TestCase
     private $lineList;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->lineList = array(
             new Line(
@@ -88,7 +86,7 @@ final class HunkTest extends TestCase
         );
     }
 
-    public function testHunk()
+    public function testHunk(): void
     {
         $hunkString = implode(
             PHP_EOL,

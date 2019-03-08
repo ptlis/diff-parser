@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -33,7 +31,7 @@ final class Parser
      *
      * @return Changeset
      */
-    public function parseLines(array $lines, $vcsType = '')
+    public function parseLines(array $lines, string $vcsType = ''): Changeset
     {
         $parser = $this->getParser($vcsType);
 
@@ -42,13 +40,8 @@ final class Parser
 
     /**
      * Accepts an filename for a diff & returns a Changeset instance.
-     *
-     * @param string $filename
-     * @param string $vcsType
-     *
-     * @return Changeset
      */
-    public function parseFile($filename, $vcsType = '')
+    public function parseFile(string $filename, string $vcsType = ''): Changeset
     {
         $parser = $this->getParser($vcsType);
 
@@ -65,12 +58,8 @@ final class Parser
 
     /**
      * Accepts the VCS type (if present) and returns a parser.
-     *
-     * @param string $vcsType
-     *
-     * @return UnifiedDiffParser
      */
-    private function getParser($vcsType)
+    private function getParser(string $vcsType): UnifiedDiffParser
     {
         return new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -81,21 +70,13 @@ final class Parser
 
     /**
      * Returns an appropriate normalizer for the VCS type.
-     *
-     * @param string $vcsType
-     *
-     * @return DiffNormalizerInterface
      */
-    private function getNormalizer($vcsType)
+    private function getNormalizer(string $vcsType): DiffNormalizerInterface
     {
         $normalizer = new GitDiffNormalizer();
         if (self::VCS_SVN === $vcsType) {
             $normalizer = new SvnDiffNormalizer();
-
-        } else {
-            $normalizer = new GitDiffNormalizer();
         }
-
         return $normalizer;
     }
 }

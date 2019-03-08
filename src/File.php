@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -33,14 +31,12 @@ final class File
 
 
     /**
-     * Constructor.
-     *
      * @param string $originalFilename
      * @param string $newFilename
      * @param string $operation One of class constants.
      * @param Hunk[] $hunkList
      */
-    public function __construct($originalFilename, $newFilename, $operation, array $hunkList)
+    public function __construct(string $originalFilename, string $newFilename, string $operation, array $hunkList)
     {
         $this->originalFilename = $originalFilename;
         $this->newFilename = $newFilename;
@@ -50,30 +46,24 @@ final class File
 
     /**
      * Get the original name of the file.
-     *
-     * @return string
      */
-    public function getOriginalFilename()
+    public function getOriginalFilename(): string
     {
         return $this->originalFilename;
     }
 
     /**
      * Get the new name of the file.
-     *
-     * @return string
      */
-    public function getNewFilename()
+    public function getNewFilename(): string
     {
         return $this->newFilename;
     }
 
     /**
      * Get the operation performed on the file (one of class constants).
-     *
-     * @return string
      */
-    public function getOperation()
+    public function getOperation(): string
     {
         return $this->operation;
     }
@@ -83,17 +73,15 @@ final class File
      *
      * @return Hunk[]
      */
-    public function getHunks()
+    public function getHunks(): array
     {
         return $this->hunkList;
     }
 
     /**
      * Get the string representation of the changed file.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $filenames = implode(
             '',

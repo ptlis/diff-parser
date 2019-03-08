@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -37,11 +35,11 @@ final class UnifiedDiffParser
     /**
      * Parse an array of tokens out into an object graph.
      *
-     * @param array $diffLineList
+     * @param string[] $diffLineList
      *
      * @return Changeset
      */
-    public function parse(array $diffLineList)
+    public function parse(array $diffLineList): Changeset
     {
         $tokenList = $this->tokenizer->tokenize($diffLineList);
 
@@ -73,7 +71,7 @@ final class UnifiedDiffParser
      *
      * @return File
      */
-    private function parseFile(array $fileTokenList)
+    private function parseFile(array $fileTokenList): File
     {
         $originalName = $fileTokenList[0]->getValue();
         $newName = $fileTokenList[1]->getValue();
@@ -118,7 +116,7 @@ final class UnifiedDiffParser
      *
      * @return Hunk
      */
-    private function parseHunk(array $hunkTokenList)
+    private function parseHunk(array $hunkTokenList): Hunk
     {
         list(
             $originalStart,
@@ -171,7 +169,7 @@ final class UnifiedDiffParser
      *
      * @return array Containing Original Start, Original Count, New Start, New Count & number of tokens consumed.
      */
-    private function getHunkMeta(array $hunkTokenList)
+    private function getHunkMeta(array $hunkTokenList): array
     {
         switch (true) {
             case Token::FILE_DELETION_LINE_COUNT === $hunkTokenList[0]->getType():
@@ -217,19 +215,15 @@ final class UnifiedDiffParser
      *
      * @return bool
      */
-    private function fileEnd(array $tokenList, $nextLine, $delimiterToken)
+    private function fileEnd(array $tokenList, int $nextLine, string $delimiterToken): bool
     {
         return $nextLine == count($tokenList) || $delimiterToken === $tokenList[$nextLine]->getType();
     }
 
     /**
      * Returns true if the token indicates the start of a hunk.
-     *
-     * @param Token $token
-     *
-     * @return bool
      */
-    private function hunkStart(Token $token)
+    private function hunkStart(Token $token): bool
     {
         return Token::HUNK_ORIGINAL_START === $token->getType()
             || Token::FILE_DELETION_LINE_COUNT === $token->getType();
@@ -237,12 +231,8 @@ final class UnifiedDiffParser
 
     /**
      * Maps between token representation of line operations and the correct const from the Line class.
-     *
-     * @param Token $token
-     *
-     * @return string
      */
-    private function mapLineOperation(Token $token)
+    private function mapLineOperation(Token $token): string
     {
         if (Token::SOURCE_LINE_ADDED === $token->getType()) {
             $operation = Line::ADDED;
@@ -264,19 +254,18 @@ final class UnifiedDiffParser
      *
      * @return string One of class constants File::CREATED, File::DELETED, File::CHANGED
      */
-    private function getFileOperation(array $fileTokenList)
+    private function getFileOperation(array $fileTokenList): string
     {
-
         $operation = File::CHANGED;
         if (
             Token::FILE_CREATION_LINE_COUNT === $fileTokenList[4]->getType()
-            || (0 === $fileTokenList[2]->getValue() && (0 === $fileTokenList[2]->getValue()))
+            || ("0" === $fileTokenList[2]->getValue() && ("0" === $fileTokenList[2]->getValue()))
         ) {
             $operation = File::CREATED;
 
         } else if (
             Token::FILE_DELETION_LINE_COUNT === $fileTokenList[2]->getType()
-            || (0 === $fileTokenList[4]->getValue() && (0 === $fileTokenList[5]->getValue()))
+            || ("0" === $fileTokenList[4]->getValue() && ("0" === $fileTokenList[5]->getValue()))
         ) {
             $operation = File::DELETED;
         }

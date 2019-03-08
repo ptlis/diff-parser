@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -17,7 +15,7 @@ use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
 final class DiffTokenizerAddTest extends TestCase
 {
-    public function testFileAdd()
+    public function testFileAdd(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -30,14 +28,14 @@ final class DiffTokenizerAddTest extends TestCase
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, ''), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'README.md'), $tokenList[1]);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 0), $tokenList[2]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 0), $tokenList[3]);
-        $this->assertEquals(new Token(Token::FILE_CREATION_LINE_COUNT, 1), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '0'), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '0'), $tokenList[3]);
+        $this->assertEquals(new Token(Token::FILE_CREATION_LINE_COUNT, '1'), $tokenList[4]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '## Test'), $tokenList[5]);
     }
 
-    public function testFileAddIssue3()
+    public function testFileAddIssue3(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
@@ -48,9 +46,9 @@ final class DiffTokenizerAddTest extends TestCase
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php'), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php'), $tokenList[1]);
 
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, 0), $tokenList[2]);
-        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, 0), $tokenList[3]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, 1), $tokenList[4]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, 74), $tokenList[5]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '0'), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '0'), $tokenList[3]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '1'), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '74'), $tokenList[5]);
     }
 }

@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -40,7 +38,7 @@ final class Hunk
      * @param int $newCount
      * @param Line[] $lineList
      */
-    public function __construct($originalStart, $originalCount, $newStart, $newCount, array $lineList)
+    public function __construct(int $originalStart, int $originalCount, int $newStart, int $newCount, array $lineList)
     {
         $this->originalStart = $originalStart;
         $this->originalCount = $originalCount;
@@ -51,40 +49,32 @@ final class Hunk
 
     /**
      * Get the original starting line.
-     *
-     * @return int
      */
-    public function getOriginalStart()
+    public function getOriginalStart(): int
     {
         return intval($this->originalStart);
     }
 
     /**
      * Get the original number of lines.
-     *
-     * @return int
      */
-    public function getOriginalCount()
+    public function getOriginalCount(): int
     {
         return intval($this->originalCount);
     }
 
     /**
      * Get het new Start line.
-     *
-     * @return int
      */
-    public function getNewStart()
+    public function getNewStart(): int
     {
         return intval($this->newStart);
     }
 
     /**
      * Get the new number of lines.
-     *
-     * @return int
      */
-    public function getNewCount()
+    public function getNewCount(): int
     {
         return intval($this->newCount);
     }
@@ -94,17 +84,15 @@ final class Hunk
      *
      * @return Line[]
      */
-    public function getLines()
+    public function getLines(): array
     {
         return $this->lineList;
     }
 
     /**
      * Get the string representation of this hunk.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         $string = implode(
             '',

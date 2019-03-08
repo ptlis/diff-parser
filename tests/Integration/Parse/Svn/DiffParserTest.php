@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -20,7 +18,7 @@ use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
 final class DiffParserTest extends TestCase
 {
-    public function testParseCount()
+    public function testParseCount(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -36,7 +34,7 @@ final class DiffParserTest extends TestCase
         $this->assertEquals(5, count($diff->getFiles()));
     }
 
-    public function testFirstFile()
+    public function testFirstFile(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -78,7 +76,7 @@ final class DiffParserTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testSecondFile()
+    public function testSecondFile(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -118,7 +116,7 @@ final class DiffParserTest extends TestCase
         $this->assertEquals($file, $fileList[1]);
     }
 
-    public function testThirdFile()
+    public function testThirdFile(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -181,7 +179,7 @@ final class DiffParserTest extends TestCase
         $this->assertEquals($file, $fileList[2]);
     }
 
-    public function testFourthFile()
+    public function testFourthFile(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -222,7 +220,7 @@ final class DiffParserTest extends TestCase
         $this->assertEquals($file, $fileList[3]);
     }
 
-    public function testFifthFile()
+    public function testFifthFile(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(

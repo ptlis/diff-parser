@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -21,7 +19,7 @@ use ptlis\DiffParser\Parser;
  */
 final class ParserTest extends TestCase
 {
-    public function testParseFileGitSuccess()
+    public function testParseFileGitSuccess(): void
     {
         $filename = __DIR__ . '/Parse/Git/data/diff_add';
 
@@ -52,7 +50,7 @@ final class ParserTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testParseFileSvnSuccess()
+    public function testParseFileSvnSuccess(): void
     {
         $filename = __DIR__ . '/Parse/Svn/data/diff_add_single_line';
 
@@ -83,7 +81,7 @@ final class ParserTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testParseFileStandardSuccess()
+    public function testParseFileStandardSuccess(): void
     {
         $filename = __DIR__ . '/Parse/Git/data/diff_add';
 
@@ -114,7 +112,7 @@ final class ParserTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testParseLinesGitSuccess()
+    public function testParseLinesGitSuccess(): void
     {
         $filename = __DIR__ . '/Parse/Git/data/diff_add';
 
@@ -148,7 +146,7 @@ final class ParserTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testParseFileGitFileNotFound()
+    public function testParseFileGitFileNotFound(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('File "' . __DIR__ . '/Parse/Git/data/diff_wibble' . '" not found.');

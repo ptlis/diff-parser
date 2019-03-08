@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -49,11 +47,6 @@ final class UnifiedDiffTokenizer
     private $diffNormalizer;
 
 
-    /**
-     * Constructor.
-     *
-     * @param DiffNormalizerInterface $diffNormalizer
-     */
     public function __construct(DiffNormalizerInterface $diffNormalizer)
     {
         $this->diffNormalizer = $diffNormalizer;
@@ -62,7 +55,7 @@ final class UnifiedDiffTokenizer
     /**
      * Tokenize a unified diff
      *
-     * @param array $diffLineList
+     * @param string[] $diffLineList
      *
      * @return Token[]
      */
@@ -117,8 +110,8 @@ final class UnifiedDiffTokenizer
                     }
 
                     $changeTokens = $this->processHunk(
-                        $originalLineCount,
-                        $newLineCount,
+                        (int)$originalLineCount,
+                        (int)$newLineCount,
                         $diffLineList,
                         $i
                     );
@@ -139,10 +132,14 @@ final class UnifiedDiffTokenizer
      * @param string[] $diffLineList
      * @param int $currentLine
      *
-     * @return array
+     * @return Token[]
      */
-    private function processHunk($originalLineCount, $newLineCount, $diffLineList, &$currentLine)
-    {
+    private function processHunk(
+        int $originalLineCount,
+        int $newLineCount,
+        array $diffLineList,
+        int &$currentLine
+    ): array {
         $addedCount = 0;
         $removedCount = 0;
         $unchangedCount = 0;
@@ -179,7 +176,7 @@ final class UnifiedDiffTokenizer
      *
      * @return bool
      */
-    private function isFileStart(array $diffLineList, $currentLine)
+    private function isFileStart(array $diffLineList, int $currentLine): bool
     {
         return $currentLine + 1 < count($diffLineList)
             && '---' === substr($diffLineList[$currentLine], 0, 3)
@@ -193,7 +190,7 @@ final class UnifiedDiffTokenizer
      *
      * @return Token[]
      */
-    private function getHunkStartTokens($diffLine)
+    private function getHunkStartTokens(string $diffLine): array
     {
         $tokenList = array();
 
@@ -202,26 +199,26 @@ final class UnifiedDiffTokenizer
             // File deletion
             if ($this->hasToken($matches, Token::FILE_DELETION_LINE_COUNT)) {
                 $tokenList = array(
-                    new Token(Token::FILE_DELETION_LINE_COUNT, intval($matches[Token::FILE_DELETION_LINE_COUNT])),
-                    new Token(Token::HUNK_NEW_START, intval($matches[Token::HUNK_NEW_START])),
-                    new Token(Token::HUNK_NEW_COUNT, intval($matches[Token::HUNK_NEW_COUNT]))
+                    new Token(Token::FILE_DELETION_LINE_COUNT, $matches[Token::FILE_DELETION_LINE_COUNT]),
+                    new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START]),
+                    new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT])
                 );
 
             // File creation
             } elseif ($this->hasToken($matches, Token::FILE_CREATION_LINE_COUNT)) {
                 $tokenList = array(
-                    new Token(Token::HUNK_ORIGINAL_START, intval($matches[Token::HUNK_ORIGINAL_START])),
-                    new Token(Token::HUNK_ORIGINAL_COUNT, intval($matches[Token::HUNK_ORIGINAL_COUNT])),
-                    new Token(Token::FILE_CREATION_LINE_COUNT, intval($matches[Token::FILE_CREATION_LINE_COUNT])),
+                    new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START]),
+                    new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT]),
+                    new Token(Token::FILE_CREATION_LINE_COUNT, $matches[Token::FILE_CREATION_LINE_COUNT]),
                 );
 
             // Standard Case
             } else {
                 $tokenList = array(
-                    new Token(Token::HUNK_ORIGINAL_START, intval($matches[Token::HUNK_ORIGINAL_START])),
-                    new Token(Token::HUNK_ORIGINAL_COUNT, intval($matches[Token::HUNK_ORIGINAL_COUNT])),
-                    new Token(Token::HUNK_NEW_START, intval($matches[Token::HUNK_NEW_START])),
-                    new Token(Token::HUNK_NEW_COUNT, intval($matches[Token::HUNK_NEW_COUNT]))
+                    new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START]),
+                    new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT]),
+                    new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START]),
+                    new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT])
                 );
             }
         }
@@ -235,9 +232,9 @@ final class UnifiedDiffTokenizer
      * @param string[] $diffLineList
      * @param int $currentLine
      *
-     * @return array
+     * @return Token[]
      */
-    private function getFilenameTokens(array $diffLineList, $currentLine)
+    private function getFilenameTokens(array $diffLineList, int $currentLine): array
     {
         $filenameTokens = array();
 
@@ -273,20 +270,13 @@ final class UnifiedDiffTokenizer
 
     /**
      * Get a single line for a hunk.
-     *
-     * @param int $addedCount
-     * @param int $removedCount
-     * @param int $unchangedCount
-     * @param string $diffLine
-     *
-     * @return Token
      */
     private function getHunkLineToken(
-        &$addedCount,
-        &$removedCount,
-        &$unchangedCount,
-        $diffLine
-    ) {
+        int &$addedCount,
+        int &$removedCount,
+        int &$unchangedCount,
+        string $diffLine
+    ): Token {
 
         // Line added
         if ('+' === substr($diffLine, 0, 1)) {
@@ -309,14 +299,12 @@ final class UnifiedDiffTokenizer
 
     /**
      * Remove the prefixed '+', '-' or ' ' from a changed line of code.
-     *
-     * @param string $line
-     *
-     * @return string
      */
-    private function normalizeChangedLine($line)
+    private function normalizeChangedLine(string $line): string
     {
-        return substr($line, 1);
+        $normalized = substr($line, 1);
+
+        return false === $normalized ? $line : $normalized;
     }
 
     /**
@@ -327,7 +315,7 @@ final class UnifiedDiffTokenizer
      *
      * @return bool
      */
-    private function hasToken(array $matchList, $tokenKey)
+    private function hasToken(array $matchList, string $tokenKey): bool
     {
         return array_key_exists($tokenKey, $matchList) && strlen($matchList[$tokenKey]);
     }

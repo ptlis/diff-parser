@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -38,13 +36,7 @@ final class Token
     private $value;
 
 
-    /**
-     * Constructor.
-     *
-     * @param string $type One of the class constants provided.
-     * @param string $value
-     */
-    public function __construct($type, $value)
+    public function __construct(string $type, string $value)
     {
         $this->type = $type;
         $this->value = $value;
@@ -52,20 +44,16 @@ final class Token
 
     /**
      * The token type, should be one of the class constants.
-     *
-     * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
      * Get the raw value.
-     *
-     * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

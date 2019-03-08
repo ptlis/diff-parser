@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -20,7 +18,7 @@ use ptlis\DiffParser\Parse\GitDiffNormalizer;
 
 final class DiffParserAddTest extends TestCase
 {
-    public function testParseCount()
+    public function testParseCount(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -36,7 +34,7 @@ final class DiffParserAddTest extends TestCase
         $this->assertEquals(1, count($diff->getFiles()));
     }
 
-    public function testFileAdd()
+    public function testFileAdd(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(

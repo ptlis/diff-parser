@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
-/**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+/** *
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -34,7 +32,7 @@ final class Changeset
      *
      * @return File[]
      */
-    public function getFiles()
+    public function getFiles(): array
     {
         return $this->changedFileList;
     }
@@ -42,7 +40,7 @@ final class Changeset
     /**
      * Get the string representation of the diff.
      */
-    public function __toString()
+    public function __toString(): string
     {
         return implode(PHP_EOL, $this->changedFileList);
     }

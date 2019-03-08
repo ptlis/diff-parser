@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -20,7 +18,7 @@ use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
 final class DiffParserRemoveTest extends TestCase
 {
-    public function testParseCount()
+    public function testParseCount(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -36,7 +34,7 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertEquals(1, count($diff->getFiles()));
     }
 
-    public function testFileRemoveSingleLinePre19()
+    public function testFileRemoveSingleLinePre19(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -71,7 +69,7 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testFileRemovePost19()
+    public function testFileRemovePost19(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -108,7 +106,7 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testFileRemoveMultiLine()
+    public function testFileRemoveMultiLine(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(

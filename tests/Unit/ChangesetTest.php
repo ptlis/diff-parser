@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
- * PHP Version 5.3
- *
- * @copyright (c) 2014-2017 brian ridley
+ * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
@@ -25,7 +23,7 @@ final class ChangesetTest extends TestCase
     private $diff;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $lineList = array(
             new Line(
@@ -98,7 +96,7 @@ final class ChangesetTest extends TestCase
         $this->diff = new Changeset(array($file));
     }
 
-    public function testHunk()
+    public function testHunk(): void
     {
         $fileString = implode(
             PHP_EOL,
