@@ -105,13 +105,7 @@ final class UnifiedDiffTokenizer
         $hunkTokens = $this->getHunkStartTokens($diffLineList[$currentLine]);
 
         // We have found a hunk start, process hunk lines
-        if (
-            count($hunkTokens)
-            && (
-                Token::HUNK_ORIGINAL_START === $hunkTokens[0]->getType()
-                || Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()
-            )
-        ) {
+        if ($this->isHunkStart($hunkTokens)) {
             $currentLine++;
 
             [$originalLineCount, $newLineCount] = $this->getHunkLineCounts($hunkTokens);
@@ -140,6 +134,21 @@ final class UnifiedDiffTokenizer
         }
 
         return array_merge($hunkTokens, $tokenList);
+    }
+
+    /**
+     * @param Token[] $hunkTokens
+     * @return bool
+     */
+    private function isHunkStart(array $hunkTokens): bool
+    {
+        return (
+            count($hunkTokens)
+            && (
+                Token::HUNK_ORIGINAL_START === $hunkTokens[0]->getType()
+                || Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()
+            )
+        );
     }
 
     private function getHunkLineCounts(array $hunkTokens): array
