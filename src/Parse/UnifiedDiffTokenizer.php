@@ -116,6 +116,12 @@ final class UnifiedDiffTokenizer
             // Iterate until we have the correct number of original & new lines
             $lineCount = count($diffLineList);
             for ($i = $currentLine; $i < $lineCount; $i++) {
+                
+                // Start of new hunk on current file.
+                if ($i !== $currentLine && ('@' === substr($diffLineList[$i], 0, 1))) {
+                    break;
+                }
+                
                 $tokenList[] = $this->getHunkLineToken(
                     $addedCount,
                     $removedCount,
