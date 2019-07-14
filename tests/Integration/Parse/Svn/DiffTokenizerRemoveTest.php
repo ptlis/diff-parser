@@ -23,7 +23,7 @@ final class DiffTokenizerRemoveTest extends TestCase
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(6, count($tokenList));
+        $this->assertEquals(7, count($tokenList));
 
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'README.md', "\n"), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, '', "\n"), $tokenList[1]);
@@ -33,6 +33,7 @@ final class DiffTokenizerRemoveTest extends TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '0', "\n"), $tokenList[4]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '## Test', "\n"), $tokenList[5]);
+        $this->assertEquals(new Token(Token::SOURCE_NO_NEWLINE_EOF, '\ No newline at end of file', ''), $tokenList[6]);
     }
 
     public function testFileRemoveMultiLine(): void

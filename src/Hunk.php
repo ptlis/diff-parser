@@ -121,7 +121,7 @@ final class Hunk
             ]
         );
 
-        $string .= implode('', $this->lineList);
+        $string .= implode('', $this->getLines());
 
         return $string;
     }

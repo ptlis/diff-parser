@@ -27,6 +27,7 @@ final class Token
     public const SOURCE_LINE_ADDED = 'source_line_added';
     public const SOURCE_LINE_REMOVED = 'source_line_removed';
     public const SOURCE_LINE_UNCHANGED = 'source_line_unchanged';
+    public const SOURCE_NO_NEWLINE_EOF = 'source_no_newline_eof';
 
 
     /** @var string One of class constants */

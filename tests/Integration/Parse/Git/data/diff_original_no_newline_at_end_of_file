@@ -1,0 +1,13 @@
+diff --git a/file.php b/file.php
+index 272b2e4..7a9961d 100644
+--- a/file.php
++++ b/file.php
+@@ -1,3 +1,6 @@
+ first line
+ second line
+-third line
+\ No newline at end of file
++test line
++fourth line
++
++some other line

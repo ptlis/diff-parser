@@ -201,4 +201,60 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    }', "\n"), $tokenList[92]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '}', "\n"), $tokenList[93]);
     }
+
+    public function testNewNoLineDelimiterAtEndOfFile()
+    {
+        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+
+        $data = file_get_contents(__DIR__ . '/data/diff_new_no_newline_at_end_of_file');
+
+        $tokenList = $tokenizer->tokenize($data);
+
+        $this->assertEquals(14, count($tokenList));
+
+        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'file.php', "\n"), $tokenList[0]);
+        $this->assertEquals(new Token(Token::NEW_FILENAME, 'file.php', "\n"), $tokenList[1]);
+
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '1', ''), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '3', ''), $tokenList[3]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '1', ''), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '6', "\n"), $tokenList[5]);
+
+        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'first line', "\n"), $tokenList[6]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'second line', "\n"), $tokenList[7]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, 'third line', "\n"), $tokenList[8]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'test line', "\n"), $tokenList[9]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'fourth line', "\n"), $tokenList[10]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '', "\n"), $tokenList[11]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'some other line', "\n"), $tokenList[12]);
+        $this->assertEquals(new Token(Token::SOURCE_NO_NEWLINE_EOF, '\ No newline at end of file', ''), $tokenList[13]);
+    }
+
+    public function testOriginalNoLineDelimiterAtEndOfFile()
+    {
+        $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
+
+        $data = file_get_contents(__DIR__ . '/data/diff_original_no_newline_at_end_of_file');
+
+        $tokenList = $tokenizer->tokenize($data);
+
+        $this->assertEquals(14, count($tokenList));
+
+        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'file.php', "\n"), $tokenList[0]);
+        $this->assertEquals(new Token(Token::NEW_FILENAME, 'file.php', "\n"), $tokenList[1]);
+
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '1', ''), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '3', ''), $tokenList[3]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '1', ''), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '6', "\n"), $tokenList[5]);
+
+        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'first line', "\n"), $tokenList[6]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'second line', "\n"), $tokenList[7]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, 'third line', "\n"), $tokenList[8]);
+        $this->assertEquals(new Token(Token::SOURCE_NO_NEWLINE_EOF, '\ No newline at end of file', "\n"), $tokenList[9]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'test line', "\n"), $tokenList[10]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'fourth line', "\n"), $tokenList[11]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '', "\n"), $tokenList[12]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'some other line', ''), $tokenList[13]);
+    }
 }

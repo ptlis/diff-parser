@@ -282,4 +282,92 @@ final class DiffParserTest extends TestCase
 
         $this->assertEquals($file, $fileList[4]);
     }
+
+    public function testNewNoLineDelimiterAtEndOfFile()
+    {
+        $parser = new UnifiedDiffParser(
+            new UnifiedDiffTokenizer(
+                new GitDiffNormalizer()
+            )
+        );
+
+        $data = file_get_contents(__DIR__ . '/data/diff_new_no_newline_at_end_of_file');
+
+        $changeset = $parser->parse($data);
+
+        $fileList = $changeset->getFiles();
+        $this->assertEquals(1, count($fileList));
+
+        $file = new File(
+            'file.php',
+            'file.php',
+            File::CHANGED,
+            [
+                new Hunk(
+                    1,
+                    3,
+                    1,
+                    6,
+                    "\n",
+                    [
+                        new Line(1, 1, Line::UNCHANGED, 'first line', "\n"),
+                        new Line(2, 2, Line::UNCHANGED, 'second line', "\n"),
+                        new Line(3, -1, Line::REMOVED, 'third line', "\n"),
+                        new Line(-1, 3, Line::ADDED, 'test line', "\n"),
+                        new Line(-1, 4, Line::ADDED, 'fourth line', "\n"),
+                        new Line(-1, 5, Line::ADDED, '', "\n"),
+                        new Line(-1, 6, Line::ADDED, 'some other line', ''),
+                    ]
+                )
+            ]
+        );
+
+        $this->assertEquals(1, count($fileList[0]->getHunks()));
+
+        $this->assertEquals($file, $fileList[0]);
+    }
+
+    public function testOriginalNoLineDelimiterAtEndOfFile()
+    {
+        $parser = new UnifiedDiffParser(
+            new UnifiedDiffTokenizer(
+                new GitDiffNormalizer()
+            )
+        );
+
+        $data = file_get_contents(__DIR__ . '/data/diff_original_no_newline_at_end_of_file');
+
+        $changeset = $parser->parse($data);
+
+        $fileList = $changeset->getFiles();
+        $this->assertEquals(1, count($fileList));
+
+        $file = new File(
+            'file.php',
+            'file.php',
+            File::CHANGED,
+            [
+                new Hunk(
+                    1,
+                    3,
+                    1,
+                    6,
+                    "\n",
+                    [
+                        new Line(1, 1, Line::UNCHANGED, 'first line', "\n"),
+                        new Line(2, 2, Line::UNCHANGED, 'second line', "\n"),
+                        new Line(3, -1, Line::REMOVED, 'third line', ''),
+                        new Line(-1, 3, Line::ADDED, 'test line', "\n"),
+                        new Line(-1, 4, Line::ADDED, 'fourth line', "\n"),
+                        new Line(-1, 5, Line::ADDED, '', "\n"),
+                        new Line(-1, 6, Line::ADDED, 'some other line', ''),
+                    ]
+                )
+            ]
+        );
+
+        $this->assertEquals(1, count($fileList[0]->getHunks()));
+
+        $this->assertEquals($file, $fileList[0]);
+    }
 }

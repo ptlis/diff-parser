@@ -116,21 +116,29 @@ final class UnifiedDiffParser
      */
     private function parseHunk(array $hunkTokenList): Hunk
     {
-        [$originalStart, $originalCount, $newStart, $newCount, $tokensReadCount] = $this->getHunkMeta($hunkTokenList);
+        [$originalStart, $originalCount, $newStart, $newCount, $tokensReadCount, $metaDelimiter] = $this->getHunkMeta($hunkTokenList);
         $originalLineNo = $originalStart;
         $newLineNo = $newStart;
         $lineList = [];
 
         $tokenCount = count($hunkTokenList);
         for ($i = $tokensReadCount; $i < $tokenCount; $i++) {
-            $operation = $this->mapLineOperation($hunkTokenList[$i]);
+            $currentToken = $hunkTokenList[$i];
+            $operation = $this->mapLineOperation($currentToken);
+            $lineDelimiter = $currentToken->getLineDelimiter();
+
+            // If the next line is a 'No newline at end of file' then set an empty line terminator & skip next line
+            if ($i + 1 <= $tokenCount - 1 && Token::SOURCE_NO_NEWLINE_EOF === $hunkTokenList[$i + 1]->getType()) {
+                $lineDelimiter = '';
+                $i++;
+            }
 
             $lineList[] = new Line(
                 (Line::ADDED) === $operation ? Line::LINE_NOT_PRESENT : $originalLineNo,
                 (Line::REMOVED) === $operation ? Line::LINE_NOT_PRESENT : $newLineNo,
                 $operation,
-                $hunkTokenList[$i]->getValue(),
-                $hunkTokenList[$i]->getLineDelimiter()
+                $currentToken->getValue(),
+                $lineDelimiter
             );
 
             if (Line::ADDED === $operation) {
@@ -148,7 +156,7 @@ final class UnifiedDiffParser
             $originalCount,
             $newStart,
             $newCount,
-            $hunkTokenList[count($hunkTokenList) - 1]->getLineDelimiter(),
+            $metaDelimiter,
             $lineList
         );
     }
@@ -168,6 +176,7 @@ final class UnifiedDiffParser
                 $originalCount = intval($hunkTokenList[0]->getValue());
                 $newStart = intval($hunkTokenList[1]->getValue());
                 $newCount = intval($hunkTokenList[2]->getValue());
+                $metaDelimiter = $hunkTokenList[2]->getLineDelimiter();
                 $tokensReadCount = 3;
                 break;
 
@@ -176,6 +185,7 @@ final class UnifiedDiffParser
                 $originalCount = intval($hunkTokenList[1]->getValue());
                 $newStart = 1;
                 $newCount = intval($hunkTokenList[2]->getValue());
+                $metaDelimiter = $hunkTokenList[2]->getLineDelimiter();
                 $tokensReadCount = 3;
                 break;
 
@@ -184,6 +194,7 @@ final class UnifiedDiffParser
                 $originalCount = intval($hunkTokenList[1]->getValue());
                 $newStart = intval($hunkTokenList[2]->getValue());
                 $newCount = intval($hunkTokenList[3]->getValue());
+                $metaDelimiter = $hunkTokenList[3]->getLineDelimiter();
                 $tokensReadCount = 4;
                 break;
         }
@@ -193,7 +204,8 @@ final class UnifiedDiffParser
             $originalCount,
             $newStart,
             $newCount,
-            $tokensReadCount
+            $tokensReadCount,
+            $metaDelimiter
         ];
     }
 

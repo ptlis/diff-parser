@@ -13,6 +13,8 @@ namespace ptlis\DiffParser\Parse;
  */
 final class UnifiedDiffTokenizer
 {
+    private const NO_NEWLINE_MARKER = '\ No newline at end of file';
+
     /**
      * Regex used to determine if the current line is a hunk start.
      *
@@ -114,13 +116,18 @@ final class UnifiedDiffTokenizer
             $rawLineList[] = new RawDiffLine($diffLineList[$i], $diffLineList[$i + 1]);
         }
 
+        // Handle final line not having linebreak
+        if ($i === count($diffLineList) - 1) {
+            $rawLineList[] = new RawDiffLine($diffLineList[$i], '');
+        }
+
         return $rawLineList;
     }
 
     /**
      * Process a hunk.
      *
-     * @param string[] $diffLineList
+     * @param RawDiffLine[] $diffLineList
      * @param int $currentLine
      *
      * @return Token[]
@@ -130,13 +137,13 @@ final class UnifiedDiffTokenizer
         int &$currentLine
     ): array {
         $tokenList = [];
-        $hunkTokens = $this->getHunkStartTokens($diffLineList[$currentLine]);
+        $hunkStartTokens = $this->getHunkStartTokens($diffLineList[$currentLine]);
 
         // We have found a hunk start, process hunk lines
-        if ($this->isHunkStart($hunkTokens)) {
+        if ($this->isHunkStart($hunkStartTokens)) {
             $currentLine++;
 
-            [$originalLineCount, $newLineCount] = $this->getHunkLineCounts($hunkTokens);
+            [$originalLineCount, $newLineCount] = $this->getHunkLineCounts($hunkStartTokens);
             $addedCount = 0;
             $removedCount = 0;
             $unchangedCount = 0;
@@ -156,12 +163,16 @@ final class UnifiedDiffTokenizer
                     $removedCount + $unchangedCount === $originalLineCount
                     && $addedCount + $unchangedCount === $newLineCount
                 ) {
+                    // Check for trailing 'No newline at end of file'
+                    if ($i < $lineCount - 1 && self::NO_NEWLINE_MARKER === $diffLineList[$i + 1]->getContent()) {
+                        $tokenList[] = new Token(Token::SOURCE_NO_NEWLINE_EOF, self::NO_NEWLINE_MARKER, '');
+                    }
                     break;
                 }
             }
         }
 
-        return array_merge($hunkTokens, $tokenList);
+        return array_merge($hunkStartTokens, $tokenList);
     }
 
     /**
@@ -306,28 +317,33 @@ final class UnifiedDiffTokenizer
         int &$unchangedCount,
         RawDiffLine $diffLine
     ): Token {
+        $changedLine = '';
 
         // Line added
         if ('+' === substr($diffLine->getContent(), 0, 1)) {
             $tokenType = Token::SOURCE_LINE_ADDED;
+            $changedLine = $this->normalizeChangedLine($diffLine->getContent());
             $addedCount++;
 
-            // Line removed
+        // Line removed
         } elseif ('-' === substr($diffLine->getContent(), 0, 1)) {
             $tokenType = Token::SOURCE_LINE_REMOVED;
+            $changedLine = $this->normalizeChangedLine($diffLine->getContent());
             $removedCount++;
 
-            // Line unchanged
+        // 'No newline at end of file'
+        } elseif (self::NO_NEWLINE_MARKER === $diffLine->getContent()) {
+            $tokenType = Token::SOURCE_NO_NEWLINE_EOF;
+            $changedLine = $diffLine->getContent();
+
+        // Line unchanged
         } else {
             $tokenType = Token::SOURCE_LINE_UNCHANGED;
+            $changedLine = $this->normalizeChangedLine($diffLine->getContent());
             $unchangedCount++;
         }
 
-        return new Token(
-            $tokenType,
-            $this->normalizeChangedLine($diffLine->getContent()),
-            $diffLine->getLineDelimiter()
-        );
+        return new Token($tokenType, $changedLine, $diffLine->getLineDelimiter());
     }
 
     /**

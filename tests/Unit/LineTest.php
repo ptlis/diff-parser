@@ -69,4 +69,22 @@ final class LineTest extends TestCase
         $this->assertEquals("\r", $line->getLineDelimiter());
         $this->assertEquals('+really good comment' . "\r", $line->__toString());
     }
+
+    public function testNewlineOmitted(): void
+    {
+        $line = new Line(
+            Line::LINE_NOT_PRESENT,
+            11,
+            Line::ADDED,
+            'really good comment',
+            ''
+        );
+
+        $this->assertEquals(-1, $line->getOriginalLineNo());
+        $this->assertEquals(11, $line->getNewLineNo());
+        $this->assertEquals(Line::ADDED, $line->getOperation());
+        $this->assertEquals('really good comment', $line->getContent());
+        $this->assertEquals('', $line->getLineDelimiter());
+        $this->assertEquals('+really good comment' . "\n" . '\ No newline at end of file' . "\n", $line->__toString());
+    }
 }

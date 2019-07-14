@@ -61,7 +61,7 @@ final class DiffParserRemoveTest extends TestCase
                     0,
                     "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '# My project', "\n")
+                        new Line(1, -1, Line::REMOVED, '# My project', '')
                     ]
                 )
             ]

@@ -42,7 +42,7 @@ final class ParserTest extends TestCase
                     1,
                     "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
+                        new Line(-1, 1, Line::ADDED, '## Test', '')
                     ]
                 )
             ]
@@ -74,7 +74,7 @@ final class ParserTest extends TestCase
                     1,
                     "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
+                        new Line(-1, 1, Line::ADDED, '## Test', '')
                     ]
                 )
             ]
@@ -106,7 +106,7 @@ final class ParserTest extends TestCase
                     1,
                     "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
+                        new Line(-1, 1, Line::ADDED, '## Test', '')
                     ]
                 )
             ]

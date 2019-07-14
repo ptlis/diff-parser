@@ -108,6 +108,10 @@ final class Line
 
         $string .= $this->content . $this->getLineDelimiter();
 
+        if ('' === $this->getLineDelimiter()) {
+            $string .= PHP_EOL . '\ No newline at end of file' . PHP_EOL;
+        }
+
         return $string;
     }
 }

@@ -61,7 +61,7 @@ final class DiffParserAddTest extends TestCase
                     1,
                     "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
+                        new Line(-1, 1, Line::ADDED, '## Test', '')
                     ]
                 )
             ]
@@ -208,7 +208,7 @@ final class DiffParserAddTest extends TestCase
                         new Line(-1, 71, Line::ADDED, '  CAppUI::setMsg(CAppUI::tr("CCompteRendu-msg-create"));', "\n"),
                         new Line(-1, 72, Line::ADDED, '}', "\n"),
                         new Line(-1, 73, Line::ADDED, '', "\n"),
-                        new Line(-1, 74, Line::ADDED, 'echo CAppUI::getMsg();', "\n"),
+                        new Line(-1, 74, Line::ADDED, 'echo CAppUI::getMsg();', ''),
                     ]
                 )
             ]
