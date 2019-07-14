@@ -42,8 +42,6 @@ Followed by a composer update:
 
 ### Build a Changeset
 
-Both public methods of the ```ptlis\DiffParser\Parser``` class return a changeset representation of the diff:
-
 Get a changeset from a file:
 
 ```php
@@ -55,18 +53,17 @@ Get a changeset from a file:
     $changeset = $parser->parseFile('path/to/svn/diff', Parser::VCS_SVN);
 ```
 
-
-Get a changeset from string array:
+Get a changeset from a variable containg the contents of a patch file:
 
 ```php
     
     use ptlis\DiffParser\Parser;
     
-    $lineList = ...    // the array of diff lines is created/retrieved somehow 
-    
     $parser = new Parser();
     
-    $changeset = $parser->parseLines($lineList, Parser::VCS_SVN);
+    $patchData = file_get_contents('/path/to/patchfile');
+    
+    $changeset = $parser->parse($patchData, Parser::VCS_SVN);
 ```
 
 
