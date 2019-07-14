@@ -11,30 +11,11 @@ Uses __toString() to serialize back into unified diff format.
 
 ## Install
 
-Either from the console:
+Install with composer:
 
 ```shell
-    $ composer require ptlis/diff-parser:"~0.6"
+    $ composer require ptlis/diff-parser
 ```
-
-Or by Editing composer.json:
-
-```javascript
-    {
-        "require": {
-            ...
-            "ptlis/diff-parser": "~0.6",
-            ...
-        }
-    }
-```
-
-Followed by a composer update:
-
-```shell
-    $ composer update
-```
-
 
 
 ## Usage
@@ -45,7 +26,7 @@ Followed by a composer update:
 Get a changeset from a file:
 
 ```php
-    
+<?php
     use ptlis\DiffParser\Parser;
     
     $parser = new Parser();
@@ -56,7 +37,7 @@ Get a changeset from a file:
 Get a changeset from a variable containg the contents of a patch file:
 
 ```php
-    
+<?php
     use ptlis\DiffParser\Parser;
     
     $parser = new Parser();
@@ -74,9 +55,7 @@ All of the value classes implement the ```__toString()``` method to support dire
 For example, serialization of a changeset back to a file is as simple as:
 
 ```php
-    $file = fopen('my.patch', 'w');
-    fwrite($file, $changeset);
-    fclose($file);
+    file_put_contents('my.patch', $changeset);
 ```
 
 
