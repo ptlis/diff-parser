@@ -25,6 +25,9 @@ final class Hunk
     /** @var int The new line count. */
     private $newCount;
 
+    /** @var string Delimiter between the 'meta' line (file offsets) and the hunk data. */
+    private $metaLineDelimiter;
+
     /** @var Line[] The List of lines in this hunk. */
     private $lineList;
 
@@ -36,14 +39,22 @@ final class Hunk
      * @param int $originalCount
      * @param int $newStart
      * @param int $newCount
+     * @param string $metaLineDelimiter
      * @param Line[] $lineList
      */
-    public function __construct(int $originalStart, int $originalCount, int $newStart, int $newCount, array $lineList)
-    {
+    public function __construct(
+        int $originalStart,
+        int $originalCount,
+        int $newStart,
+        int $newCount,
+        string $metaLineDelimiter,
+        array $lineList
+    ) {
         $this->originalStart = $originalStart;
         $this->originalCount = $originalCount;
         $this->newStart = $newStart;
         $this->newCount = $newCount;
+        $this->metaLineDelimiter = $metaLineDelimiter;
         $this->lineList = $lineList;
     }
 
@@ -106,11 +117,11 @@ final class Hunk
                 ',',
                 $this->newCount,
                 ' @@',
-                PHP_EOL
+                $this->metaLineDelimiter
             ]
         );
 
-        $string .= implode(PHP_EOL, $this->lineList);
+        $string .= implode('', $this->lineList);
 
         return $string;
     }

@@ -35,13 +35,13 @@ final class UnifiedDiffParser
     /**
      * Parse an array of tokens out into an object graph.
      *
-     * @param string[] $diffLineList
+     * @param string $patchFile
      *
      * @return Changeset
      */
-    public function parse(array $diffLineList): Changeset
+    public function parse(string $patchFile): Changeset
     {
-        $tokenList = $this->tokenizer->tokenize($diffLineList);
+        $tokenList = $this->tokenizer->tokenize($patchFile);
 
         $fileList = [];
         $startIndex = 0;
@@ -129,7 +129,8 @@ final class UnifiedDiffParser
                 (Line::ADDED) === $operation ? Line::LINE_NOT_PRESENT : $originalLineNo,
                 (Line::REMOVED) === $operation ? Line::LINE_NOT_PRESENT : $newLineNo,
                 $operation,
-                $hunkTokenList[$i]->getValue()
+                $hunkTokenList[$i]->getValue(),
+                $hunkTokenList[$i]->getLineDelimiter()
             );
 
             if (Line::ADDED === $operation) {
@@ -147,6 +148,7 @@ final class UnifiedDiffParser
             $originalCount,
             $newStart,
             $newCount,
+            $hunkTokenList[count($hunkTokenList) - 1]->getLineDelimiter(),
             $lineList
         );
     }

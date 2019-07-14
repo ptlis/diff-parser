@@ -26,7 +26,7 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_add_single_line', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_add_single_line');
 
         $diff = $parser->parse($data);
 
@@ -42,7 +42,7 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_add_single_line', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_add_single_line');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -59,8 +59,9 @@ final class DiffParserAddTest extends TestCase
                     0,
                     1,
                     1,
+                    "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
                     ]
                 )
             ]
@@ -77,7 +78,7 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_add_1.9', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_add_1.9');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -94,10 +95,11 @@ final class DiffParserAddTest extends TestCase
                     0,
                     1,
                     3,
+                    "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '<?php'),
-                        new Line(-1, 2, Line::ADDED, ''),
-                        new Line(-1, 3, Line::ADDED, 'echo \'test\';')
+                        new Line(-1, 1, Line::ADDED, '<?php', "\n"),
+                        new Line(-1, 2, Line::ADDED, '', "\n"),
+                        new Line(-1, 3, Line::ADDED, 'echo \'test\';', "\n")
                     ]
                 )
             ]
@@ -114,7 +116,7 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_add_multi_line', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_add_multi_line');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -131,81 +133,82 @@ final class DiffParserAddTest extends TestCase
                     0,
                     1,
                     74,
+                    "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '<?php'),
-                        new Line(-1, 2, Line::ADDED, '/**'),
-                        new Line(-1, 3, Line::ADDED, ' * @package Mediboard\CompteRendu'),
-                        new Line(-1, 4, Line::ADDED, ' * @author  SAS OpenXtrem <dev@openxtrem.com>'),
-                        new Line(-1, 5, Line::ADDED, ' * @license https://www.gnu.org/licenses/gpl.html GNU General Public License'),
-                        new Line(-1, 6, Line::ADDED, ' * @license https://www.openxtrem.com/licenses/oxol.html OXOL OpenXtrem Open License'),
-                        new Line(-1, 7, Line::ADDED, ' */'),
-                        new Line(-1, 8, Line::ADDED, ''),
-                        new Line(-1, 9, Line::ADDED, '$compte_rendu_id = CView::post("compte_rendu_id", "ref class|CCompteRendu");'),
-                        new Line(-1, 10, Line::ADDED, '$pack_id         = CView::post("pack_id", "ref class|CPack");'),
-                        new Line(-1, 11, Line::ADDED, '$object_class    = CView::post("object_class", "str");'),
-                        new Line(-1, 12, Line::ADDED, '$object_id       = CView::post("object_id", "ref class|$object_class");'),
-                        new Line(-1, 13, Line::ADDED, ''),
-                        new Line(-1, 14, Line::ADDED, 'CView::checkin();'),
-                        new Line(-1, 15, Line::ADDED, ''),
-                        new Line(-1, 16, Line::ADDED, '$compte_rendu = new CCompteRendu();'),
-                        new Line(-1, 17, Line::ADDED, ''),
-                        new Line(-1, 18, Line::ADDED, '$header_id = $footer_id = null;'),
-                        new Line(-1, 19, Line::ADDED, ''),
-                        new Line(-1, 20, Line::ADDED, 'if ($pack_id) {'),
-                        new Line(-1, 21, Line::ADDED, '  $pack = new CPack();'),
-                        new Line(-1, 22, Line::ADDED, '  $pack->load($pack_id);'),
-                        new Line(-1, 23, Line::ADDED, ''),
-                        new Line(-1, 24, Line::ADDED, '  $compte_rendu->loadContent();'),
-                        new Line(-1, 25, Line::ADDED, '  $pack->loadContent();'),
-                        new Line(-1, 26, Line::ADDED, ''),
-                        new Line(-1, 27, Line::ADDED, '  $compte_rendu->nom = $pack->nom;'),
-                        new Line(-1, 28, Line::ADDED, '  $compte_rendu->_source = $pack->_source;'),
-                        new Line(-1, 29, Line::ADDED, ''),
-                        new Line(-1, 30, Line::ADDED, '  $pack->loadHeaderFooter();'),
-                        new Line(-1, 31, Line::ADDED, ''),
-                        new Line(-1, 32, Line::ADDED, '  $header_id = $pack->_header_found->_id;'),
-                        new Line(-1, 33, Line::ADDED, '  $footer_id = $pack->_footer_found->_id;'),
-                        new Line(-1, 34, Line::ADDED, ''),
-                        new Line(-1, 35, Line::ADDED, '  // Marges et format'),
-                        new Line(-1, 36, Line::ADDED, '  /** @var $links CModeleToPack[] */'),
-                        new Line(-1, 37, Line::ADDED, '  $links = $pack->_back[\'modele_links\'];'),
-                        new Line(-1, 38, Line::ADDED, '  $first_modele = reset($links);'),
-                        new Line(-1, 39, Line::ADDED, '  $first_modele = $first_modele->_ref_modele;'),
-                        new Line(-1, 40, Line::ADDED, ''),
-                        new Line(-1, 41, Line::ADDED, '  foreach (array('),
-                        new Line(-1, 42, Line::ADDED, '    "factory", "font", "size", "page_height", "page_width",'),
-                        new Line(-1, 43, Line::ADDED, '    "margin_top", "margin_left", "margin_right", "margin_bottom"'),
-                        new Line(-1, 44, Line::ADDED, '    ) as $_field) {'),
-                        new Line(-1, 45, Line::ADDED, '    $compte_rendu->{$_field} = $first_modele->{$_field};'),
-                        new Line(-1, 46, Line::ADDED, '  }'),
-                        new Line(-1, 47, Line::ADDED, '}'),
-                        new Line(-1, 48, Line::ADDED, 'else {'),
-                        new Line(-1, 49, Line::ADDED, '  $compte_rendu->load($compte_rendu_id);'),
-                        new Line(-1, 50, Line::ADDED, '  $compte_rendu->loadContent();'),
-                        new Line(-1, 51, Line::ADDED, ''),
-                        new Line(-1, 52, Line::ADDED, '  $compte_rendu->_id = "";'),
-                        new Line(-1, 53, Line::ADDED, '}'),
-                        new Line(-1, 54, Line::ADDED, ''),
-                        new Line(-1, 55, Line::ADDED, '$compte_rendu->object_class = $object_class;'),
-                        new Line(-1, 56, Line::ADDED, '$compte_rendu->object_id = $object_id;'),
-                        new Line(-1, 57, Line::ADDED, '$compte_rendu->user_id = "";'),
-                        new Line(-1, 58, Line::ADDED, '$compte_rendu->function_id = "";'),
-                        new Line(-1, 59, Line::ADDED, '$compte_rendu->group_id = "";'),
-                        new Line(-1, 60, Line::ADDED, '$compte_rendu->content_id = "";'),
-                        new Line(-1, 61, Line::ADDED, '$compte_rendu->_ref_content->_id = "";'),
-                        new Line(-1, 62, Line::ADDED, ''),
-                        new Line(-1, 63, Line::ADDED, '$compte_rendu->_source = $compte_rendu->generateDocFromModel(null, $header_id, $footer_id);'),
-                        new Line(-1, 64, Line::ADDED, ''),
-                        new Line(-1, 65, Line::ADDED, '$msg = $compte_rendu->store();'),
-                        new Line(-1, 66, Line::ADDED, ''),
-                        new Line(-1, 67, Line::ADDED, 'if ($msg) {'),
-                        new Line(-1, 68, Line::ADDED, '  CAppUI::setMsg($msg, UI_MSG_ERROR);'),
-                        new Line(-1, 69, Line::ADDED, '}'),
-                        new Line(-1, 70, Line::ADDED, 'else {'),
-                        new Line(-1, 71, Line::ADDED, '  CAppUI::setMsg(CAppUI::tr("CCompteRendu-msg-create"));'),
-                        new Line(-1, 72, Line::ADDED, '}'),
-                        new Line(-1, 73, Line::ADDED, ''),
-                        new Line(-1, 74, Line::ADDED, 'echo CAppUI::getMsg();'),
+                        new Line(-1, 1, Line::ADDED, '<?php', "\n"),
+                        new Line(-1, 2, Line::ADDED, '/**', "\n"),
+                        new Line(-1, 3, Line::ADDED, ' * @package Mediboard\CompteRendu', "\n"),
+                        new Line(-1, 4, Line::ADDED, ' * @author  SAS OpenXtrem <dev@openxtrem.com>', "\n"),
+                        new Line(-1, 5, Line::ADDED, ' * @license https://www.gnu.org/licenses/gpl.html GNU General Public License', "\n"),
+                        new Line(-1, 6, Line::ADDED, ' * @license https://www.openxtrem.com/licenses/oxol.html OXOL OpenXtrem Open License', "\n"),
+                        new Line(-1, 7, Line::ADDED, ' */', "\n"),
+                        new Line(-1, 8, Line::ADDED, '', "\n"),
+                        new Line(-1, 9, Line::ADDED, '$compte_rendu_id = CView::post("compte_rendu_id", "ref class|CCompteRendu");', "\n"),
+                        new Line(-1, 10, Line::ADDED, '$pack_id         = CView::post("pack_id", "ref class|CPack");', "\n"),
+                        new Line(-1, 11, Line::ADDED, '$object_class    = CView::post("object_class", "str");', "\n"),
+                        new Line(-1, 12, Line::ADDED, '$object_id       = CView::post("object_id", "ref class|$object_class");', "\n"),
+                        new Line(-1, 13, Line::ADDED, '', "\n"),
+                        new Line(-1, 14, Line::ADDED, 'CView::checkin();', "\n"),
+                        new Line(-1, 15, Line::ADDED, '', "\n"),
+                        new Line(-1, 16, Line::ADDED, '$compte_rendu = new CCompteRendu();', "\n"),
+                        new Line(-1, 17, Line::ADDED, '', "\n"),
+                        new Line(-1, 18, Line::ADDED, '$header_id = $footer_id = null;', "\n"),
+                        new Line(-1, 19, Line::ADDED, '', "\n"),
+                        new Line(-1, 20, Line::ADDED, 'if ($pack_id) {', "\n"),
+                        new Line(-1, 21, Line::ADDED, '  $pack = new CPack();', "\n"),
+                        new Line(-1, 22, Line::ADDED, '  $pack->load($pack_id);', "\n"),
+                        new Line(-1, 23, Line::ADDED, '', "\n"),
+                        new Line(-1, 24, Line::ADDED, '  $compte_rendu->loadContent();', "\n"),
+                        new Line(-1, 25, Line::ADDED, '  $pack->loadContent();', "\n"),
+                        new Line(-1, 26, Line::ADDED, '', "\n"),
+                        new Line(-1, 27, Line::ADDED, '  $compte_rendu->nom = $pack->nom;', "\n"),
+                        new Line(-1, 28, Line::ADDED, '  $compte_rendu->_source = $pack->_source;', "\n"),
+                        new Line(-1, 29, Line::ADDED, '', "\n"),
+                        new Line(-1, 30, Line::ADDED, '  $pack->loadHeaderFooter();', "\n"),
+                        new Line(-1, 31, Line::ADDED, '', "\n"),
+                        new Line(-1, 32, Line::ADDED, '  $header_id = $pack->_header_found->_id;', "\n"),
+                        new Line(-1, 33, Line::ADDED, '  $footer_id = $pack->_footer_found->_id;', "\n"),
+                        new Line(-1, 34, Line::ADDED, '', "\n"),
+                        new Line(-1, 35, Line::ADDED, '  // Marges et format', "\n"),
+                        new Line(-1, 36, Line::ADDED, '  /** @var $links CModeleToPack[] */', "\n"),
+                        new Line(-1, 37, Line::ADDED, '  $links = $pack->_back[\'modele_links\'];', "\n"),
+                        new Line(-1, 38, Line::ADDED, '  $first_modele = reset($links);', "\n"),
+                        new Line(-1, 39, Line::ADDED, '  $first_modele = $first_modele->_ref_modele;', "\n"),
+                        new Line(-1, 40, Line::ADDED, '', "\n"),
+                        new Line(-1, 41, Line::ADDED, '  foreach (array(', "\n"),
+                        new Line(-1, 42, Line::ADDED, '    "factory", "font", "size", "page_height", "page_width",', "\n"),
+                        new Line(-1, 43, Line::ADDED, '    "margin_top", "margin_left", "margin_right", "margin_bottom"', "\n"),
+                        new Line(-1, 44, Line::ADDED, '    ) as $_field) {', "\n"),
+                        new Line(-1, 45, Line::ADDED, '    $compte_rendu->{$_field} = $first_modele->{$_field};', "\n"),
+                        new Line(-1, 46, Line::ADDED, '  }', "\n"),
+                        new Line(-1, 47, Line::ADDED, '}', "\n"),
+                        new Line(-1, 48, Line::ADDED, 'else {', "\n"),
+                        new Line(-1, 49, Line::ADDED, '  $compte_rendu->load($compte_rendu_id);', "\n"),
+                        new Line(-1, 50, Line::ADDED, '  $compte_rendu->loadContent();', "\n"),
+                        new Line(-1, 51, Line::ADDED, '', "\n"),
+                        new Line(-1, 52, Line::ADDED, '  $compte_rendu->_id = "";', "\n"),
+                        new Line(-1, 53, Line::ADDED, '}', "\n"),
+                        new Line(-1, 54, Line::ADDED, '', "\n"),
+                        new Line(-1, 55, Line::ADDED, '$compte_rendu->object_class = $object_class;', "\n"),
+                        new Line(-1, 56, Line::ADDED, '$compte_rendu->object_id = $object_id;', "\n"),
+                        new Line(-1, 57, Line::ADDED, '$compte_rendu->user_id = "";', "\n"),
+                        new Line(-1, 58, Line::ADDED, '$compte_rendu->function_id = "";', "\n"),
+                        new Line(-1, 59, Line::ADDED, '$compte_rendu->group_id = "";', "\n"),
+                        new Line(-1, 60, Line::ADDED, '$compte_rendu->content_id = "";', "\n"),
+                        new Line(-1, 61, Line::ADDED, '$compte_rendu->_ref_content->_id = "";', "\n"),
+                        new Line(-1, 62, Line::ADDED, '', "\n"),
+                        new Line(-1, 63, Line::ADDED, '$compte_rendu->_source = $compte_rendu->generateDocFromModel(null, $header_id, $footer_id);', "\n"),
+                        new Line(-1, 64, Line::ADDED, '', "\n"),
+                        new Line(-1, 65, Line::ADDED, '$msg = $compte_rendu->store();', "\n"),
+                        new Line(-1, 66, Line::ADDED, '', "\n"),
+                        new Line(-1, 67, Line::ADDED, 'if ($msg) {', "\n"),
+                        new Line(-1, 68, Line::ADDED, '  CAppUI::setMsg($msg, UI_MSG_ERROR);', "\n"),
+                        new Line(-1, 69, Line::ADDED, '}', "\n"),
+                        new Line(-1, 70, Line::ADDED, 'else {', "\n"),
+                        new Line(-1, 71, Line::ADDED, '  CAppUI::setMsg(CAppUI::tr("CCompteRendu-msg-create"));', "\n"),
+                        new Line(-1, 72, Line::ADDED, '}', "\n"),
+                        new Line(-1, 73, Line::ADDED, '', "\n"),
+                        new Line(-1, 74, Line::ADDED, 'echo CAppUI::getMsg();', "\n"),
                     ]
                 )
             ]

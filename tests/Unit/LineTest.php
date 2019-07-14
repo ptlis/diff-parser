@@ -22,14 +22,16 @@ final class LineTest extends TestCase
             5,
             6,
             Line::UNCHANGED,
-            'bob'
+            'bob',
+            "\n"
         );
 
         $this->assertEquals(5, $line->getOriginalLineNo());
         $this->assertEquals(6, $line->getNewLineNo());
         $this->assertEquals(Line::UNCHANGED, $line->getOperation());
         $this->assertEquals('bob', $line->getContent());
-        $this->assertEquals(' bob', $line->__toString());
+        $this->assertEquals("\n", $line->getLineDelimiter());
+        $this->assertEquals(' bob' . "\n", $line->__toString());
     }
 
     public function testLineRemoved(): void
@@ -38,14 +40,16 @@ final class LineTest extends TestCase
             9,
             Line::LINE_NOT_PRESENT,
             Line::REMOVED,
-            'some stuff'
+            'some stuff',
+            "\r\n"
         );
 
         $this->assertEquals(9, $line->getOriginalLineNo());
         $this->assertEquals(-1, $line->getNewLineNo());
         $this->assertEquals(Line::REMOVED, $line->getOperation());
         $this->assertEquals('some stuff', $line->getContent());
-        $this->assertEquals('-some stuff', $line->__toString());
+        $this->assertEquals("\r\n", $line->getLineDelimiter());
+        $this->assertEquals('-some stuff' . "\r\n", $line->__toString());
     }
 
     public function testLineAdded(): void
@@ -54,13 +58,15 @@ final class LineTest extends TestCase
             Line::LINE_NOT_PRESENT,
             11,
             Line::ADDED,
-            'really good comment'
+            'really good comment',
+            "\r"
         );
 
         $this->assertEquals(-1, $line->getOriginalLineNo());
         $this->assertEquals(11, $line->getNewLineNo());
         $this->assertEquals(Line::ADDED, $line->getOperation());
         $this->assertEquals('really good comment', $line->getContent());
-        $this->assertEquals('+really good comment', $line->__toString());
+        $this->assertEquals("\r", $line->getLineDelimiter());
+        $this->assertEquals('+really good comment' . "\r", $line->__toString());
     }
 }

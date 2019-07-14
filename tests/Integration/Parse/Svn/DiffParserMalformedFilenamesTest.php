@@ -26,7 +26,7 @@ final class DiffParserMalformedFilenamesTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_malformed_filenames', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_malformed_filenames');
 
         $diff = $parser->parse($data);
 
@@ -42,7 +42,7 @@ final class DiffParserMalformedFilenamesTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_malformed_filenames', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_malformed_filenames');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -59,8 +59,9 @@ final class DiffParserMalformedFilenamesTest extends TestCase
                     0,
                     1,
                     1,
+                    "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
                     ]
                 )
             ]

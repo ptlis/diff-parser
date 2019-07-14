@@ -23,7 +23,7 @@ final class DiffParserPropEditTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_propedit', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_propedit');
 
         $diff = $parser->parse($data);
 

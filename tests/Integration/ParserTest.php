@@ -40,8 +40,9 @@ final class ParserTest extends TestCase
                     0,
                     1,
                     1,
+                    "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
                     ]
                 )
             ]
@@ -71,8 +72,9 @@ final class ParserTest extends TestCase
                     0,
                     1,
                     1,
+                    "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
                     ]
                 )
             ]
@@ -102,42 +104,9 @@ final class ParserTest extends TestCase
                     0,
                     1,
                     1,
+                    "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test')
-                    ]
-                )
-            ]
-        );
-
-        $this->assertEquals($file, $fileList[0]);
-    }
-
-    public function testParseLinesGitSuccess(): void
-    {
-        $filename = __DIR__ . '/Parse/Git/data/diff_add';
-
-        $parser = new Parser();
-        $changeset = $parser->parseLines(
-            file($filename, FILE_IGNORE_NEW_LINES),
-            Parser::VCS_GIT
-        );
-
-        $fileList = $changeset->getFiles();
-
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
-
-        $file = new File(
-            '',
-            'README.md',
-            File::CREATED,
-            [
-                new Hunk(
-                    0,
-                    0,
-                    1,
-                    1,
-                    [
-                        new Line(-1, 1, Line::ADDED, '## Test')
+                        new Line(-1, 1, Line::ADDED, '## Test', "\n")
                     ]
                 )
             ]

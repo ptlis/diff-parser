@@ -16,5 +16,5 @@ interface DiffNormalizerInterface
     /**
      * Accepts a raw file start line from a unified diff & returns a normalized version of the filename.
      */
-    public function getFilename(string $fileStartLine): string ;
+    public function getFilename(RawDiffLine $fileStartLine): string ;
 }

@@ -26,7 +26,7 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_remove_single_line', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_remove_single_line');
 
         $diff = $parser->parse($data);
 
@@ -42,7 +42,7 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_remove_single_line', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_remove_single_line');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -59,8 +59,9 @@ final class DiffParserRemoveTest extends TestCase
                     1,
                     0,
                     0,
+                    "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '## Test')
+                        new Line(1, -1, Line::REMOVED, '## Test', "\n")
                     ]
                 )
             ]
@@ -77,7 +78,7 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_remove_1.9', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_remove_1.9');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -94,10 +95,11 @@ final class DiffParserRemoveTest extends TestCase
                     3,
                     0,
                     0,
+                    "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '<?php'),
-                        new Line(2, -1, Line::REMOVED, ''),
-                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';')
+                        new Line(1, -1, Line::REMOVED, '<?php', "\n"),
+                        new Line(2, -1, Line::REMOVED, '', "\n"),
+                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';', "\n")
                     ]
                 )
             ]
@@ -114,7 +116,7 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file(__DIR__ . '/data/diff_remove_multi_line', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_remove_multi_line');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -131,10 +133,11 @@ final class DiffParserRemoveTest extends TestCase
                     3,
                     0,
                     0,
+                    "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '<?php'),
-                        new Line(2, -1, Line::REMOVED, ''),
-                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';')
+                        new Line(1, -1, Line::REMOVED, '<?php', "\n"),
+                        new Line(2, -1, Line::REMOVED, '', "\n"),
+                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';', "\n")
                     ]
                 )
             ]

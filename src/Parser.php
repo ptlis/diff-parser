@@ -19,23 +19,14 @@ use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
  */
 final class Parser
 {
-    const VCS_GIT = 'git';
-    const VCS_SVN = 'svn';
+    public const VCS_GIT = 'git';
+    public const VCS_SVN = 'svn';
 
-
-    /**
-     * Accepts an array of diff lines & returns a Changeset instance.
-     *
-     * @param string[] $lines
-     * @param string $vcsType
-     *
-     * @return Changeset
-     */
-    public function parseLines(array $lines, string $vcsType = ''): Changeset
+    public function parse(string $patchFile, string $vcsType = ''): Changeset
     {
         $parser = $this->getParser($vcsType);
 
-        return $parser->parse($lines);
+        return $parser->parse($patchFile);
     }
 
     /**
@@ -43,17 +34,13 @@ final class Parser
      */
     public function parseFile(string $filename, string $vcsType = ''): Changeset
     {
-        $parser = $this->getParser($vcsType);
-
         if (!file_exists($filename)) {
             throw new \RuntimeException(
                 'File "' . $filename . '" not found.'
             );
         }
 
-        return $parser->parse(
-            file($filename, FILE_IGNORE_NEW_LINES)
-        );
+        return $this->parse(file_get_contents($filename), $vcsType);
     }
 
     /**

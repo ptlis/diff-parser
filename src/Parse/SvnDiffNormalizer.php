@@ -28,11 +28,11 @@ final class SvnDiffNormalizer implements DiffNormalizerInterface
     /**
      * Accepts a raw file start line from a unified diff & returns a normalized version of the filename.
      */
-    public function getFilename(string $fileStartLine): string
+    public function getFilename(RawDiffLine $fileStartLine): string
     {
         // In case of parse error fall back to returning the line minus the plus or minus symbols.
-        if (!preg_match(static::FILENAME_REGEX, $fileStartLine, $matches)) {
-            return substr($fileStartLine, 4);
+        if (!preg_match(static::FILENAME_REGEX, $fileStartLine->getContent(), $matches)) {
+            return substr($fileStartLine->getContent(), 4);
         }
 
         return $matches['filename'];

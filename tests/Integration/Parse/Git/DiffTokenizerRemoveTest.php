@@ -19,19 +19,19 @@ final class DiffTokenizerRemoveTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file(__DIR__ . '/data/diff_remove', FILE_IGNORE_NEW_LINES);
+        $data = file_get_contents(__DIR__ . '/data/diff_remove');
 
         $tokenList = $tokenizer->tokenize($data);
 
         $this->assertEquals(6, count($tokenList));
 
-        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'README.md'), $tokenList[0]);
-        $this->assertEquals(new Token(Token::NEW_FILENAME, ''), $tokenList[1]);
+        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'README.md', "\n"), $tokenList[0]);
+        $this->assertEquals(new Token(Token::NEW_FILENAME, '', "\n"), $tokenList[1]);
 
-        $this->assertEquals(new Token(Token::FILE_DELETION_LINE_COUNT, '1'), $tokenList[2]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_START, '0'), $tokenList[3]);
-        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '0'), $tokenList[4]);
+        $this->assertEquals(new Token(Token::FILE_DELETION_LINE_COUNT, '1', ''), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_START, '0', ''), $tokenList[3]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '0', "\n"), $tokenList[4]);
 
-        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '# My project'), $tokenList[5]);
+        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '# My project', "\n"), $tokenList[5]);
     }
 }

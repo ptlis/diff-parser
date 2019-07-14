@@ -31,13 +31,22 @@ final class Line
     /** @var string The value of this line. */
     private $content;
 
+    /** @var string The line delimiter (e.g. newline, carriage return & newline, empty string) */
+    private $lineDelimiter;
 
-    public function __construct(int $originalLineNo, int $newLineNo, string $operation, string $content)
-    {
+
+    public function __construct(
+        int $originalLineNo,
+        int $newLineNo,
+        string $operation,
+        string $content,
+        string $lineDelimiter
+    ) {
         $this->originalLineNo = $originalLineNo;
         $this->newLineNo = $newLineNo;
         $this->operation = $operation;
         $this->content = $content;
+        $this->lineDelimiter = $lineDelimiter;
     }
 
     /**
@@ -73,6 +82,14 @@ final class Line
     }
 
     /**
+     * @return string
+     */
+    public function getLineDelimiter(): string
+    {
+        return $this->lineDelimiter;
+    }
+
+    /**
      * Get the string representation of this line.
      */
     public function __toString(): string
@@ -89,7 +106,7 @@ final class Line
                 break;
         }
 
-        $string .= $this->content;
+        $string .= $this->content . $this->getLineDelimiter();
 
         return $string;
     }
