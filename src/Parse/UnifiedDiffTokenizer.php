@@ -112,12 +112,13 @@ final class UnifiedDiffTokenizer
         }
 
         $rawLineList = [];
-        for ($i = 0; $i + 1 < count($diffLineList); $i += 2) {
+        $lineCount = count($diffLineList);
+        for ($i = 0; $i + 1 < $lineCount; $i += 2) {
             $rawLineList[] = new RawDiffLine($diffLineList[$i], $diffLineList[$i + 1]);
         }
 
         // Handle final line not having linebreak
-        if ($i === count($diffLineList) - 1) {
+        if ($i === $lineCount - 1) {
             $rawLineList[] = new RawDiffLine($diffLineList[$i], '');
         }
 
@@ -317,7 +318,6 @@ final class UnifiedDiffTokenizer
         int &$unchangedCount,
         RawDiffLine $diffLine
     ): Token {
-        $changedLine = '';
 
         // Line added
         if ('+' === substr($diffLine->getContent(), 0, 1)) {
