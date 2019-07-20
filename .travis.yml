@@ -5,6 +5,22 @@ php:
   - 7.2
   - 7.3
 
+env:
+  - GIT_AUTOCRLF=0
+  - GIT_AUTOCRLF=1
+
+# Add checkout with git.autocrlf enabled when GIT_AUTOCRLF=1 so we can verify that that checking out with this enabled
+# doesn't cause issues with regexes. See https://github.com/ptlis/diff-parser/issues/7
+before_install:
+  - |
+      if [ "$GIT_AUTOCRLF" -eq "1" ]; then
+        cd ../..
+        mv $TRAVIS_REPO_SLUG _old
+        git config --global core.autocrlf true
+        git clone _old $TRAVIS_REPO_SLUG
+        cd $TRAVIS_REPO_SLUG
+      fi
+
 before_script:
     - composer install
 

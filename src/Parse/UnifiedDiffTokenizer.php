@@ -21,7 +21,7 @@ final class UnifiedDiffTokenizer
      * The are four tokens encoded in one line; start line number of change (original & new) and number of lines changed
      * (original & new).
      */
-    const HUNK_START_REGEX = "
+    private const HUNK_START_REGEX = "
         /^@@\s
             (?:
                 (?:
