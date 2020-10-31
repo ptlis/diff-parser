@@ -370,4 +370,28 @@ final class DiffParserTest extends TestCase
 
         $this->assertEquals($file, $fileList[0]);
     }
+
+    /**
+     * This ensures that the parser properly handles diffs generated with
+     *   git's "diff.noprefix" config value set to 'true' and 'false'.
+     */
+    public function testPrefixedAndUnprefixedFilenames(): void
+    {
+        $parser = new UnifiedDiffParser(
+            new UnifiedDiffTokenizer(
+                new GitDiffNormalizer()
+            )
+        );
+
+        $prefixedData = file_get_contents(__DIR__ . '/data/diff_prefixed');
+        $unprefixedData = file_get_contents(__DIR__ . '/data/diff_unprefixed');
+
+        $prefixedChangeset = $parser->parse($prefixedData);
+        $unprefixedChangeset = $parser->parse($unprefixedData);
+
+        $this->assertEquals(
+            $prefixedChangeset->__toString(),
+            $unprefixedChangeset->__toString()
+        );
+    }
 }

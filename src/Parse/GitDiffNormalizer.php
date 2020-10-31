@@ -18,6 +18,16 @@ final class GitDiffNormalizer implements DiffNormalizerInterface
      */
     public function getFilename(RawDiffLine $fileStartLine): string
     {
-        return substr($fileStartLine->getContent(), 6);
+        // Strip '+++ ' or '--- '
+        $normalized = substr($fileStartLine->getContent(), 4);
+
+        // Extract first two characters so that we can check for 'a/' or 'b/' prefix
+        $prefix = substr($normalized, 0, 2);
+
+        if (in_array($prefix, ['a/', 'b/'])) {
+            return substr($normalized, 2);
+        } else {
+            return $normalized;
+        }
     }
 }
