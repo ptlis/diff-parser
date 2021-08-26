@@ -51,7 +51,7 @@ final class DiffParserRemoveTest extends TestCase
 
         $file = new File(
             'README.md',
-            '',
+            'README.md',
             File::DELETED,
             [
                 new Hunk(

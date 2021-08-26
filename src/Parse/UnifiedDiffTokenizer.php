@@ -30,7 +30,7 @@ final class UnifiedDiffTokenizer
                     (?<hunk_original_count>\d+)     # Line count, original
                 )
                 |
-                \-(?<file_deletion>\d+)             # Delete file
+                \-(?<hunk_original_one_line>1)      # Original file is one line
             )
             \s
             (?:
@@ -40,7 +40,7 @@ final class UnifiedDiffTokenizer
                     (?<hunk_new_count>\d+)          # Line count, new
                 )
                 |
-                \+(?<file_creation>\d+)             # Create file
+                \+(?<hunk_new_one_line>1)           # New file is one line
             )
         \s@@/x
     ";
@@ -186,25 +186,25 @@ final class UnifiedDiffTokenizer
             count($hunkTokens)
             && (
                 Token::HUNK_ORIGINAL_START === $hunkTokens[0]->getType()
-                || Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()
+                || Token::HUNK_ORIGINAL_ONE_LINE === $hunkTokens[0]->getType()
             )
         );
     }
 
     private function getHunkLineCounts(array $hunkTokens): array
     {
-        // Simple change
-        if (4 == count($hunkTokens)) {
-            $originalLineCount = (int)$hunkTokens[1]->getValue();
-            $newLineCount = (int)$hunkTokens[3]->getValue();
-        // File deletion
-        } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
-            $originalLineCount = (int)$hunkTokens[0]->getValue();
-            $newLineCount = 0;
-        // File creation
-        } else {
-            $originalLineCount = 0;
-            $newLineCount = (int)$hunkTokens[2]->getValue();
+        $originalLineCount = 0;
+        $newLineCount = 0;
+        foreach ($hunkTokens as $token) {
+            if (Token::HUNK_ORIGINAL_COUNT === $token->getType()) {
+                $originalLineCount = (int)$token->getValue();
+            } elseif (Token::HUNK_ORIGINAL_ONE_LINE === $token->getType()) {
+                $originalLineCount = 1;
+            } elseif (Token::HUNK_NEW_COUNT === $token->getType()) {
+                $newLineCount = (int)$token->getValue();
+            } elseif (Token::HUNK_NEW_ONE_LINE === $token->getType()) {
+                $newLineCount = 1;
+            }
         }
 
         return [$originalLineCount, $newLineCount];
@@ -237,30 +237,17 @@ final class UnifiedDiffTokenizer
         $tokenList = [];
 
         if (preg_match(self::HUNK_START_REGEX, $diffLine->getContent(), $matches)) {
-            // File deletion
-            if ($this->hasToken($matches, Token::FILE_DELETION_LINE_COUNT)) {
-                $tokenList = [
-                    new Token(Token::FILE_DELETION_LINE_COUNT, $matches[Token::FILE_DELETION_LINE_COUNT], ''),
-                    new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START], ''),
-                    new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT], $diffLine->getLineDelimiter())
-                ];
-
-            // File creation
-            } elseif ($this->hasToken($matches, Token::FILE_CREATION_LINE_COUNT)) {
-                $tokenList = [
-                    new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START], ''),
-                    new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT], ''),
-                    new Token(Token::FILE_CREATION_LINE_COUNT, $matches[Token::FILE_CREATION_LINE_COUNT], $diffLine->getLineDelimiter()),
-                ];
-
-            // Standard Case
+            if ($this->hasToken($matches, Token::HUNK_ORIGINAL_ONE_LINE)) {
+                $tokenList[] = new Token(Token::HUNK_ORIGINAL_ONE_LINE, '1', '');
             } else {
-                $tokenList = [
-                    new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START], ''),
-                    new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT], ''),
-                    new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START], ''),
-                    new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT], $diffLine->getLineDelimiter())
-                ];
+                $tokenList[] = new Token(Token::HUNK_ORIGINAL_START, $matches[Token::HUNK_ORIGINAL_START], '');
+                $tokenList[] = new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT], '');
+            }
+            if ($this->hasToken($matches, Token::HUNK_NEW_ONE_LINE)) {
+                $tokenList[] = new Token(Token::HUNK_NEW_ONE_LINE, '1', $diffLine->getLineDelimiter());
+            } else {
+                $tokenList[] = new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START], '');
+                $tokenList[] = new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT], $diffLine->getLineDelimiter());
             }
         }
 
@@ -284,21 +271,8 @@ final class UnifiedDiffTokenizer
 
         // In some cases we may have a diff with no contents (e.g. diff of svn propedit)
         if (count($hunkTokens)) {
-            // Simple change
-            if (4 == count($hunkTokens)) {
-                $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
-                $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine + 1]);
-
-            // File deletion
-            } elseif (Token::FILE_DELETION_LINE_COUNT === $hunkTokens[0]->getType()) {
-                $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
-                $newFilename = '';
-
-            // File creation
-            } else {
-                $originalFilename = '';
-                $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine + 1]);
-            }
+            $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
+            $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine + 1]);
 
             $filenameTokens = [
                 new Token(Token::ORIGINAL_FILENAME, $originalFilename, $diffLineList[$currentLine]->getLineDelimiter()),

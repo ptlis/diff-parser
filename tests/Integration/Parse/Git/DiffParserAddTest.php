@@ -50,7 +50,7 @@ final class DiffParserAddTest extends TestCase
         $this->assertEquals(1, count($fileList[0]->getHunks()));
 
         $file = new File(
-            '',
+            '/dev/null',
             'README.md',
             File::CREATED,
             [

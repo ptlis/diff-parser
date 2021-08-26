@@ -26,9 +26,9 @@ final class DiffTokenizerRemoveTest extends TestCase
         $this->assertEquals(7, count($tokenList));
 
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'README.md', "\n"), $tokenList[0]);
-        $this->assertEquals(new Token(Token::NEW_FILENAME, '', "\n"), $tokenList[1]);
+        $this->assertEquals(new Token(Token::NEW_FILENAME, 'README.md', "\n"), $tokenList[1]);
 
-        $this->assertEquals(new Token(Token::FILE_DELETION_LINE_COUNT, '1', ''), $tokenList[2]);
+        $this->assertEquals(new Token(Token::HUNK_ORIGINAL_ONE_LINE, '1', ''), $tokenList[2]);
         $this->assertEquals(new Token(Token::HUNK_NEW_START, '0', ''), $tokenList[3]);
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '0', "\n"), $tokenList[4]);
 

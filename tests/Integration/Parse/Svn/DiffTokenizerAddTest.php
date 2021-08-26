@@ -25,12 +25,12 @@ final class DiffTokenizerAddTest extends TestCase
 
         $this->assertEquals(7, count($tokenList));
 
-        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, '', "\n"), $tokenList[0]);
+        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'README.md', "\n"), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'README.md', "\n"), $tokenList[1]);
 
         $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '0', ''), $tokenList[2]);
         $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '0', ''), $tokenList[3]);
-        $this->assertEquals(new Token(Token::FILE_CREATION_LINE_COUNT, '1', "\n"), $tokenList[4]);
+        $this->assertEquals(new Token(Token::HUNK_NEW_ONE_LINE, '1', "\n"), $tokenList[4]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '## Test', "\n"), $tokenList[5]);
         $this->assertEquals(new Token(Token::SOURCE_NO_NEWLINE_EOF, '\ No newline at end of file', ''), $tokenList[6]);
