@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
 /**
- * @copyright (c) 2014-present brian ridley
- * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
 
@@ -16,7 +14,7 @@ use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\GitDiffNormalizer;
 
-final class DiffParserRemoveTest extends TestCase
+final class DiffParserSingleLineFileTest extends TestCase
 {
     public function testParseCount(): void
     {
@@ -26,7 +24,7 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_remove');
+        $data = file_get_contents(__DIR__ . '/data/diff_single_line_file');
 
         $diff = $parser->parse($data);
 
@@ -34,7 +32,7 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertEquals(1, count($diff->getFiles()));
     }
 
-    public function testFileRemove(): void
+    public function testFileEdited(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -42,7 +40,7 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_remove');
+        $data = file_get_contents(__DIR__ . '/data/diff_single_line_file');
 
         $diff = $parser->parse($data);
         $fileList = $diff->getFiles();
@@ -50,18 +48,19 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertEquals(1, count($fileList[0]->getHunks()));
 
         $file = new File(
-            'README.md',
-            '/dev/null',
-            File::DELETED,
+            'test.txt',
+            'test.txt',
+            File::CHANGED,
             [
                 new Hunk(
                     1,
                     1,
-                    0,
-                    0,
+                    1,
+                    1,
                     "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '# My project', '')
+                        new Line(1, -1, Line::REMOVED, 'test', "\n"),
+                        new Line(-1, 1, Line::ADDED, 'edited', "\n")
                     ]
                 )
             ]

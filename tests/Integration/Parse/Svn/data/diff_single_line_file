@@ -1,0 +1,7 @@
+Index: test.txt
+===================================================================
+--- test.txt	(revision 2)
++++ test.txt	(revision 3)
+@@ -1 +1 @@
+-test
++edited

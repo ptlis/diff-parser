@@ -16,13 +16,12 @@ final class Token
     public const ORIGINAL_FILENAME = 'original_filename';
     public const NEW_FILENAME = 'new_filename';
 
-    public const FILE_DELETION_LINE_COUNT = 'file_deletion';
-    public const FILE_CREATION_LINE_COUNT = 'file_creation';
-
     public const HUNK_ORIGINAL_START = 'hunk_original_start';
     public const HUNK_ORIGINAL_COUNT = 'hunk_original_count';
+    public const HUNK_ORIGINAL_ONE_LINE = 'hunk_original_one_line';
     public const HUNK_NEW_START = 'hunk_new_start';
     public const HUNK_NEW_COUNT = 'hunk_new_count';
+    public const HUNK_NEW_ONE_LINE = 'hunk_new_one_line';
 
     public const SOURCE_LINE_ADDED = 'source_line_added';
     public const SOURCE_LINE_REMOVED = 'source_line_removed';

@@ -170,34 +170,27 @@ final class UnifiedDiffParser
      */
     private function getHunkMeta(array $hunkTokenList): array
     {
-        switch (true) {
-            case Token::FILE_DELETION_LINE_COUNT === $hunkTokenList[0]->getType():
-                $originalStart = 1;
-                $originalCount = intval($hunkTokenList[0]->getValue());
-                $newStart = intval($hunkTokenList[1]->getValue());
-                $newCount = intval($hunkTokenList[2]->getValue());
-                $metaDelimiter = $hunkTokenList[2]->getLineDelimiter();
-                $tokensReadCount = 3;
-                break;
+        $i = 0;
 
-            case Token::FILE_CREATION_LINE_COUNT === $hunkTokenList[2]->getType():
-                $originalStart = intval($hunkTokenList[0]->getValue());
-                $originalCount = intval($hunkTokenList[1]->getValue());
-                $newStart = 1;
-                $newCount = intval($hunkTokenList[2]->getValue());
-                $metaDelimiter = $hunkTokenList[2]->getLineDelimiter();
-                $tokensReadCount = 3;
-                break;
-
-            default:
-                $originalStart = intval($hunkTokenList[0]->getValue());
-                $originalCount = intval($hunkTokenList[1]->getValue());
-                $newStart = intval($hunkTokenList[2]->getValue());
-                $newCount = intval($hunkTokenList[3]->getValue());
-                $metaDelimiter = $hunkTokenList[3]->getLineDelimiter();
-                $tokensReadCount = 4;
-                break;
+        if (Token::HUNK_ORIGINAL_ONE_LINE === $hunkTokenList[$i]->getType()) {
+            $originalStart = 1;
+            $originalCount = 1;
+            $i++;
+        } else {
+            $originalStart = intval($hunkTokenList[$i++]->getValue());
+            $originalCount = intval($hunkTokenList[$i++]->getValue());
         }
+
+        if (Token::HUNK_NEW_ONE_LINE === $hunkTokenList[$i]->getType()) {
+            $newStart = 1;
+            $newCount = 1;
+            $i++;
+        } else {
+            $newStart = intval($hunkTokenList[$i++]->getValue());
+            $newCount = intval($hunkTokenList[$i++]->getValue());
+        }
+        $metaDelimiter = $hunkTokenList[$i-1]->getLineDelimiter();
+        $tokensReadCount = $i;
 
         return [
             $originalStart,
@@ -229,7 +222,7 @@ final class UnifiedDiffParser
     private function hunkStart(Token $token): bool
     {
         return Token::HUNK_ORIGINAL_START === $token->getType()
-            || Token::FILE_DELETION_LINE_COUNT === $token->getType();
+            || Token::HUNK_ORIGINAL_ONE_LINE === $token->getType();
     }
 
     /**
@@ -258,15 +251,13 @@ final class UnifiedDiffParser
     private function getFileOperation(array $fileTokenList): string
     {
         $operation = File::CHANGED;
-        if (
-            Token::FILE_CREATION_LINE_COUNT === $fileTokenList[4]->getType()
-            || ("0" === $fileTokenList[2]->getValue() && ("0" === $fileTokenList[2]->getValue()))
-        ) {
+        while (!$this->hunkStart($fileTokenList[0])) {
+            array_shift($fileTokenList);
+        }
+        $meta = $this->getHunkMeta($fileTokenList);
+        if (0 === $meta[0] && 0 === $meta[1]) {
             $operation = File::CREATED;
-        } else if (
-            Token::FILE_DELETION_LINE_COUNT === $fileTokenList[2]->getType()
-            || ("0" === $fileTokenList[4]->getValue() && ("0" === $fileTokenList[5]->getValue()))
-        ) {
+        } elseif (0 === $meta[2] && 0 === $meta[3]) {
             $operation = File::DELETED;
         }
 
