@@ -72,7 +72,7 @@ The tree built to store changesets is very simple, in essence:
 
 #### Changeset
 
-The Changeset class provides a single method to retrieve a list of files that have changed:
+From a Changeset you get an array of files that have changed:
 
 ```php
 $files = $changeset->files;  // Array of ptlis\DiffParser\File instances.
