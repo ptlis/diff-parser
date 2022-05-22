@@ -5,7 +5,7 @@ A parser for unified diff files, returning a hydrated object graph.
 Uses __toString() to serialize back into unified diff format.
 
 
-[![Build Status](https://api.travis-ci.com/ptlis/diff-parser.svg?branch=master)](https://app.travis-ci.com/github/ptlis/diff-parser) [![Latest Stable Version](https://poser.pugx.org/ptlis/diff-parser/v/stable.png)](https://packagist.org/packages/ptlis/diff-parser)
+[![Build Status](https://api.travis-ci.com/ptlis/diff-parser.svg?branch=master)](https://app.travis-ci.com/github/ptlis/diff-parser) [![codecov](https://codecov.io/gh/ptlis/diff-parser/branch/master/graph/badge.svg?token=r8NgjZyVVL)](https://codecov.io/gh/ptlis/diff-parser) [![Latest Stable Version](https://poser.pugx.org/ptlis/diff-parser/v/stable.png)](https://packagist.org/packages/ptlis/diff-parser)
 
 
 
