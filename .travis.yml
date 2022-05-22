@@ -23,8 +23,8 @@ before_script:
     - composer install
 
 script:
-    - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.clover
+    - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml
     - ./vendor/bin/phpstan analyze --level=9 src/ tests/
 after_script:
-    - wget https://scrutinizer-ci.com/ocular.phar
-    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    - curl -Os https://uploader.codecov.io/latest/linux/codecov
+    - ./codecov
