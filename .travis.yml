@@ -27,4 +27,5 @@ script:
     - ./vendor/bin/phpstan analyze --level=9 src/ tests/
 after_script:
     - curl -Os https://uploader.codecov.io/latest/linux/codecov
+    - chmod +x codecov
     - ./codecov
