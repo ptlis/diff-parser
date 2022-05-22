@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /** *
  * @copyright (c) 2014-present brian ridley
@@ -13,28 +15,23 @@ namespace ptlis\DiffParser;
  */
 final class Changeset
 {
-    /** @var File[] Array of changed files in this diff. */
-    private $changedFileList;
-
-
     /**
-     * Constructor.
-     *
-     * @param File[] $changedFileList
+     * @param array<File> $files Array of changed files in this diff.
      */
-    public function __construct(array $changedFileList)
-    {
-        $this->changedFileList = $changedFileList;
+    public function __construct(
+        public readonly array $files
+    ) {
     }
 
     /**
      * Get an array of changed files.
      *
-     * @return File[]
+     * @deprecated This data should be accessed via the $changedFileList property.
+     * @return array<File>
      */
     public function getFiles(): array
     {
-        return $this->changedFileList;
+        return $this->files;
     }
 
     /**
@@ -42,6 +39,6 @@ final class Changeset
      */
     public function __toString(): string
     {
-        return implode(PHP_EOL, $this->changedFileList);
+        return \implode(PHP_EOL, $this->files);
     }
 }

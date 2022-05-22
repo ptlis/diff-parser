@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -19,18 +21,18 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(94, count($tokenList));
+        $this->assertCount(94, $tokenList);
     }
 
     public function testFirstFile(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -56,7 +58,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -80,7 +82,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -111,7 +113,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -134,7 +136,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -159,7 +161,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -184,7 +186,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new SvnDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 

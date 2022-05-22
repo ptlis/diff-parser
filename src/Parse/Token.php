@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -28,45 +30,15 @@ final class Token
     public const SOURCE_LINE_UNCHANGED = 'source_line_unchanged';
     public const SOURCE_NO_NEWLINE_EOF = 'source_no_newline_eof';
 
-
-    /** @var string One of class constants */
-    private $type;
-
-    /** @var string The raw value. */
-    private $value;
-
-    /** @var string */
-    private $lineDelimiter;
-
-
-    public function __construct(string $type, string $value, string $lineDelimiter)
-    {
-        $this->type = $type;
-        $this->value = $value;
-        $this->lineDelimiter = $lineDelimiter;
-    }
-
     /**
-     * The token type, should be one of the class constants.
+     * @param string $type The token type, one of class constants.
+     * @param string $value The raw token value.
+     * @param string $lineTerminator
      */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * Get the raw value.
-     */
-    public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * Get the line delimiter (if present)
-     */
-    public function getLineDelimiter(): string
-    {
-        return $this->lineDelimiter;
+    public function __construct(
+        public readonly string $type,
+        public readonly string $value,
+        public readonly string $lineTerminator
+    ) {
     }
 }

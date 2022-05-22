@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -13,7 +15,7 @@ namespace ptlis\DiffParser\Parse;
  */
 final class SvnDiffNormalizer implements DiffNormalizerInterface
 {
-    const FILENAME_REGEX = '/^
+    public const FILENAME_REGEX = '/^
             (?:(?:\+){3}|(?:\-){3}) # +++ or ---
             \s
             (?<filename>.*)         # the filename
@@ -31,8 +33,8 @@ final class SvnDiffNormalizer implements DiffNormalizerInterface
     public function getFilename(RawDiffLine $fileStartLine): string
     {
         // In case of parse error fall back to returning the line minus the plus or minus symbols.
-        if (!preg_match(static::FILENAME_REGEX, $fileStartLine->getContent(), $matches)) {
-            return substr($fileStartLine->getContent(), 4);
+        if (!\preg_match(self::FILENAME_REGEX, $fileStartLine->content, $matches)) {
+            return \substr($fileStartLine->content, 4);
         }
 
         return $matches['filename'];

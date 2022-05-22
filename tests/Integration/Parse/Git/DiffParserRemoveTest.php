@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -6,9 +8,10 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Integration\Test\Parse\Git;
+namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
 use PHPUnit\Framework\TestCase;
+use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
@@ -26,12 +29,12 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_remove');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_remove');
 
         $diff = $parser->parse($data);
 
-        $this->assertInstanceOf('ptlis\DiffParser\Changeset', $diff);
-        $this->assertEquals(1, count($diff->getFiles()));
+        $this->assertInstanceOf(Changeset::class, $diff);
+        $this->assertCount(1, $diff->files);
     }
 
     public function testFileRemove(): void
@@ -42,12 +45,12 @@ final class DiffParserRemoveTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_remove');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_remove');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             'README.md',

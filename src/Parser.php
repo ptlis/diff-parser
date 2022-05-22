@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -30,17 +32,18 @@ final class Parser
     }
 
     /**
-     * Accepts an filename for a diff & returns a Changeset instance.
+     * Accepts a path to a patch file & returns a Changeset instance.
      */
     public function parseFile(string $filename, string $vcsType = ''): Changeset
     {
-        if (!file_exists($filename)) {
+        try {
+            $fileContents = (string)\file_get_contents($filename);
+        } catch (\Throwable) {
             throw new \RuntimeException(
                 'File "' . $filename . '" not found.'
             );
         }
-
-        return $this->parse(file_get_contents($filename), $vcsType);
+        return $this->parse($fileContents, $vcsType);
     }
 
     /**

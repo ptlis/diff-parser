@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -13,60 +15,52 @@ namespace ptlis\DiffParser;
  */
 final class Line
 {
-    const ADDED = 'added';
-    const REMOVED = 'removed';
-    const UNCHANGED = 'unchanged';
+    public const ADDED = 'added';
+    public const REMOVED = 'removed';
+    public const UNCHANGED = 'unchanged';
 
-    const LINE_NOT_PRESENT = -1;
+    public const LINE_NOT_PRESENT = -1;
 
-    /** @var int The original line number (before change applied), -1 if not present. */
-    private $originalLineNo;
-
-    /** @var int The new line number (after change applied), -1 if not present. */
-    private $newLineNo;
-
-    /** @var string The operation performed on this line (one of class constants). */
-    private $operation;
-
-    /** @var string The value of this line. */
-    private $content;
-
-    /** @var string The line delimiter (e.g. newline, carriage return & newline, empty string) */
-    private $lineDelimiter;
-
-
+    /**
+     * @param int $originalLineNo The original line number (before change applied), -1 if not present.
+     * @param int $newLineNo The new line number (after change applied), -1 if not present.
+     * @param string $operation The operation performed on this line (one of class constants).
+     * @param string $content The contents of this line.
+     * @param string $terminator The line terminator (e.g. newline, carriage return & newline, empty string).
+     */
     public function __construct(
-        int $originalLineNo,
-        int $newLineNo,
-        string $operation,
-        string $content,
-        string $lineDelimiter
+        public readonly int $originalLineNo,
+        public readonly int $newLineNo,
+        public readonly string $operation,
+        public readonly string $content,
+        public readonly string $terminator
     ) {
-        $this->originalLineNo = $originalLineNo;
-        $this->newLineNo = $newLineNo;
-        $this->operation = $operation;
-        $this->content = $content;
-        $this->lineDelimiter = $lineDelimiter;
     }
 
     /**
      * Get the original line number (before change applied), -1 if not present.
+     *
+     * @deprecated This data should be accessed via the $originalLineNo property.
      */
     public function getOriginalLineNo(): int
     {
-        return intval($this->originalLineNo);
+        return $this->originalLineNo;
     }
 
     /**
      * Get the new line number (after change applied), -1 if not present.
+     *
+     * @deprecated This data should be accessed via the $newLineNo property.
      */
     public function getNewLineNo(): int
     {
-        return intval($this->newLineNo);
+        return $this->newLineNo;
     }
 
     /**
      * Get the operation performed (one of class constants).
+     *
+     * @deprecated This data should be accessed via the $operation property.
      */
     public function getOperation(): string
     {
@@ -75,18 +69,22 @@ final class Line
 
     /**
      * Get the content of the line.
+     *
+     * @deprecated This data should be accessed via the $content property.
      */
     public function getContent(): string
     {
-        return strval($this->content);
+        return $this->content;
     }
 
     /**
-     * @return string
+     * Get the line terminator (e.g. newline, carriage return & newline, empty string).
+     *
+     * @deprecated This data should be accessed via the $terminator property.
      */
     public function getLineDelimiter(): string
     {
-        return $this->lineDelimiter;
+        return $this->terminator;
     }
 
     /**
@@ -94,24 +92,18 @@ final class Line
      */
     public function __toString(): string
     {
-        switch ($this->operation) {
-            case self::ADDED:
-                $string = '+';
-                break;
-            case self::REMOVED:
-                $string = '-';
-                break;
-            default:
-                $string = ' ';
-                break;
+        $line = match ($this->operation) {
+            self::ADDED => '+',
+            self::REMOVED => '-',
+            default => ' ',
+        };
+
+        $line .= $this->content . $this->terminator;
+
+        if ('' === $this->terminator) {
+            $line .= PHP_EOL . '\ No newline at end of file' . PHP_EOL;
         }
 
-        $string .= $this->content . $this->getLineDelimiter();
-
-        if ('' === $this->getLineDelimiter()) {
-            $string .= PHP_EOL . '\ No newline at end of file' . PHP_EOL;
-        }
-
-        return $string;
+        return $line;
     }
 }

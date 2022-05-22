@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -17,19 +19,6 @@ use ptlis\DiffParser\Line;
  */
 final class HunkTest extends TestCase
 {
-    /** @var Hunk */
-    private $hunk;
-
-    /** @var Hunk */
-    private $hunkNoNewlineEof;
-
-
-    protected function setUp(): void
-    {
-        $this->hunk = $this->buildHunk(true);
-        $this->hunkNoNewlineEof = $this->buildHunk(false);
-    }
-
     private function buildHunk(bool $hasNewlineEof): Hunk
     {
         return new Hunk(
@@ -101,6 +90,8 @@ final class HunkTest extends TestCase
 
     public function testHunk(): void
     {
+        $hunk = $this->buildHunk(true);
+
         $hunkString = implode(
             PHP_EOL,
             [
@@ -117,15 +108,18 @@ final class HunkTest extends TestCase
             ]
         );
 
-        $this->assertEquals($hunkString, $this->hunk->__toString());
-        $this->assertEquals(3, $this->hunk->getOriginalStart());
-        $this->assertEquals(7, $this->hunk->getOriginalCount());
-        $this->assertEquals(4, $this->hunk->getNewStart());
-        $this->assertEquals(6, $this->hunk->getNewCount());
+        $this->assertEquals($hunkString, $hunk->__toString());
+        $this->assertEquals(3, $hunk->originalStart);
+        $this->assertEquals(7, $hunk->originalCount);
+        $this->assertEquals(4, $hunk->newStart);
+        $this->assertEquals(6, $hunk->newCount);
+        $this->assertOldMethodsReturnSameValuesAsProperties($hunk);
     }
 
     public function testHunkNoNewlineEof(): void
     {
+        $hunk = $this->buildHunk(false);
+
         $hunkString = implode(
             PHP_EOL,
             [
@@ -143,10 +137,20 @@ final class HunkTest extends TestCase
             ]
         );
 
-        $this->assertEquals($hunkString, $this->hunkNoNewlineEof->__toString());
-        $this->assertEquals(3, $this->hunkNoNewlineEof->getOriginalStart());
-        $this->assertEquals(7, $this->hunkNoNewlineEof->getOriginalCount());
-        $this->assertEquals(4, $this->hunkNoNewlineEof->getNewStart());
-        $this->assertEquals(6, $this->hunkNoNewlineEof->getNewCount());
+        $this->assertEquals($hunkString, $hunk->__toString());
+        $this->assertEquals(3, $hunk->originalStart);
+        $this->assertEquals(7, $hunk->originalCount);
+        $this->assertEquals(4, $hunk->newStart);
+        $this->assertEquals(6, $hunk->newCount);
+        $this->assertOldMethodsReturnSameValuesAsProperties($hunk);
+    }
+
+    private function assertOldMethodsReturnSameValuesAsProperties(Hunk $hunk): void
+    {
+        $this->assertTrue($hunk->lines === $hunk->getLines());
+        $this->assertTrue($hunk->originalStart === $hunk->getOriginalStart());
+        $this->assertTrue($hunk->originalCount === $hunk->getOriginalCount());
+        $this->assertTrue($hunk->newStart === $hunk->getNewStart());
+        $this->assertTrue($hunk->newCount === $hunk->getNewCount());
     }
 }

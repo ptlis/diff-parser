@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -19,18 +21,18 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(94, count($tokenList));
+        $this->assertCount(94, $tokenList);
     }
 
     public function testFirstFile(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -56,7 +58,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -80,7 +82,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -111,7 +113,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -134,7 +136,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -159,7 +161,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -184,7 +186,7 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $tokenList = $tokenizer->tokenize($data);
 
@@ -206,11 +208,11 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff_new_no_newline_at_end_of_file');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_new_no_newline_at_end_of_file');
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(14, count($tokenList));
+        $this->assertCount(14, $tokenList);
 
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'file.php', "\n"), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'file.php', "\n"), $tokenList[1]);
@@ -234,11 +236,11 @@ final class DiffTokenizerTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff_original_no_newline_at_end_of_file');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_original_no_newline_at_end_of_file');
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(14, count($tokenList));
+        $this->assertCount(14, $tokenList);
 
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'file.php', "\n"), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'file.php', "\n"), $tokenList[1]);

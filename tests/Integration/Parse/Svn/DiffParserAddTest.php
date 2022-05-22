@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -9,6 +11,7 @@
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
 use PHPUnit\Framework\TestCase;
+use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
@@ -26,12 +29,12 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_add_single_line');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_add_single_line');
 
         $diff = $parser->parse($data);
 
-        $this->assertInstanceOf('ptlis\DiffParser\Changeset', $diff);
-        $this->assertEquals(1, count($diff->getFiles()));
+        $this->assertInstanceOf(Changeset::class, $diff);
+        $this->assertCount(1, $diff->files);
     }
 
     public function testFileAddSingleLinePre19(): void
@@ -42,12 +45,12 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_add_single_line');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_add_single_line');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             'README.md',
@@ -78,12 +81,12 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_add_1.9');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_add_1.9');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             '',
@@ -116,12 +119,12 @@ final class DiffParserAddTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_add_multi_line');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_add_multi_line');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             'modules/dPcompteRendu/controllers/do_add_doc_object.php',

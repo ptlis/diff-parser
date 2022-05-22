@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -6,9 +8,10 @@
  * @license http://opensource.org/licenses/MIT MIT
  */
 
-namespace ptlis\DiffParser\Integration\Test\Parse\Git;
+namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
 use PHPUnit\Framework\TestCase;
+use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
@@ -26,12 +29,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $diff = $parser->parse($data);
 
-        $this->assertInstanceOf('ptlis\DiffParser\Changeset', $diff);
-        $this->assertEquals(5, count($diff->getFiles()));
+        $this->assertInstanceOf(Changeset::class, $diff);
+        $this->assertCount(5, $diff->files);
     }
 
     public function testFirstFile(): void
@@ -42,12 +45,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             'README.md',
@@ -85,12 +88,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(1, count($fileList[1]->getHunks()));
+        $this->assertCount(1, $fileList[1]->hunks);
 
         $file = new File(
             'build/phpmd.xml',
@@ -126,12 +129,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(2, count($fileList[2]->getHunks()));
+        $this->assertCount(2, $fileList[2]->hunks);
 
         $file = new File(
             'src/Svn/SvnVcs.php',
@@ -191,12 +194,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(1, count($fileList[3]->getHunks()));
+        $this->assertCount(1, $fileList[3]->hunks);
 
         $file = new File(
             'tests/RepositoryConfigTest.php',
@@ -233,12 +236,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff');
 
         $diff = $parser->parse($data);
-        $fileList = $diff->getFiles();
+        $fileList = $diff->files;
 
-        $this->assertEquals(2, count($fileList[4]->getHunks()));
+        $this->assertCount(2, $fileList[4]->hunks);
 
         $file = new File(
             'tests/Vcs/Git/ChangeBranchTest.php',
@@ -291,12 +294,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_new_no_newline_at_end_of_file');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_new_no_newline_at_end_of_file');
 
         $changeset = $parser->parse($data);
 
-        $fileList = $changeset->getFiles();
-        $this->assertEquals(1, count($fileList));
+        $fileList = $changeset->files;
+        $this->assertCount(1, $fileList);
 
         $file = new File(
             'file.php',
@@ -322,7 +325,7 @@ final class DiffParserTest extends TestCase
             ]
         );
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $this->assertEquals($file, $fileList[0]);
     }
@@ -335,12 +338,12 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_original_no_newline_at_end_of_file');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_original_no_newline_at_end_of_file');
 
         $changeset = $parser->parse($data);
 
-        $fileList = $changeset->getFiles();
-        $this->assertEquals(1, count($fileList));
+        $fileList = $changeset->files;
+        $this->assertCount(1, $fileList);
 
         $file = new File(
             'file.php',
@@ -366,7 +369,7 @@ final class DiffParserTest extends TestCase
             ]
         );
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $this->assertEquals($file, $fileList[0]);
     }
@@ -383,8 +386,8 @@ final class DiffParserTest extends TestCase
             )
         );
 
-        $prefixedData = file_get_contents(__DIR__ . '/data/diff_prefixed');
-        $unprefixedData = file_get_contents(__DIR__ . '/data/diff_unprefixed');
+        $prefixedData = (string)\file_get_contents(__DIR__ . '/data/diff_prefixed');
+        $unprefixedData = (string)\file_get_contents(__DIR__ . '/data/diff_unprefixed');
 
         $prefixedChangeset = $parser->parse($prefixedData);
         $unprefixedChangeset = $parser->parse($unprefixedData);

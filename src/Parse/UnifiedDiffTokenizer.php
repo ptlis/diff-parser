@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -18,8 +20,8 @@ final class UnifiedDiffTokenizer
     /**
      * Regex used to determine if the current line is a hunk start.
      *
-     * The are four tokens encoded in one line; start line number of change (original & new) and number of lines changed
-     * (original & new).
+     * There are four tokens encoded in one line; start line number of change (original & new) and number of lines
+     *  changed (original & new).
      */
     private const HUNK_START_REGEX = "
         /^@@\s
@@ -45,13 +47,9 @@ final class UnifiedDiffTokenizer
         \s@@/x
     ";
 
-    /** @var DiffNormalizerInterface */
-    private $diffNormalizer;
-
-
-    public function __construct(DiffNormalizerInterface $diffNormalizer)
-    {
-        $this->diffNormalizer = $diffNormalizer;
+    public function __construct(
+        private readonly DiffNormalizerInterface $diffNormalizer
+    ) {
     }
 
     /**
@@ -59,7 +57,7 @@ final class UnifiedDiffTokenizer
      *
      * @param string $patchFile
      *
-     * @return Token[]
+     * @return array<Token>
      */
     public function tokenize(string $patchFile): array
     {
@@ -68,14 +66,14 @@ final class UnifiedDiffTokenizer
         $tokenList = [];
         $hasStarted = false;
 
-        $lineCount = count($diffLineList);
+        $lineCount = \count($diffLineList);
         for ($i = 0; $i < $lineCount; $i++) {
 
             // First line of a file
             if ($this->isFileStart($diffLineList, $i)) {
                 $hasStarted = true;
 
-                $tokenList = array_merge(
+                $tokenList = \array_merge(
                     $tokenList,
                     $this->getFilenameTokens($diffLineList, $i)
                 );
@@ -84,10 +82,9 @@ final class UnifiedDiffTokenizer
 
             // Only proceed once a file beginning has been found
             } elseif ($hasStarted) {
-                $tokenList = array_merge(
-                    $tokenList,
-                    $this->getHunkTokens($diffLineList, $i)
-                );
+                [$hunkTokens, $i] = $this->getHunkTokens($diffLineList, $i);
+
+                $tokenList = \array_merge($tokenList, $hunkTokens);
             }
         }
 
@@ -98,21 +95,21 @@ final class UnifiedDiffTokenizer
      * Splits a patch file by line delimiter (\n, \r or \r\n), returning an array of RawDiffLine instances.
      *
      * @param string $patchFile
-     * @return RawDiffLine[]
+     * @return array<RawDiffLine>
      */
     private function splitFile(string $patchFile): array
     {
         // Split with regex, tracking new line delimiter
-        $diffLineList = preg_split('/(\r\n|\r|\n)/', $patchFile, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $diffLineList = (array)\preg_split('/(\r\n|\r|\n)/', $patchFile, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-        // Remove empty strings from end of file (it's a side-effect of above method of splitting file into lines and
-        // we don't want to remove all empty elements via PREG_SPLIT_NO_EMPTY)
-        if ('' === $diffLineList[count($diffLineList) - 1]) {
-            array_pop($diffLineList);
+        // Remove empty strings from end of file (it's a side effect of above method of splitting file into lines, and
+        //  we don't want to remove all empty elements via PREG_SPLIT_NO_EMPTY)
+        if ('' === $diffLineList[\count($diffLineList) - 1]) {
+            \array_pop($diffLineList);
         }
 
         $rawLineList = [];
-        $lineCount = count($diffLineList);
+        $lineCount = \count($diffLineList);
         for ($i = 0; $i + 1 < $lineCount; $i += 2) {
             $rawLineList[] = new RawDiffLine($diffLineList[$i], $diffLineList[$i + 1]);
         }
@@ -128,14 +125,14 @@ final class UnifiedDiffTokenizer
     /**
      * Process a hunk.
      *
-     * @param RawDiffLine[] $diffLineList
+     * @param array<RawDiffLine> $diffLineList
      * @param int $currentLine
      *
-     * @return Token[]
+     * @return array{array<Token>, int}
      */
     private function getHunkTokens(
         array $diffLineList,
-        int &$currentLine
+        int $currentLine
     ): array {
         $tokenList = [];
         $hunkStartTokens = $this->getHunkStartTokens($diffLineList[$currentLine]);
@@ -150,7 +147,7 @@ final class UnifiedDiffTokenizer
             $unchangedCount = 0;
 
             // Iterate until we have the correct number of original & new lines
-            $lineCount = count($diffLineList);
+            $lineCount = \count($diffLineList);
             for ($i = $currentLine; $i < $lineCount; $i++) {
                 $tokenList[] = $this->getHunkLineToken(
                     $addedCount,
@@ -165,7 +162,7 @@ final class UnifiedDiffTokenizer
                     && $addedCount + $unchangedCount === $newLineCount
                 ) {
                     // Check for trailing 'No newline at end of file'
-                    if ($i < $lineCount - 1 && self::NO_NEWLINE_MARKER === $diffLineList[$i + 1]->getContent()) {
+                    if ($i < $lineCount - 1 && self::NO_NEWLINE_MARKER === $diffLineList[$i + 1]->content) {
                         $tokenList[] = new Token(Token::SOURCE_NO_NEWLINE_EOF, self::NO_NEWLINE_MARKER, '');
                     }
                     break;
@@ -173,40 +170,43 @@ final class UnifiedDiffTokenizer
             }
         }
 
-        return array_merge($hunkStartTokens, $tokenList);
+        return [
+            \array_merge($hunkStartTokens, $tokenList),
+            $currentLine
+        ];
     }
 
     /**
-     * @param Token[] $hunkTokens
+     * @param array<Token> $hunkTokens
      * @return bool
      */
     private function isHunkStart(array $hunkTokens): bool
     {
         return (
-            count($hunkTokens)
+            \count($hunkTokens)
             && (
-                Token::HUNK_ORIGINAL_START === $hunkTokens[0]->getType()
-                || Token::HUNK_ORIGINAL_ONE_LINE === $hunkTokens[0]->getType()
+                Token::HUNK_ORIGINAL_START === $hunkTokens[0]->type
+                || Token::HUNK_ORIGINAL_ONE_LINE === $hunkTokens[0]->type
             )
         );
     }
 
     /**
-     * @param Token[] $hunkTokens
-     * @return int[]
+     * @param array<Token> $hunkTokens
+     * @return array<int>
      */
     private function getHunkLineCounts(array $hunkTokens): array
     {
         $originalLineCount = 0;
         $newLineCount = 0;
         foreach ($hunkTokens as $token) {
-            if (Token::HUNK_ORIGINAL_COUNT === $token->getType()) {
-                $originalLineCount = (int)$token->getValue();
-            } elseif (Token::HUNK_ORIGINAL_ONE_LINE === $token->getType()) {
+            if (Token::HUNK_ORIGINAL_COUNT === $token->type) {
+                $originalLineCount = \intval($token->value);
+            } elseif (Token::HUNK_ORIGINAL_ONE_LINE === $token->type) {
                 $originalLineCount = 1;
-            } elseif (Token::HUNK_NEW_COUNT === $token->getType()) {
-                $newLineCount = (int)$token->getValue();
-            } elseif (Token::HUNK_NEW_ONE_LINE === $token->getType()) {
+            } elseif (Token::HUNK_NEW_COUNT === $token->type) {
+                $newLineCount = \intval($token->value);
+            } elseif (Token::HUNK_NEW_ONE_LINE === $token->type) {
                 $newLineCount = 1;
             }
         }
@@ -217,16 +217,18 @@ final class UnifiedDiffTokenizer
     /**
      * Returns true if the current line is the beginning of a file section.
      *
-     * @param RawDiffLine[] $diffLineList
+     * @param array<RawDiffLine> $diffLineList
      * @param int $currentLine
      *
      * @return bool
      */
     private function isFileStart(array $diffLineList, int $currentLine): bool
     {
-        return $currentLine + 1 < count($diffLineList)
-            && '---' === substr($diffLineList[$currentLine]->getContent(), 0, 3)
-            && '+++' === substr($diffLineList[$currentLine + 1]->getContent(), 0, 3);
+        return (
+            $currentLine + 1 < \count($diffLineList)
+            && \str_starts_with($diffLineList[$currentLine]->content, '---')
+            && \str_starts_with($diffLineList[$currentLine + 1]->content, '+++')
+        );
     }
 
     /**
@@ -234,13 +236,13 @@ final class UnifiedDiffTokenizer
      *
      * @param RawDiffLine $diffLine
      *
-     * @return Token[]
+     * @return array<Token>
      */
     private function getHunkStartTokens(RawDiffLine $diffLine): array
     {
         $tokenList = [];
 
-        if (preg_match(self::HUNK_START_REGEX, $diffLine->getContent(), $matches)) {
+        if (\preg_match(self::HUNK_START_REGEX, $diffLine->content, $matches)) {
             if ($this->hasToken($matches, Token::HUNK_ORIGINAL_ONE_LINE)) {
                 $tokenList[] = new Token(Token::HUNK_ORIGINAL_ONE_LINE, '1', '');
             } else {
@@ -248,10 +250,10 @@ final class UnifiedDiffTokenizer
                 $tokenList[] = new Token(Token::HUNK_ORIGINAL_COUNT, $matches[Token::HUNK_ORIGINAL_COUNT], '');
             }
             if ($this->hasToken($matches, Token::HUNK_NEW_ONE_LINE)) {
-                $tokenList[] = new Token(Token::HUNK_NEW_ONE_LINE, '1', $diffLine->getLineDelimiter());
+                $tokenList[] = new Token(Token::HUNK_NEW_ONE_LINE, '1', $diffLine->lineTerminator);
             } else {
                 $tokenList[] = new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START], '');
-                $tokenList[] = new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT], $diffLine->getLineDelimiter());
+                $tokenList[] = new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT], $diffLine->lineTerminator);
             }
         }
 
@@ -261,26 +263,26 @@ final class UnifiedDiffTokenizer
     /**
      * Get tokens for original & new filenames.
      *
-     * @param RawDiffLine[] $diffLineList
+     * @param array<RawDiffLine> $diffLineList
      * @param int $currentLine
      *
-     * @return Token[]
+     * @return array<Token>
      */
     private function getFilenameTokens(array $diffLineList, int $currentLine): array
     {
         $filenameTokens = [];
 
         // Get hunk metadata
-        $hunkTokens = $this->getHunkStartTokens($diffLineList[$currentLine+2]);
+        $hunkTokens = $this->getHunkStartTokens($diffLineList[$currentLine + 2]);
 
         // In some cases we may have a diff with no contents (e.g. diff of svn propedit)
-        if (count($hunkTokens)) {
+        if (\count($hunkTokens)) {
             $originalFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine]);
             $newFilename = $this->diffNormalizer->getFilename($diffLineList[$currentLine + 1]);
 
             $filenameTokens = [
-                new Token(Token::ORIGINAL_FILENAME, $originalFilename, $diffLineList[$currentLine]->getLineDelimiter()),
-                new Token(Token::NEW_FILENAME, $newFilename, $diffLineList[$currentLine + 1]->getLineDelimiter())
+                new Token(Token::ORIGINAL_FILENAME, $originalFilename, $diffLineList[$currentLine]->lineTerminator),
+                new Token(Token::NEW_FILENAME, $newFilename, $diffLineList[$currentLine + 1]->lineTerminator)
             ];
         }
 
@@ -298,30 +300,30 @@ final class UnifiedDiffTokenizer
     ): Token {
 
         // Line added
-        if ('+' === substr($diffLine->getContent(), 0, 1)) {
+        if (\str_starts_with($diffLine->content, '+')) {
             $tokenType = Token::SOURCE_LINE_ADDED;
-            $changedLine = $this->normalizeChangedLine($diffLine->getContent());
+            $changedLine = $this->normalizeChangedLine($diffLine->content);
             $addedCount++;
 
         // Line removed
-        } elseif ('-' === substr($diffLine->getContent(), 0, 1)) {
+        } elseif (\str_starts_with($diffLine->content, '-')) {
             $tokenType = Token::SOURCE_LINE_REMOVED;
-            $changedLine = $this->normalizeChangedLine($diffLine->getContent());
+            $changedLine = $this->normalizeChangedLine($diffLine->content);
             $removedCount++;
 
         // 'No newline at end of file'
-        } elseif (self::NO_NEWLINE_MARKER === $diffLine->getContent()) {
+        } elseif (self::NO_NEWLINE_MARKER === $diffLine->content) {
             $tokenType = Token::SOURCE_NO_NEWLINE_EOF;
-            $changedLine = $diffLine->getContent();
+            $changedLine = $diffLine->content;
 
         // Line unchanged
         } else {
             $tokenType = Token::SOURCE_LINE_UNCHANGED;
-            $changedLine = $this->normalizeChangedLine($diffLine->getContent());
+            $changedLine = $this->normalizeChangedLine($diffLine->content);
             $unchangedCount++;
         }
 
-        return new Token($tokenType, $changedLine, $diffLine->getLineDelimiter());
+        return new Token($tokenType, $changedLine, $diffLine->lineTerminator);
     }
 
     /**
@@ -337,13 +339,13 @@ final class UnifiedDiffTokenizer
     /**
      * Returns true if the token key was found in the list.
      *
-     * @param string[] $matchList
+     * @param array<string> $matchList
      * @param string $tokenKey
      *
      * @return bool
      */
     private function hasToken(array $matchList, string $tokenKey): bool
     {
-        return array_key_exists($tokenKey, $matchList) && strlen($matchList[$tokenKey]);
+        return \array_key_exists($tokenKey, $matchList) && \strlen($matchList[$tokenKey]);
     }
 }

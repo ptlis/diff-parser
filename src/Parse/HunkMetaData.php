@@ -10,13 +10,14 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Parse;
 
-/**
- * Represents a single line from a diff split by contents & terminator (\n, \r\n or \r).
- */
-final class RawDiffLine
+final class HunkMetaData
 {
     public function __construct(
-        public readonly string $content,
+        public readonly int $originalStart,
+        public readonly int $originalCount,
+        public readonly int $newStart,
+        public readonly int $newCount,
+        public readonly int $tokensReadCount,
         public readonly string $lineTerminator
     ) {
     }

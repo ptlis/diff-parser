@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -19,11 +21,11 @@ final class DiffTokenizerRemoveTest extends TestCase
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
-        $data = file_get_contents(__DIR__ . '/data/diff_remove');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_remove');
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(7, count($tokenList));
+        $this->assertCount(7, $tokenList);
 
         $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'README.md', "\n"), $tokenList[0]);
         $this->assertEquals(new Token(Token::NEW_FILENAME, '/dev/null', "\n"), $tokenList[1]);

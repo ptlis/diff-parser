@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -13,39 +15,28 @@ namespace ptlis\DiffParser;
  */
 final class File
 {
-    const CREATED = 'created';
-    const DELETED = 'deleted';
-    const CHANGED = 'changed';
-
-    /** @var string The original filename. */
-    private $originalFilename;
-
-    /** @var string The new filename. */
-    private $newFilename;
-
-    /** @var string The file operation, one of class constants. */
-    private $operation;
-
-    /** @var Hunk[] Array of hunks. */
-    private $hunkList;
-
+    public const CREATED = 'created';
+    public const DELETED = 'deleted';
+    public const CHANGED = 'changed';
 
     /**
-     * @param string $originalFilename
-     * @param string $newFilename
-     * @param string $operation One of class constants.
-     * @param Hunk[] $hunkList
+     * @param string $originalFilename The original filename.
+     * @param string $newFilename The new filename.
+     * @param string $operation The nature of the operation, one of class constants.
+     * @param array<Hunk> $hunks Array of hunks.
      */
-    public function __construct(string $originalFilename, string $newFilename, string $operation, array $hunkList)
-    {
-        $this->originalFilename = $originalFilename;
-        $this->newFilename = $newFilename;
-        $this->operation = $operation;
-        $this->hunkList = $hunkList;
+    public function __construct(
+        public readonly string $originalFilename,
+        public readonly string $newFilename,
+        public readonly string $operation,
+        public readonly array $hunks
+    ) {
     }
 
     /**
      * Get the original name of the file.
+     *
+     * @deprecated This data should be accessed via the $originalFilename property.
      */
     public function getOriginalFilename(): string
     {
@@ -54,6 +45,8 @@ final class File
 
     /**
      * Get the new name of the file.
+     *
+     * @deprecated This data should be accessed via the $newFilename property.
      */
     public function getNewFilename(): string
     {
@@ -62,6 +55,8 @@ final class File
 
     /**
      * Get the operation performed on the file (one of class constants).
+     *
+     * @deprecated This data should be accessed via the $operation property.
      */
     public function getOperation(): string
     {
@@ -71,11 +66,13 @@ final class File
     /**
      * Get an array of hunks for this file.
      *
-     * @return Hunk[]
+     * @deprecated This data should be accessed via the $hunkList property.
+     *
+     * @return array<Hunk>
      */
     public function getHunks(): array
     {
-        return $this->hunkList;
+        return $this->hunks;
     }
 
     /**
@@ -83,7 +80,7 @@ final class File
      */
     public function __toString(): string
     {
-        $filenames = implode(
+        $filenames = \implode(
             '',
             [
                 '--- ',
@@ -95,6 +92,6 @@ final class File
             ]
         );
 
-        return $filenames . implode('', $this->hunkList);
+        return $filenames . \implode('', $this->hunks);
     }
 }

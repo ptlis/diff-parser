@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -9,6 +11,7 @@
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
 use PHPUnit\Framework\TestCase;
+use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
@@ -23,11 +26,11 @@ final class DiffParserPropEditTest extends TestCase
             )
         );
 
-        $data = file_get_contents(__DIR__ . '/data/diff_propedit');
+        $data = (string)\file_get_contents(__DIR__ . '/data/diff_propedit');
 
         $diff = $parser->parse($data);
 
-        $this->assertInstanceOf('ptlis\DiffParser\Changeset', $diff);
-        $this->assertEquals(0, count($diff->getFiles()));
+        $this->assertInstanceOf(Changeset::class, $diff);
+        $this->assertCount(0, $diff->files);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -26,9 +28,9 @@ final class ParserTest extends TestCase
         $parser = new Parser();
         $changeset = $parser->parseFile($filename, Parser::VCS_GIT);
 
-        $fileList = $changeset->getFiles();
+        $fileList = $changeset->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             '/dev/null',
@@ -58,9 +60,9 @@ final class ParserTest extends TestCase
         $parser = new Parser();
         $changeset = $parser->parseFile($filename, Parser::VCS_SVN);
 
-        $fileList = $changeset->getFiles();
+        $fileList = $changeset->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             'README.md',
@@ -90,9 +92,9 @@ final class ParserTest extends TestCase
         $parser = new Parser();
         $changeset = $parser->parseFile($filename);
 
-        $fileList = $changeset->getFiles();
+        $fileList = $changeset->files;
 
-        $this->assertEquals(1, count($fileList[0]->getHunks()));
+        $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
             '/dev/null',

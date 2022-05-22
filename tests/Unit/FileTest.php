@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -18,14 +20,7 @@ use ptlis\DiffParser\Line;
  */
 final class FileTest extends TestCase
 {
-    /** @var File */
-    private $file;
-
-    /** @var Hunk[] */
-    private $hunkList;
-
-
-    protected function setUp(): void
+    private function buildFile(): File
     {
         $lineList = [
             new Line(
@@ -86,7 +81,7 @@ final class FileTest extends TestCase
             )
         ];
 
-        $this->hunkList = [
+        $hunkList = [
             new Hunk(
                 3,
                 7,
@@ -97,16 +92,18 @@ final class FileTest extends TestCase
             )
         ];
 
-        $this->file = new File(
+        return new File(
             'README.md',
             'README.md',
             File::CHANGED,
-            $this->hunkList
+            $hunkList
         );
     }
 
-    public function testHunk(): void
+    public function testFile(): void
     {
+        $file = $this->buildFile();
+
         $fileString = implode(
             PHP_EOL,
             [
@@ -125,10 +122,19 @@ final class FileTest extends TestCase
             ]
         );
 
-        $this->assertEquals($fileString, $this->file->__toString());
-        $this->assertEquals('README.md', $this->file->getOriginalFilename());
-        $this->assertEquals('README.md', $this->file->getNewFilename());
-        $this->assertEquals(File::CHANGED, $this->file->getOperation());
-        $this->assertEquals($this->hunkList, $this->file->getHunks());
+        $this->assertEquals($fileString, $file->__toString());
+        $this->assertEquals('README.md', $file->originalFilename);
+        $this->assertEquals('README.md', $file->newFilename);
+        $this->assertEquals(File::CHANGED, $file->operation);
+        $this->assertCount(1, $file->hunks);
+        $this->assertOldMethodsReturnSameValuesAsProperties($file);
+    }
+
+    private function assertOldMethodsReturnSameValuesAsProperties(File $file): void
+    {
+        $this->assertTrue($file->originalFilename === $file->getOriginalFilename());
+        $this->assertTrue($file->newFilename === $file->getNewFilename());
+        $this->assertTrue($file->operation === $file->getOperation());
+        $this->assertTrue($file->hunks === $file->getHunks());
     }
 }

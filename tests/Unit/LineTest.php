@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -26,12 +28,13 @@ final class LineTest extends TestCase
             "\n"
         );
 
-        $this->assertEquals(5, $line->getOriginalLineNo());
-        $this->assertEquals(6, $line->getNewLineNo());
-        $this->assertEquals(Line::UNCHANGED, $line->getOperation());
-        $this->assertEquals('bob', $line->getContent());
-        $this->assertEquals("\n", $line->getLineDelimiter());
+        $this->assertEquals(5, $line->originalLineNo);
+        $this->assertEquals(6, $line->newLineNo);
+        $this->assertEquals(Line::UNCHANGED, $line->operation);
+        $this->assertEquals('bob', $line->content);
+        $this->assertEquals("\n", $line->terminator);
         $this->assertEquals(' bob' . "\n", $line->__toString());
+        $this->assertOldMethodsReturnSameValuesAsProperties($line);
     }
 
     public function testLineRemoved(): void
@@ -44,12 +47,13 @@ final class LineTest extends TestCase
             "\r\n"
         );
 
-        $this->assertEquals(9, $line->getOriginalLineNo());
-        $this->assertEquals(-1, $line->getNewLineNo());
-        $this->assertEquals(Line::REMOVED, $line->getOperation());
-        $this->assertEquals('some stuff', $line->getContent());
-        $this->assertEquals("\r\n", $line->getLineDelimiter());
+        $this->assertEquals(9, $line->originalLineNo);
+        $this->assertEquals(-1, $line->newLineNo);
+        $this->assertEquals(Line::REMOVED, $line->operation);
+        $this->assertEquals('some stuff', $line->content);
+        $this->assertEquals("\r\n", $line->terminator);
         $this->assertEquals('-some stuff' . "\r\n", $line->__toString());
+        $this->assertOldMethodsReturnSameValuesAsProperties($line);
     }
 
     public function testLineAdded(): void
@@ -62,12 +66,13 @@ final class LineTest extends TestCase
             "\r"
         );
 
-        $this->assertEquals(-1, $line->getOriginalLineNo());
-        $this->assertEquals(11, $line->getNewLineNo());
-        $this->assertEquals(Line::ADDED, $line->getOperation());
-        $this->assertEquals('really good comment', $line->getContent());
-        $this->assertEquals("\r", $line->getLineDelimiter());
+        $this->assertEquals(-1, $line->originalLineNo);
+        $this->assertEquals(11, $line->newLineNo);
+        $this->assertEquals(Line::ADDED, $line->operation);
+        $this->assertEquals('really good comment', $line->content);
+        $this->assertEquals("\r", $line->terminator);
         $this->assertEquals('+really good comment' . "\r", $line->__toString());
+        $this->assertOldMethodsReturnSameValuesAsProperties($line);
     }
 
     public function testNewlineOmitted(): void
@@ -80,11 +85,21 @@ final class LineTest extends TestCase
             ''
         );
 
-        $this->assertEquals(-1, $line->getOriginalLineNo());
-        $this->assertEquals(11, $line->getNewLineNo());
-        $this->assertEquals(Line::ADDED, $line->getOperation());
-        $this->assertEquals('really good comment', $line->getContent());
-        $this->assertEquals('', $line->getLineDelimiter());
+        $this->assertEquals(-1, $line->originalLineNo);
+        $this->assertEquals(11, $line->newLineNo);
+        $this->assertEquals(Line::ADDED, $line->operation);
+        $this->assertEquals('really good comment', $line->content);
+        $this->assertEquals('', $line->terminator);
         $this->assertEquals('+really good comment' . "\n" . '\ No newline at end of file' . "\n", $line->__toString());
+        $this->assertOldMethodsReturnSameValuesAsProperties($line);
+    }
+
+    private function assertOldMethodsReturnSameValuesAsProperties(Line $line): void
+    {
+        $this->assertTrue($line->originalLineNo === $line->getOriginalLineNo());
+        $this->assertTrue($line->newLineNo === $line->getNewLineNo());
+        $this->assertTrue($line->operation === $line->getOperation());
+        $this->assertTrue($line->content === $line->getContent());
+        $this->assertTrue($line->terminator === $line->getLineDelimiter());
     }
 }

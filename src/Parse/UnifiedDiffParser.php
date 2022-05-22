@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -11,7 +13,6 @@ namespace ptlis\DiffParser\Parse;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
-use ptlis\DiffParser\HunkMetaData;
 use ptlis\DiffParser\Line;
 
 /**
@@ -19,18 +20,9 @@ use ptlis\DiffParser\Line;
  */
 final class UnifiedDiffParser
 {
-    /** @var UnifiedDiffTokenizer */
-    private $tokenizer;
-
-
-    /**
-     * Constructor.
-     *
-     * @param UnifiedDiffTokenizer $tokenizer
-     */
-    public function __construct(UnifiedDiffTokenizer $tokenizer)
-    {
-        $this->tokenizer = $tokenizer;
+    public function __construct(
+        private readonly UnifiedDiffTokenizer $tokenizer
+    ) {
     }
 
     /**
@@ -46,17 +38,17 @@ final class UnifiedDiffParser
 
         $fileList = [];
         $startIndex = 0;
-        $tokenCount = count($tokenList);
+        $tokenCount = \count($tokenList);
         for ($i = 0; $i < $tokenCount; $i++) {
             // File begin
-            if (Token::ORIGINAL_FILENAME === $tokenList[$i]->getType()) {
+            if (Token::ORIGINAL_FILENAME === $tokenList[$i]->type) {
                 $startIndex = $i;
             }
 
             // File end, hydrate object
             if ($this->fileEnd($tokenList, $i + 1, Token::ORIGINAL_FILENAME)) {
                 $fileList[] = $this->parseFile(
-                    array_slice($tokenList, $startIndex, ($i - $startIndex) + 1)
+                    \array_slice($tokenList, $startIndex, ($i - $startIndex) + 1)
                 );
             }
         }
@@ -67,19 +59,19 @@ final class UnifiedDiffParser
     /**
      * Process the tokens for a single file, returning a File instance on success.
      *
-     * @param Token[] $fileTokenList
+     * @param array<Token> $fileTokenList
      *
      * @return File
      */
     private function parseFile(array $fileTokenList): File
     {
-        $originalName = $fileTokenList[0]->getValue();
-        $newName = $fileTokenList[1]->getValue();
+        $originalName = $fileTokenList[0]->value;
+        $newName = $fileTokenList[1]->value;
 
         $hunkList = [];
         $startIndex = 0;
 
-        $tokenCount = count($fileTokenList);
+        $tokenCount = \count($fileTokenList);
         for ($i = 2; $i < $tokenCount; $i++) {
             // Hunk begin
             if ($this->hunkStart($fileTokenList[$i])) {
@@ -87,15 +79,15 @@ final class UnifiedDiffParser
             }
 
             // End of file, hydrate object
-            if ($i === count($fileTokenList) - 1) {
+            if ($i === \count($fileTokenList) - 1) {
                 $hunkList[] = $this->parseHunk(
-                    array_slice($fileTokenList, $startIndex)
+                    \array_slice($fileTokenList, $startIndex)
                 );
 
             // End of hunk, hydrate object
             } elseif ($this->hunkStart($fileTokenList[$i + 1])) {
                 $hunkList[] = $this->parseHunk(
-                    array_slice($fileTokenList, $startIndex, $i - $startIndex + 1)
+                    \array_slice($fileTokenList, $startIndex, $i - $startIndex + 1)
                 );
             }
         }
@@ -111,7 +103,7 @@ final class UnifiedDiffParser
     /**
      * Parse out the contents of a hunk.
      *
-     * @param Token[] $hunkTokenList
+     * @param array<Token> $hunkTokenList
      *
      * @return Hunk
      */
@@ -122,24 +114,24 @@ final class UnifiedDiffParser
         $newLineNo = $meta->newStart;
         $lineList = [];
 
-        $tokenCount = count($hunkTokenList);
+        $tokenCount = \count($hunkTokenList);
         for ($i = $meta->tokensReadCount; $i < $tokenCount; $i++) {
             $currentToken = $hunkTokenList[$i];
             $operation = $this->mapLineOperation($currentToken);
-            $lineDelimiter = $currentToken->getLineDelimiter();
+            $lineTerminator = $currentToken->lineTerminator;
 
             // If the next line is a 'No newline at end of file' then set an empty line terminator & skip next line
-            if ($i + 1 <= $tokenCount - 1 && Token::SOURCE_NO_NEWLINE_EOF === $hunkTokenList[$i + 1]->getType()) {
-                $lineDelimiter = '';
+            if ($i + 1 <= $tokenCount - 1 && Token::SOURCE_NO_NEWLINE_EOF === $hunkTokenList[$i + 1]->type) {
+                $lineTerminator = '';
                 $i++;
             }
 
             $lineList[] = new Line(
-                (Line::ADDED) === $operation ? Line::LINE_NOT_PRESENT : $originalLineNo,
-                (Line::REMOVED) === $operation ? Line::LINE_NOT_PRESENT : $newLineNo,
+                Line::ADDED === $operation ? Line::LINE_NOT_PRESENT : $originalLineNo,
+                Line::REMOVED === $operation ? Line::LINE_NOT_PRESENT : $newLineNo,
                 $operation,
-                $currentToken->getValue(),
-                $lineDelimiter
+                $currentToken->value,
+                $lineTerminator
             );
 
             if (Line::ADDED === $operation) {
@@ -157,7 +149,7 @@ final class UnifiedDiffParser
             $meta->originalCount,
             $meta->newStart,
             $meta->newCount,
-            $meta->delimiter,
+            $meta->lineTerminator,
             $lineList
         );
     }
@@ -165,33 +157,31 @@ final class UnifiedDiffParser
     /**
      * Parse out hunk meta.
      *
-     * @param Token[] $hunkTokenList
+     * @param array<Token> $hunkTokenList
      *
      * @return HunkMetaData
      */
     private function getHunkMeta(array $hunkTokenList): HunkMetaData
     {
-        $i = 0;
+        $tokensReadCount = 0;
 
-        if (Token::HUNK_ORIGINAL_ONE_LINE === $hunkTokenList[$i]->getType()) {
+        if (Token::HUNK_ORIGINAL_ONE_LINE === $hunkTokenList[$tokensReadCount]->type) {
             $originalStart = 1;
             $originalCount = 1;
-            $i++;
+            $tokensReadCount++;
         } else {
-            $originalStart = intval($hunkTokenList[$i++]->getValue());
-            $originalCount = intval($hunkTokenList[$i++]->getValue());
+            $originalStart = \intval($hunkTokenList[$tokensReadCount++]->value);
+            $originalCount = \intval($hunkTokenList[$tokensReadCount++]->value);
         }
 
-        if (Token::HUNK_NEW_ONE_LINE === $hunkTokenList[$i]->getType()) {
+        if (Token::HUNK_NEW_ONE_LINE === $hunkTokenList[$tokensReadCount]->type) {
             $newStart = 1;
             $newCount = 1;
-            $i++;
+            $tokensReadCount++;
         } else {
-            $newStart = intval($hunkTokenList[$i++]->getValue());
-            $newCount = intval($hunkTokenList[$i++]->getValue());
+            $newStart = \intval($hunkTokenList[$tokensReadCount++]->value);
+            $newCount = \intval($hunkTokenList[$tokensReadCount++]->value);
         }
-        $metaDelimiter = $hunkTokenList[$i-1]->getLineDelimiter();
-        $tokensReadCount = $i;
 
         return new HunkMetaData(
             $originalStart,
@@ -199,14 +189,14 @@ final class UnifiedDiffParser
             $newStart,
             $newCount,
             $tokensReadCount,
-            $metaDelimiter
+            $hunkTokenList[$tokensReadCount-1]->lineTerminator
         );
     }
 
     /**
      * Determine if we're at the end of a 'section' of tokens.
      *
-     * @param Token[] $tokenList
+     * @param array<Token> $tokenList
      * @param int $nextLine
      * @param string $delimiterToken
      *
@@ -214,7 +204,7 @@ final class UnifiedDiffParser
      */
     private function fileEnd(array $tokenList, int $nextLine, string $delimiterToken): bool
     {
-        return $nextLine == count($tokenList) || $delimiterToken === $tokenList[$nextLine]->getType();
+        return $nextLine == \count($tokenList) || $delimiterToken === $tokenList[$nextLine]->type;
     }
 
     /**
@@ -222,8 +212,8 @@ final class UnifiedDiffParser
      */
     private function hunkStart(Token $token): bool
     {
-        return Token::HUNK_ORIGINAL_START === $token->getType()
-            || Token::HUNK_ORIGINAL_ONE_LINE === $token->getType();
+        return Token::HUNK_ORIGINAL_START === $token->type
+            || Token::HUNK_ORIGINAL_ONE_LINE === $token->type;
     }
 
     /**
@@ -231,9 +221,9 @@ final class UnifiedDiffParser
      */
     private function mapLineOperation(Token $token): string
     {
-        if (Token::SOURCE_LINE_ADDED === $token->getType()) {
+        if (Token::SOURCE_LINE_ADDED === $token->type) {
             $operation = Line::ADDED;
-        } elseif (Token::SOURCE_LINE_REMOVED === $token->getType()) {
+        } elseif (Token::SOURCE_LINE_REMOVED === $token->type) {
             $operation = Line::REMOVED;
         } else {
             $operation = Line::UNCHANGED;
@@ -245,7 +235,7 @@ final class UnifiedDiffParser
     /**
      * Get the operation performed on the file (create, delete, change).
      *
-     * @param Token[] $fileTokenList
+     * @param array<Token> $fileTokenList
      *
      * @return string One of class constants File::CREATED, File::DELETED, File::CHANGED
      */

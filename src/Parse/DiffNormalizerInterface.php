@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -16,5 +18,5 @@ interface DiffNormalizerInterface
     /**
      * Accepts a raw file start line from a unified diff & returns a normalized version of the filename.
      */
-    public function getFilename(RawDiffLine $fileStartLine): string ;
+    public function getFilename(RawDiffLine $fileStartLine): string;
 }

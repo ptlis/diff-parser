@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @copyright (c) 2014-present brian ridley
@@ -19,11 +21,7 @@ use ptlis\DiffParser\Line;
  */
 final class ChangesetTest extends TestCase
 {
-    /** @var Changeset */
-    private $diff;
-
-
-    protected function setUp(): void
+    protected function buildChangeset(): Changeset
     {
         $lineList = [
             new Line(
@@ -95,19 +93,23 @@ final class ChangesetTest extends TestCase
             )
         ];
 
-        $file = new File(
-            'README.md',
-            'README.md',
-            File::CHANGED,
-            $hunkList
-        );
+        $files = [
+            new File(
+                'README.md',
+                'README.md',
+                File::CHANGED,
+                $hunkList
+            )
+        ];
 
-        $this->diff = new Changeset([$file]);
+        return new Changeset($files);
     }
 
-    public function testHunk(): void
+    public function testChangeset(): void
     {
-        $fileString = implode(
+        $changeset = $this->buildChangeset();
+
+        $fileString = \implode(
             PHP_EOL,
             [
                 '--- README.md',
@@ -125,7 +127,8 @@ final class ChangesetTest extends TestCase
             ]
         );
 
-        $this->assertEquals($fileString, $this->diff->__toString());
-        $this->assertEquals(1, count($this->diff->getFiles()));
+        $this->assertEquals($fileString, $changeset->__toString());
+        $this->assertCount(1, $changeset->files);
+        $this->assertTrue($changeset->files === $changeset->getFiles());
     }
 }
