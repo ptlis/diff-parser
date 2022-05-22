@@ -283,7 +283,7 @@ final class DiffParserTest extends TestCase
         $this->assertEquals($file, $fileList[4]);
     }
 
-    public function testNewNoLineDelimiterAtEndOfFile()
+    public function testNewNoLineDelimiterAtEndOfFile(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(
@@ -327,7 +327,7 @@ final class DiffParserTest extends TestCase
         $this->assertEquals($file, $fileList[0]);
     }
 
-    public function testOriginalNoLineDelimiterAtEndOfFile()
+    public function testOriginalNoLineDelimiterAtEndOfFile(): void
     {
         $parser = new UnifiedDiffParser(
             new UnifiedDiffTokenizer(

@@ -191,6 +191,10 @@ final class UnifiedDiffTokenizer
         );
     }
 
+    /**
+     * @param Token[] $hunkTokens
+     * @return int[]
+     */
     private function getHunkLineCounts(array $hunkTokens): array
     {
         $originalLineCount = 0;
@@ -325,9 +329,9 @@ final class UnifiedDiffTokenizer
      */
     private function normalizeChangedLine(string $line): string
     {
-        $normalized = substr($line, 1);
+        $normalized = \substr($line, 1);
 
-        return false === $normalized ? $line : $normalized;
+        return !\is_string($normalized) ? $line : $normalized;
     }
 
     /**

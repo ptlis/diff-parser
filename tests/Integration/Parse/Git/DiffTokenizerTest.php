@@ -202,7 +202,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '}', "\n"), $tokenList[93]);
     }
 
-    public function testNewNoLineDelimiterAtEndOfFile()
+    public function testNewNoLineDelimiterAtEndOfFile(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 
@@ -230,7 +230,7 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_NO_NEWLINE_EOF, '\ No newline at end of file', ''), $tokenList[13]);
     }
 
-    public function testOriginalNoLineDelimiterAtEndOfFile()
+    public function testOriginalNoLineDelimiterAtEndOfFile(): void
     {
         $tokenizer = new UnifiedDiffTokenizer(new GitDiffNormalizer());
 

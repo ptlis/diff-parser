@@ -11,6 +11,7 @@ namespace ptlis\DiffParser\Parse;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
+use ptlis\DiffParser\HunkMetaData;
 use ptlis\DiffParser\Line;
 
 /**
@@ -116,13 +117,13 @@ final class UnifiedDiffParser
      */
     private function parseHunk(array $hunkTokenList): Hunk
     {
-        [$originalStart, $originalCount, $newStart, $newCount, $tokensReadCount, $metaDelimiter] = $this->getHunkMeta($hunkTokenList);
-        $originalLineNo = $originalStart;
-        $newLineNo = $newStart;
+        $meta = $this->getHunkMeta($hunkTokenList);
+        $originalLineNo = $meta->originalStart;
+        $newLineNo = $meta->newStart;
         $lineList = [];
 
         $tokenCount = count($hunkTokenList);
-        for ($i = $tokensReadCount; $i < $tokenCount; $i++) {
+        for ($i = $meta->tokensReadCount; $i < $tokenCount; $i++) {
             $currentToken = $hunkTokenList[$i];
             $operation = $this->mapLineOperation($currentToken);
             $lineDelimiter = $currentToken->getLineDelimiter();
@@ -152,11 +153,11 @@ final class UnifiedDiffParser
         }
 
         return new Hunk(
-            $originalStart,
-            $originalCount,
-            $newStart,
-            $newCount,
-            $metaDelimiter,
+            $meta->originalStart,
+            $meta->originalCount,
+            $meta->newStart,
+            $meta->newCount,
+            $meta->delimiter,
             $lineList
         );
     }
@@ -166,9 +167,9 @@ final class UnifiedDiffParser
      *
      * @param Token[] $hunkTokenList
      *
-     * @return array Containing Original Start, Original Count, New Start, New Count & number of tokens consumed.
+     * @return HunkMetaData
      */
-    private function getHunkMeta(array $hunkTokenList): array
+    private function getHunkMeta(array $hunkTokenList): HunkMetaData
     {
         $i = 0;
 
@@ -192,14 +193,14 @@ final class UnifiedDiffParser
         $metaDelimiter = $hunkTokenList[$i-1]->getLineDelimiter();
         $tokensReadCount = $i;
 
-        return [
+        return new HunkMetaData(
             $originalStart,
             $originalCount,
             $newStart,
             $newCount,
             $tokensReadCount,
             $metaDelimiter
-        ];
+        );
     }
 
     /**
@@ -252,12 +253,12 @@ final class UnifiedDiffParser
     {
         $operation = File::CHANGED;
         while (!$this->hunkStart($fileTokenList[0])) {
-            array_shift($fileTokenList);
+            \array_shift($fileTokenList);
         }
         $meta = $this->getHunkMeta($fileTokenList);
-        if (0 === $meta[0] && 0 === $meta[1]) {
+        if (0 === $meta->originalStart && 0 === $meta->originalCount) {
             $operation = File::CREATED;
-        } elseif (0 === $meta[2] && 0 === $meta[3]) {
+        } elseif (0 === $meta->newStart && 0 === $meta->newCount) {
             $operation = File::DELETED;
         }
 
