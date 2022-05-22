@@ -14,7 +14,7 @@ Uses __toString() to serialize back into unified diff format.
 Install with composer:
 
 ```shell
-    $ composer require ptlis/diff-parser
+$ composer require ptlis/diff-parser
 ```
 
 
@@ -27,24 +27,26 @@ Get a changeset from a file:
 
 ```php
 <?php
-    use ptlis\DiffParser\Parser;
-    
-    $parser = new Parser();
-    
-    $changeset = $parser->parseFile('path/to/svn/diff', Parser::VCS_SVN);
+
+use ptlis\DiffParser\Parser;
+
+$parser = new Parser();
+
+$changeset = $parser->parseFile('path/to/svn/diff', Parser::VCS_SVN);
 ```
 
 Get a changeset from a variable containg the contents of a patch file:
 
 ```php
 <?php
-    use ptlis\DiffParser\Parser;
-    
-    $parser = new Parser();
-    
-    $patchData = \file_get_contents('/path/to/patchfile');
-    
-    $changeset = $parser->parse($patchData, Parser::VCS_SVN);
+
+use ptlis\DiffParser\Parser;
+
+$parser = new Parser();
+
+$patchData = \file_get_contents('/path/to/patchfile');
+
+$changeset = $parser->parse($patchData, Parser::VCS_SVN);
 ```
 
 
