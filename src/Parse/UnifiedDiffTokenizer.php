@@ -100,7 +100,8 @@ final class UnifiedDiffTokenizer
     private function splitFile(string $patchFile): array
     {
         // Split with regex, tracking new line delimiter
-        $diffLineList = (array)\preg_split('/(\r\n|\r|\n)/', $patchFile, -1, PREG_SPLIT_DELIM_CAPTURE);
+        /** @var array<string> $diffLineList */
+        $diffLineList = \preg_split('/(\r\n|\r|\n)/', $patchFile, -1, PREG_SPLIT_DELIM_CAPTURE);
 
         // Remove empty strings from end of file (it's a side effect of above method of splitting file into lines, and
         //  we don't want to remove all empty elements via PREG_SPLIT_NO_EMPTY)
