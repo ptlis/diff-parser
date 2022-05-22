@@ -12,6 +12,8 @@ namespace ptlis\DiffParser;
 
 /**
  * Class storing metadata about a single line from a hunk.
+ *
+ * @phpstan-type LineOperation Line::ADDED|Line::REMOVED|Line::UNCHANGED
  */
 final class Line
 {
@@ -27,6 +29,7 @@ final class Line
      * @param string $operation The operation performed on this line (one of class constants).
      * @param string $content The contents of this line.
      * @param string $terminator The line terminator (e.g. newline, carriage return & newline, empty string).
+     * @phpstan-param LineOperation $operation
      */
     public function __construct(
         public readonly int $originalLineNo,
@@ -61,6 +64,8 @@ final class Line
      * Get the operation performed (one of class constants).
      *
      * @deprecated This data should be accessed via the $operation property.
+     *
+     * @phpstan-return LineOperation
      */
     public function getOperation(): string
     {

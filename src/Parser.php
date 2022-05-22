@@ -18,12 +18,17 @@ use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 
 /**
  * Utility class providing a simple API through which parsing can be performed.
+ *
+ * @phpstan-type VcsType Parser::VCS_GIT|Parser::VCS_SVN|""
  */
 final class Parser
 {
     public const VCS_GIT = 'git';
     public const VCS_SVN = 'svn';
 
+    /**
+     * @phpstan-param VcsType $vcsType
+     */
     public function parse(string $patchFile, string $vcsType = ''): Changeset
     {
         $parser = $this->getParser($vcsType);
@@ -33,6 +38,8 @@ final class Parser
 
     /**
      * Accepts a path to a patch file & returns a Changeset instance.
+     *
+     * @phpstan-param VcsType $vcsType
      */
     public function parseFile(string $filename, string $vcsType = ''): Changeset
     {
@@ -48,6 +55,8 @@ final class Parser
 
     /**
      * Accepts the VCS type (if present) and returns a parser.
+     *
+     * @phpstan-param VcsType $vcsType
      */
     private function getParser(string $vcsType): UnifiedDiffParser
     {
@@ -60,6 +69,8 @@ final class Parser
 
     /**
      * Returns an appropriate normalizer for the VCS type.
+     *
+     * @phpstan-param VcsType $vcsType
      */
     private function getNormalizer(string $vcsType): DiffNormalizerInterface
     {

@@ -17,6 +17,9 @@ use ptlis\DiffParser\Line;
 
 /**
  * Class that parses a unified diff into a data-structure for convenient manipulation.
+ *
+ * @phpstan-type FileOperation File::CREATED|File::DELETED|File::CHANGED
+ * @phpstan-type LineOperation Line::ADDED|Line::REMOVED|Line::UNCHANGED
  */
 final class UnifiedDiffParser
 {
@@ -218,6 +221,8 @@ final class UnifiedDiffParser
 
     /**
      * Maps between token representation of line operations and the correct const from the Line class.
+     *
+     * @phpstan-return LineOperation
      */
     private function mapLineOperation(Token $token): string
     {
@@ -238,6 +243,7 @@ final class UnifiedDiffParser
      * @param array<Token> $fileTokenList
      *
      * @return string One of class constants File::CREATED, File::DELETED, File::CHANGED
+     * @phpstan-return FileOperation
      */
     private function getFileOperation(array $fileTokenList): string
     {

@@ -12,6 +12,8 @@ namespace ptlis\DiffParser;
 
 /**
  * Class storing data about changed files.
+ *
+ * @phpstan-type FileOperation File::CREATED|File::DELETED|File::CHANGED
  */
 final class File
 {
@@ -24,6 +26,7 @@ final class File
      * @param string $newFilename The new filename.
      * @param string $operation The nature of the operation, one of class constants.
      * @param array<Hunk> $hunks Array of hunks.
+     * @phpstan-param FileOperation $operation
      */
     public function __construct(
         public readonly string $originalFilename,
@@ -57,6 +60,8 @@ final class File
      * Get the operation performed on the file (one of class constants).
      *
      * @deprecated This data should be accessed via the $operation property.
+     *
+     * @phpstan-return FileOperation
      */
     public function getOperation(): string
     {

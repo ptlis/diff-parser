@@ -12,6 +12,8 @@ namespace ptlis\DiffParser\Parse;
 
 /**
  * A token from a unified diff file.
+ *
+ * @phpstan-type TokenType Token::ORIGINAL_FILENAME|Token::NEW_FILENAME|Token::HUNK_ORIGINAL_START|Token::HUNK_ORIGINAL_COUNT|Token::HUNK_ORIGINAL_ONE_LINE|Token::HUNK_NEW_START|Token::HUNK_NEW_COUNT|Token::HUNK_NEW_ONE_LINE|Token::SOURCE_LINE_ADDED|Token::SOURCE_LINE_REMOVED|Token::SOURCE_LINE_UNCHANGED|Token::SOURCE_NO_NEWLINE_EOF
  */
 final class Token
 {
@@ -34,6 +36,7 @@ final class Token
      * @param string $type The token type, one of class constants.
      * @param string $value The raw token value.
      * @param string $lineTerminator
+     * @phpstan-param TokenType $type
      */
     public function __construct(
         public readonly string $type,
