@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
+
+declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
@@ -142,14 +142,44 @@ final class DiffParserAddTest extends TestCase
                         new Line(-1, 2, Line::ADDED, '/**', "\n"),
                         new Line(-1, 3, Line::ADDED, ' * @package Mediboard\CompteRendu', "\n"),
                         new Line(-1, 4, Line::ADDED, ' * @author  SAS OpenXtrem <dev@openxtrem.com>', "\n"),
-                        new Line(-1, 5, Line::ADDED, ' * @license https://www.gnu.org/licenses/gpl.html GNU General Public License', "\n"),
-                        new Line(-1, 6, Line::ADDED, ' * @license https://www.openxtrem.com/licenses/oxol.html OXOL OpenXtrem Open License', "\n"),
+                        new Line(
+                            -1,
+                            5,
+                            Line::ADDED,
+                            ' * @license https://www.gnu.org/licenses/gpl.html GNU General Public License',
+                            "\n"
+                        ),
+                        new Line(
+                            -1,
+                            6,
+                            Line::ADDED,
+                            ' * @license https://www.openxtrem.com/licenses/oxol.html OXOL OpenXtrem Open License',
+                            "\n"
+                        ),
                         new Line(-1, 7, Line::ADDED, ' */', "\n"),
                         new Line(-1, 8, Line::ADDED, '', "\n"),
-                        new Line(-1, 9, Line::ADDED, '$compte_rendu_id = CView::post("compte_rendu_id", "ref class|CCompteRendu");', "\n"),
-                        new Line(-1, 10, Line::ADDED, '$pack_id         = CView::post("pack_id", "ref class|CPack");', "\n"),
+                        new Line(
+                            -1,
+                            9,
+                            Line::ADDED,
+                            '$compte_rendu_id = CView::post("compte_rendu_id", "ref class|CCompteRendu");',
+                            "\n"
+                        ),
+                        new Line(
+                            -1,
+                            10,
+                            Line::ADDED,
+                            '$pack_id         = CView::post("pack_id", "ref class|CPack");',
+                            "\n"
+                        ),
                         new Line(-1, 11, Line::ADDED, '$object_class    = CView::post("object_class", "str");', "\n"),
-                        new Line(-1, 12, Line::ADDED, '$object_id       = CView::post("object_id", "ref class|$object_class");', "\n"),
+                        new Line(
+                            -1,
+                            12,
+                            Line::ADDED,
+                            '$object_id       = CView::post("object_id", "ref class|$object_class");',
+                            "\n"
+                        ),
                         new Line(-1, 13, Line::ADDED, '', "\n"),
                         new Line(-1, 14, Line::ADDED, 'CView::checkin();', "\n"),
                         new Line(-1, 15, Line::ADDED, '', "\n"),
@@ -179,8 +209,20 @@ final class DiffParserAddTest extends TestCase
                         new Line(-1, 39, Line::ADDED, '  $first_modele = $first_modele->_ref_modele;', "\n"),
                         new Line(-1, 40, Line::ADDED, '', "\n"),
                         new Line(-1, 41, Line::ADDED, '  foreach (array(', "\n"),
-                        new Line(-1, 42, Line::ADDED, '    "factory", "font", "size", "page_height", "page_width",', "\n"),
-                        new Line(-1, 43, Line::ADDED, '    "margin_top", "margin_left", "margin_right", "margin_bottom"', "\n"),
+                        new Line(
+                            -1,
+                            42,
+                            Line::ADDED,
+                            '    "factory", "font", "size", "page_height", "page_width",',
+                            "\n"
+                        ),
+                        new Line(
+                            -1,
+                            43,
+                            Line::ADDED,
+                            '    "margin_top", "margin_left", "margin_right", "margin_bottom"',
+                            "\n"
+                        ),
                         new Line(-1, 44, Line::ADDED, '    ) as $_field) {', "\n"),
                         new Line(-1, 45, Line::ADDED, '    $compte_rendu->{$_field} = $first_modele->{$_field};', "\n"),
                         new Line(-1, 46, Line::ADDED, '  }', "\n"),
@@ -200,7 +242,14 @@ final class DiffParserAddTest extends TestCase
                         new Line(-1, 60, Line::ADDED, '$compte_rendu->content_id = "";', "\n"),
                         new Line(-1, 61, Line::ADDED, '$compte_rendu->_ref_content->_id = "";', "\n"),
                         new Line(-1, 62, Line::ADDED, '', "\n"),
-                        new Line(-1, 63, Line::ADDED, '$compte_rendu->_source = $compte_rendu->generateDocFromModel(null, $header_id, $footer_id);', "\n"),
+                        new Line(
+                            -1,
+                            63,
+                            Line::ADDED,
+                            '$compte_rendu->_source = $compte_rendu->generateDocFromModel(null, $header_id, $footer_id'
+                            . ');',
+                            "\n"
+                        ),
                         new Line(-1, 64, Line::ADDED, '', "\n"),
                         new Line(-1, 65, Line::ADDED, '$msg = $compte_rendu->store();', "\n"),
                         new Line(-1, 66, Line::ADDED, '', "\n"),

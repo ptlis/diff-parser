@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
+
+declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
@@ -64,11 +64,29 @@ final class DiffParserTest extends TestCase
                     7,
                     "\n",
                     [
-                        new Line(3, 3, Line::UNCHANGED, 'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.', "\n"),
+                        new Line(
+                            3,
+                            3,
+                            Line::UNCHANGED,
+                            'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.',
+                            "\n"
+                        ),
                         new Line(4, 4, Line::UNCHANGED, '', "\n"),
                         new Line(5, 5, Line::UNCHANGED, '', "\n"),
-                        new Line(6, -1, Line::REMOVED, '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)', "\n"),
-                        new Line(-1, 6, Line::ADDED, '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)', "\n"),
+                        new Line(
+                            6,
+                            -1,
+                            Line::REMOVED,
+                            '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)]',
+                            "\n"
+                        ),
+                        new Line(
+                            -1,
+                            6,
+                            Line::ADDED,
+                            '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)]',
+                            "\n"
+                        ),
                         new Line(7, 7, Line::UNCHANGED, '', "\n"),
                         new Line(8, 8, Line::UNCHANGED, '', "\n"),
                         new Line(9, 9, Line::UNCHANGED, '## Cautions', "\n")
@@ -111,8 +129,21 @@ final class DiffParserTest extends TestCase
                         new Line(2, -1, Line::REMOVED, '<ruleset name="ConNeg"', "\n"),
                         new Line(-1, 2, Line::ADDED, '<ruleset name="VCS"', "\n"),
                         new Line(3, 3, Line::UNCHANGED, '         xmlns="http://pmd.sf.net/ruleset/1.0.0"', "\n"),
-                        new Line(4, 4, Line::UNCHANGED, '         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "\n"),
-                        new Line(5, 5, Line::UNCHANGED, '         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"', "\n")
+                        new Line(
+                            4,
+                            4,
+                            Line::UNCHANGED,
+                            '         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+                            "\n"
+                        ),
+                        new Line(
+                            5,
+                            5,
+                            Line::UNCHANGED,
+                            '         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/'
+                            . 'ruleset_xml_schema.xsd"',
+                            "\n"
+                        )
                     ]
                 )
             ]
@@ -151,7 +182,14 @@ final class DiffParserTest extends TestCase
                         new Line(40, 40, Line::UNCHANGED, '     * @param RepositoryConfig $repoConfig', "\n"),
                         new Line(41, 41, Line::UNCHANGED, '     * @param string $currentBranch', "\n"),
                         new Line(42, 42, Line::UNCHANGED, '     */', "\n"),
-                        new Line(43, -1, Line::REMOVED, '    public function __construct(CommandExecutorInterface $executor, RepositoryConfig $repoConfig, $currentBranch = \'trunk\')', "\n"),
+                        new Line(
+                            43,
+                            -1,
+                            Line::REMOVED,
+                            '    public function __construct(CommandExecutorInterface $executor, RepositoryConfig '
+                            . '$repoConfig, $currentBranch = \'trunk\')',
+                            "\n"
+                        ),
                         new Line(44, -1, Line::REMOVED, '    {', "\n"),
                         new Line(-1, 43, Line::ADDED, '    public function __construct(', "\n"),
                         new Line(-1, 44, Line::ADDED, '        CommandExecutorInterface $executor,', "\n"),
@@ -173,9 +211,28 @@ final class DiffParserTest extends TestCase
                         new Line(65, 68, Line::UNCHANGED, '     */', "\n"),
                         new Line(66, 69, Line::UNCHANGED, '    public function changeBranch($branch)', "\n"),
                         new Line(67, 70, Line::UNCHANGED, '    {', "\n"),
-                        new Line(68, -1, Line::REMOVED, '        if (!$this->meta->branchExists((string)$branch)) {', "\n"),
-                        new Line(-1, 71, Line::ADDED, '        if (!$this->meta->branchExists((string)$branch) && $this->repoConfig->getTrunkName() !== $branch) {', "\n"),
-                        new Line(69, 72, Line::UNCHANGED, '            throw new \RuntimeException(\'Branch named "\' . $branch . \'" not found.\');', "\n"),
+                        new Line(
+                            68,
+                            -1,
+                            Line::REMOVED,
+                            '        if (!$this->meta->branchExists((string)$branch)) {',
+                            "\n"
+                        ),
+                        new Line(
+                            -1,
+                            71,
+                            Line::ADDED,
+                            '        if (!$this->meta->branchExists((string)$branch) && $this->repoConfig->'
+                            . 'getTrunkName() !== $branch) {',
+                            "\n"
+                        ),
+                        new Line(
+                            69,
+                            72,
+                            Line::UNCHANGED,
+                            '            throw new \RuntimeException(\'Branch named "\' . $branch . \'" not found.\');',
+                            "\n"
+                        ),
                         new Line(70, 73, Line::UNCHANGED, '        }', "\n"),
                         new Line(71, 74, Line::UNCHANGED, '', "\n")
                     ]
@@ -219,7 +276,13 @@ final class DiffParserTest extends TestCase
                         new Line(13, -1, Line::REMOVED, '', "\n"),
                         new Line(14, 13, Line::UNCHANGED, 'use ptlis\Vcs\Svn\RepositoryConfig;', "\n"),
                         new Line(15, 14, Line::UNCHANGED, '', "\n"),
-                        new Line(16, 15, Line::UNCHANGED, 'class RepositoryConfigTest extends \PHPUnit_Framework_TestCase', "\n")
+                        new Line(
+                            16,
+                            15,
+                            Line::UNCHANGED,
+                            'class RepositoryConfigTest extends \PHPUnit_Framework_TestCase',
+                            "\n"
+                        )
                     ]
                 )
             ]

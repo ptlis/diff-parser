@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
+
+declare(strict_types=1);
 
 namespace ptlis\DiffParser\Parse;
 
@@ -68,7 +68,6 @@ final class UnifiedDiffTokenizer
 
         $lineCount = \count($diffLineList);
         for ($i = 0; $i < $lineCount; $i++) {
-
             // First line of a file
             if ($this->isFileStart($diffLineList, $i)) {
                 $hasStarted = true;
@@ -254,7 +253,11 @@ final class UnifiedDiffTokenizer
                 $tokenList[] = new Token(Token::HUNK_NEW_ONE_LINE, '1', $diffLine->lineTerminator);
             } else {
                 $tokenList[] = new Token(Token::HUNK_NEW_START, $matches[Token::HUNK_NEW_START], '');
-                $tokenList[] = new Token(Token::HUNK_NEW_COUNT, $matches[Token::HUNK_NEW_COUNT], $diffLine->lineTerminator);
+                $tokenList[] = new Token(
+                    Token::HUNK_NEW_COUNT,
+                    $matches[Token::HUNK_NEW_COUNT],
+                    $diffLine->lineTerminator
+                );
             }
         }
 

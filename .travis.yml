@@ -25,6 +25,7 @@ before_script:
 script:
     - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml
     - ./vendor/bin/phpstan analyze --level=9 src/ tests/
+    - ./vendor/bin/phpcs --standard=PSR12 src/ tests/
 after_script:
     - curl -Os https://uploader.codecov.io/latest/linux/codecov
     - chmod +x codecov

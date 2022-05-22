@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
+
+declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
@@ -44,11 +44,32 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_START, '3', ''), $tokenList[4]);
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '7', "\n"), $tokenList[5]);
 
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.', "\n"), $tokenList[6]);
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_UNCHANGED,
+                'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.',
+                "\n"
+            ),
+            $tokenList[6]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[7]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[8]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)', "\n"), $tokenList[9]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)](https://travis-ci.org/ptlis/vcs) [![Code Coverage](https://scrutinizer-ci.com/g/ptlis/vcs/badges/coverage.png?s=6c30a32e78672ae0d7cff3ecf00ceba95049879a)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/ptlis/vcs/badges/quality-score.png?s=b8a262b33dd4a5de02d6f92f3e318ebb319f96c0)](https://scrutinizer-ci.com/g/ptlis/vcs/) [![Latest Stable Version](https://poser.pugx.org/ptlis/vcs/v/stable.png)](https://packagist.org/packages/ptlis/vcs)', "\n"), $tokenList[10]);
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_REMOVED,
+                '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)]',
+                "\n"
+            ),
+            $tokenList[9]
+        );
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_ADDED,
+                '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)]',
+                "\n"
+            ),
+            $tokenList[10]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[11]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[12]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '## Cautions', "\n"), $tokenList[13]);
@@ -73,9 +94,31 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '<?xml version="1.0"?>', "\n"), $tokenList[20]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '<ruleset name="ConNeg"', "\n"), $tokenList[21]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '<ruleset name="VCS"', "\n"), $tokenList[22]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '         xmlns="http://pmd.sf.net/ruleset/1.0.0"', "\n"), $tokenList[23]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"', "\n"), $tokenList[24]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"', "\n"), $tokenList[25]);
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_UNCHANGED,
+                '         xmlns="http://pmd.sf.net/ruleset/1.0.0"',
+                "\n"
+            ),
+            $tokenList[23]
+        );
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_UNCHANGED,
+                '         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
+                "\n"
+            ),
+            $tokenList[24]
+        );
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_UNCHANGED,
+                '         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/'
+                . 'ruleset_xml_schema.xsd"',
+                "\n"
+            ),
+            $tokenList[25]
+        );
     }
 
     public function testThirdFileFirstChunk(): void
@@ -94,19 +137,54 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_START, '40', ''), $tokenList[30]);
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '11', "\n"), $tokenList[31]);
 
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '     * @param RepositoryConfig $repoConfig', "\n"), $tokenList[32]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '     * @param string $currentBranch', "\n"), $tokenList[33]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '     * @param RepositoryConfig $repoConfig', "\n"),
+            $tokenList[32]
+        );
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '     * @param string $currentBranch', "\n"),
+            $tokenList[33]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '     */', "\n"), $tokenList[34]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '    public function __construct(CommandExecutorInterface $executor, RepositoryConfig $repoConfig, $currentBranch = \'trunk\')', "\n"), $tokenList[35]);
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_REMOVED,
+                '    public function __construct(CommandExecutorInterface $executor, RepositoryConfig $repoConfig, '
+                . '$currentBranch = \'trunk\')',
+                "\n"
+            ),
+            $tokenList[35]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '    {', "\n"), $tokenList[36]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '    public function __construct(', "\n"), $tokenList[37]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '        CommandExecutorInterface $executor,', "\n"), $tokenList[38]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '        RepositoryConfig $repoConfig,', "\n"), $tokenList[39]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '        $currentBranch = \'trunk\'', "\n"), $tokenList[40]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_ADDED, '    public function __construct(', "\n"),
+            $tokenList[37]
+        );
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_ADDED, '        CommandExecutorInterface $executor,', "\n"),
+            $tokenList[38]
+        );
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_ADDED, '        RepositoryConfig $repoConfig,', "\n"),
+            $tokenList[39]
+        );
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_ADDED, '        $currentBranch = \'trunk\'', "\n"),
+            $tokenList[40]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '    ) {', "\n"), $tokenList[41]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->executor = $executor;', "\n"), $tokenList[42]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->repoConfig = $repoConfig;', "\n"), $tokenList[43]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->currentBranch = $currentBranch;', "\n"), $tokenList[44]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->executor = $executor;', "\n"),
+            $tokenList[42]
+        );
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->repoConfig = $repoConfig;', "\n"),
+            $tokenList[43]
+        );
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->currentBranch = $currentBranch;', "\n"),
+            $tokenList[44]
+        );
     }
 
     public function testThirdFileSecondChunk(): void
@@ -123,11 +201,32 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '7', "\n"), $tokenList[48]);
 
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '     */', "\n"), $tokenList[49]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    public function changeBranch($branch)', "\n"), $tokenList[50]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '    public function changeBranch($branch)', "\n"),
+            $tokenList[50]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    {', "\n"), $tokenList[51]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '        if (!$this->meta->branchExists((string)$branch)) {', "\n"), $tokenList[52]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '        if (!$this->meta->branchExists((string)$branch) && $this->repoConfig->getTrunkName() !== $branch) {', "\n"), $tokenList[53]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '            throw new \RuntimeException(\'Branch named "\' . $branch . \'" not found.\');', "\n"), $tokenList[54]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_REMOVED, '        if (!$this->meta->branchExists((string)$branch)) {', "\n"),
+            $tokenList[52]
+        );
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_ADDED,
+                '        if (!$this->meta->branchExists((string)$branch) && $this->repoConfig->getTrunkName() !== '
+                . '$branch) {',
+                "\n"
+            ),
+            $tokenList[53]
+        );
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_UNCHANGED,
+                '            throw new \RuntimeException(\'Branch named "\' . $branch . \'" not found.\');',
+                "\n"
+            ),
+            $tokenList[54]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        }', "\n"), $tokenList[55]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[56]);
     }
@@ -140,7 +239,10 @@ final class DiffTokenizerTest extends TestCase
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'tests/RepositoryConfigTest.php', "\n"), $tokenList[57]);
+        $this->assertEquals(
+            new Token(Token::ORIGINAL_FILENAME, 'tests/RepositoryConfigTest.php', "\n"),
+            $tokenList[57]
+        );
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'tests/RepositoryConfigTest.php', "\n"), $tokenList[58]);
 
         $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '10', ''), $tokenList[59]);
@@ -152,9 +254,19 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'namespace ptlis\Vcs\Test;', "\n"), $tokenList[64]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[65]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '', "\n"), $tokenList[66]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'use ptlis\Vcs\Svn\RepositoryConfig;', "\n"), $tokenList[67]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, 'use ptlis\Vcs\Svn\RepositoryConfig;', "\n"),
+            $tokenList[67]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[68]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'class RepositoryConfigTest extends \PHPUnit_Framework_TestCase', "\n"), $tokenList[69]);
+        $this->assertEquals(
+            new Token(
+                Token::SOURCE_LINE_UNCHANGED,
+                'class RepositoryConfigTest extends \PHPUnit_Framework_TestCase',
+                "\n"
+            ),
+            $tokenList[69]
+        );
     }
 
     public function testFifthFileFirstChunk(): void
@@ -165,7 +277,10 @@ final class DiffTokenizerTest extends TestCase
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'tests/Vcs/Git/ChangeBranchTest.php', "\n"), $tokenList[70]);
+        $this->assertEquals(
+            new Token(Token::ORIGINAL_FILENAME, 'tests/Vcs/Git/ChangeBranchTest.php', "\n"),
+            $tokenList[70]
+        );
         $this->assertEquals(new Token(Token::NEW_FILENAME, 'tests/Vcs/Git/ChangeBranchTest.php', "\n"), $tokenList[71]);
 
         $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '48', ''), $tokenList[72]);
@@ -173,13 +288,22 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_START, '48', ''), $tokenList[74]);
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '7', "\n"), $tokenList[75]);
 
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '            $commandExecutor->getArguments()', "\n"), $tokenList[76]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '            $commandExecutor->getArguments()', "\n"),
+            $tokenList[76]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        );', "\n"), $tokenList[77]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    }', "\n"), $tokenList[78]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '', "\n"), $tokenList[79]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    public function testBranchDoesntExist()', "\n"), $tokenList[80]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '    public function testBranchDoesntExist()', "\n"),
+            $tokenList[80]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    {', "\n"), $tokenList[81]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->setExpectedException(', "\n"), $tokenList[82]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '        $this->setExpectedException(', "\n"),
+            $tokenList[82]
+        );
     }
 
     public function testFifthFileSecondChunk(): void
@@ -195,9 +319,15 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::HUNK_NEW_START, '69', ''), $tokenList[85]);
         $this->assertEquals(new Token(Token::HUNK_NEW_COUNT, '5', "\n"), $tokenList[86]);
 
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $vcs = new GitVcs($commandExecutor);', "\n"), $tokenList[87]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '        $vcs = new GitVcs($commandExecutor);', "\n"),
+            $tokenList[87]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '', "\n"), $tokenList[88]);
-        $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '        $vcs->changeBranch(\'feat-new-badness\');', "\n"), $tokenList[89]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_LINE_UNCHANGED, '        $vcs->changeBranch(\'feat-new-badness\');', "\n"),
+            $tokenList[89]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '', "\n"), $tokenList[90]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, '', "\n"), $tokenList[91]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, '    }', "\n"), $tokenList[92]);
@@ -253,7 +383,10 @@ final class DiffTokenizerTest extends TestCase
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'first line', "\n"), $tokenList[6]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_UNCHANGED, 'second line', "\n"), $tokenList[7]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_REMOVED, 'third line', "\n"), $tokenList[8]);
-        $this->assertEquals(new Token(Token::SOURCE_NO_NEWLINE_EOF, '\ No newline at end of file', "\n"), $tokenList[9]);
+        $this->assertEquals(
+            new Token(Token::SOURCE_NO_NEWLINE_EOF, '\ No newline at end of file', "\n"),
+            $tokenList[9]
+        );
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'test line', "\n"), $tokenList[10]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, 'fourth line', "\n"), $tokenList[11]);
         $this->assertEquals(new Token(Token::SOURCE_LINE_ADDED, '', "\n"), $tokenList[12]);

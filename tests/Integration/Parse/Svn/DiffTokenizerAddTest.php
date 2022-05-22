@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @copyright (c) 2014-present brian ridley
  * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
+
+declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
@@ -46,8 +46,14 @@ final class DiffTokenizerAddTest extends TestCase
 
         $tokenList = $tokenizer->tokenize($data);
 
-        $this->assertEquals(new Token(Token::ORIGINAL_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php', "\n"), $tokenList[0]);
-        $this->assertEquals(new Token(Token::NEW_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php', "\n"), $tokenList[1]);
+        $this->assertEquals(
+            new Token(Token::ORIGINAL_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php', "\n"),
+            $tokenList[0]
+        );
+        $this->assertEquals(
+            new Token(Token::NEW_FILENAME, 'modules/dPcompteRendu/controllers/do_add_doc_object.php', "\n"),
+            $tokenList[1]
+        );
 
         $this->assertEquals(new Token(Token::HUNK_ORIGINAL_START, '0', ''), $tokenList[2]);
         $this->assertEquals(new Token(Token::HUNK_ORIGINAL_COUNT, '0', ''), $tokenList[3]);

@@ -1,10 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
+ * @copyright (c) 2014-present brian ridley
+ * @author brian ridley <ptlis@ptlis.net>
  * @license http://opensource.org/licenses/MIT MIT
  */
+
+declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
