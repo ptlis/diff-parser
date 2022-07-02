@@ -1,5 +1,10 @@
 # Changelog:
 
+## 1.1.1 - 2022-07-02
+
+* Add triggering of E_USER_DEPRECATED notices when deprecated methods are called.
+
+
 ## 1.1.0 - 2022-05-22
 
 * Bump minimum PHP version to PHP 8.1.
