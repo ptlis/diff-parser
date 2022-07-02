@@ -10,14 +10,14 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Unit;
 
-use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
+use ptlis\DiffParser\Test\ExpectDeprecationTestCase;
 
 /**
  * @covers \ptlis\DiffParser\Hunk
  */
-final class HunkTest extends TestCase
+final class HunkTest extends ExpectDeprecationTestCase
 {
     private function buildHunk(bool $hasNewlineEof): Hunk
     {
@@ -152,5 +152,6 @@ final class HunkTest extends TestCase
         $this->assertTrue($hunk->originalCount === $hunk->getOriginalCount());
         $this->assertTrue($hunk->newStart === $hunk->getNewStart());
         $this->assertTrue($hunk->newCount === $hunk->getNewCount());
+        $this->expectDeprecationNotice();
     }
 }

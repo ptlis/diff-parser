@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Unit;
 
-use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Line;
+use ptlis\DiffParser\Test\ExpectDeprecationTestCase;
 
 /**
  * @covers \ptlis\DiffParser\Line
  */
-final class LineTest extends TestCase
+final class LineTest extends ExpectDeprecationTestCase
 {
     public function testLineUnchanged(): void
     {
@@ -101,5 +101,6 @@ final class LineTest extends TestCase
         $this->assertTrue($line->operation === $line->getOperation());
         $this->assertTrue($line->content === $line->getContent());
         $this->assertTrue($line->terminator === $line->getLineDelimiter());
+        $this->expectDeprecationNotice();
     }
 }

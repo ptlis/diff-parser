@@ -17,6 +17,8 @@ namespace ptlis\DiffParser;
  */
 final class Line
 {
+    use TriggerDeprecationTrait;
+
     public const ADDED = 'added';
     public const REMOVED = 'removed';
     public const UNCHANGED = 'unchanged';
@@ -47,6 +49,7 @@ final class Line
      */
     public function getOriginalLineNo(): int
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'originalLineNo');
         return $this->originalLineNo;
     }
 
@@ -57,6 +60,7 @@ final class Line
      */
     public function getNewLineNo(): int
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'newLineNo');
         return $this->newLineNo;
     }
 
@@ -69,6 +73,7 @@ final class Line
      */
     public function getOperation(): string
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'operation');
         return $this->operation;
     }
 
@@ -79,6 +84,7 @@ final class Line
      */
     public function getContent(): string
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'content');
         return $this->content;
     }
 
@@ -89,6 +95,7 @@ final class Line
      */
     public function getLineDelimiter(): string
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'terminator');
         return $this->terminator;
     }
 

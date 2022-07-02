@@ -15,6 +15,8 @@ namespace ptlis\DiffParser;
  */
 final class Changeset
 {
+    use TriggerDeprecationTrait;
+
     /**
      * @param array<File> $files Array of changed files in this diff.
      */
@@ -31,6 +33,7 @@ final class Changeset
      */
     public function getFiles(): array
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'files');
         return $this->files;
     }
 

@@ -15,6 +15,8 @@ namespace ptlis\DiffParser;
  */
 final class Hunk
 {
+    use TriggerDeprecationTrait;
+
     /**
      * @param int $originalStart The original starting line.
      * @param int $originalCount The original line count.
@@ -40,6 +42,7 @@ final class Hunk
      */
     public function getOriginalStart(): int
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'originalStart');
         return $this->originalStart;
     }
 
@@ -50,6 +53,7 @@ final class Hunk
      */
     public function getOriginalCount(): int
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'originalCount');
         return $this->originalCount;
     }
 
@@ -60,6 +64,7 @@ final class Hunk
      */
     public function getNewStart(): int
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'newStart');
         return $this->newStart;
     }
 
@@ -70,6 +75,7 @@ final class Hunk
      */
     public function getNewCount(): int
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'newCount');
         return $this->newCount;
     }
 
@@ -82,6 +88,7 @@ final class Hunk
      */
     public function getLines(): array
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'lines');
         return $this->lines;
     }
 

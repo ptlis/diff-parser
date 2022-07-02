@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Unit;
 
-use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
+use ptlis\DiffParser\Test\ExpectDeprecationTestCase;
 
 /**
  * @covers \ptlis\DiffParser\File
  */
-final class FileTest extends TestCase
+final class FileTest extends ExpectDeprecationTestCase
 {
     private function buildFile(): File
     {
@@ -136,5 +136,6 @@ final class FileTest extends TestCase
         $this->assertTrue($file->newFilename === $file->getNewFilename());
         $this->assertTrue($file->operation === $file->getOperation());
         $this->assertTrue($file->hunks === $file->getHunks());
+        $this->expectDeprecationNotice();
     }
 }

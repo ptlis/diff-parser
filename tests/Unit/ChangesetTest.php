@@ -10,16 +10,16 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Unit;
 
-use PHPUnit\Framework\TestCase;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
+use ptlis\DiffParser\Test\ExpectDeprecationTestCase;
 
 /**
  * @covers \ptlis\DiffParser\Changeset
  */
-final class ChangesetTest extends TestCase
+final class ChangesetTest extends ExpectDeprecationTestCase
 {
     protected function buildChangeset(): Changeset
     {
@@ -130,5 +130,6 @@ final class ChangesetTest extends TestCase
         $this->assertEquals($fileString, $changeset->__toString());
         $this->assertCount(1, $changeset->files);
         $this->assertTrue($changeset->files === $changeset->getFiles());
+        $this->expectDeprecationNotice();
     }
 }

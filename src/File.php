@@ -17,6 +17,8 @@ namespace ptlis\DiffParser;
  */
 final class File
 {
+    use TriggerDeprecationTrait;
+
     public const CREATED = 'created';
     public const DELETED = 'deleted';
     public const CHANGED = 'changed';
@@ -43,6 +45,7 @@ final class File
      */
     public function getOriginalFilename(): string
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'originalFilename');
         return $this->originalFilename;
     }
 
@@ -53,6 +56,7 @@ final class File
      */
     public function getNewFilename(): string
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'newFilename');
         return $this->newFilename;
     }
 
@@ -65,6 +69,7 @@ final class File
      */
     public function getOperation(): string
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'operation');
         return $this->operation;
     }
 
@@ -77,6 +82,7 @@ final class File
      */
     public function getHunks(): array
     {
+        $this->triggerDeprecationWarning(__METHOD__, 'hunks');
         return $this->hunks;
     }
 
