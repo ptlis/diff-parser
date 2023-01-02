@@ -27,7 +27,15 @@ version: 2
 
     - run:
         name: Run Unit Tests
-        command: ./vendor/bin/phpunit
+        command: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml
+
+    - run:
+        name: PHPStan
+        command: ./vendor/bin/phpstan analyze --level=9 src/ tests/
+
+    - run:
+        name: PHPCS
+        command: ./vendor/bin/phpcs --standard=PSR12 src/ tests/
 
 jobs:
   php-8_1:
@@ -39,7 +47,6 @@ jobs:
     <<: *dockerbuild
     docker:
       - image: php:8.2
-
 
 workflows:
   version: 2
