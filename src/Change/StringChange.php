@@ -7,7 +7,7 @@ namespace ptlis\DiffParser\Change;
 /**
  * Represents an string value that is changed between the original & new file.
  */
-class StringChange
+final class StringChange
 {
     public function __construct(
         public readonly string $original,
