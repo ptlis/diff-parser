@@ -1,5 +1,3 @@
-# PHP CircleCI 2.0 configuration file
-# See: https://circleci.com/docs/2.0/language-php/
 version: 2
 
 "-": &dockerbuild
@@ -7,14 +5,14 @@ version: 2
     - checkout
 
     - run:
-        name: Install System Dependencies
+        name: 'Install System Dependencies'
         command: |
           apt update
           apt install -y git libzip-dev zip
           docker-php-ext-install zip
 
     - run:
-        name: Install Composer
+        name: 'Install Composer'
         command: |
           php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
           php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -22,26 +20,26 @@ version: 2
           php -r "unlink('composer-setup.php');"
 
     - run:
-        name: Install PHP Dependencies
+        name: 'Install PHP Dependencies'
         command: php composer.phar install --no-interaction --prefer-dist
 
     - run:
-        name: Run Unit Tests
+        name: 'PHPUnit: Run Unit Tests'
         command: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
     - run:
-        name: Upload Coverage
+        name: 'PHPUnit: Upload Coverage'
         command: |
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           chmod +x codecov
           ./codecov
 
     - run:
-        name: PHPStan
+        name: 'PHPStan'
         command: ./vendor/bin/phpstan analyze --level=9 src/ tests/
 
     - run:
-        name: PHPCS
+        name: 'PHPCS'
         command: ./vendor/bin/phpcs --standard=PSR12 src/ tests/
 
 jobs:
