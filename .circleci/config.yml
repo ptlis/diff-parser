@@ -30,6 +30,13 @@ version: 2
         command: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
     - run:
+        name: Upload Coverage
+        command: |
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          chmod +x codecov
+          ./codecov
+
+    - run:
         name: PHPStan
         command: ./vendor/bin/phpstan analyze --level=9 src/ tests/
 
