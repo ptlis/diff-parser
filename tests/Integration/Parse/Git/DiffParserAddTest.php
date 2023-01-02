@@ -11,6 +11,8 @@ declare(strict_types=1);
 namespace ptlis\DiffParser\Test\Integration\Parse\Git;
 
 use PHPUnit\Framework\TestCase;
+use ptlis\DiffParser\Change\IntChange;
+use ptlis\DiffParser\Change\StringChange;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
@@ -53,18 +55,15 @@ final class DiffParserAddTest extends TestCase
         $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
-            '/dev/null',
-            'README.md',
+            new StringChange('/dev/null', 'README.md'),
             File::CREATED,
             [
                 new Hunk(
-                    0,
-                    0,
-                    1,
-                    1,
+                    new IntChange(0, 1),
+                    new IntChange(0, 1),
                     "\n",
                     [
-                        new Line(-1, 1, Line::ADDED, '## Test', '')
+                        new Line(new IntChange(-1, 1), Line::ADDED, '## Test', '')
                     ]
                 )
             ]

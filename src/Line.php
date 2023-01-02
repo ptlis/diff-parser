@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser;
 
+use ptlis\DiffParser\Change\IntChange;
+
 /**
  * Class storing metadata about a single line from a hunk.
  *
@@ -25,43 +27,48 @@ final class Line
 
     public const LINE_NOT_PRESENT = -1;
 
+    /** @deprecated This data should be accessed via the $lineNumber->original property. */
+    public readonly int $originalLineNo;
+    /** @deprecated This data should be accessed via the $lineNumber->new property. */
+    public readonly int $newLineNo;
+
     /**
-     * @param int $originalLineNo The original line number (before change applied), -1 if not present.
-     * @param int $newLineNo The new line number (after change applied), -1 if not present.
+     * @param IntChange $number The line numbers (original & new).
      * @param string $operation The operation performed on this line (one of class constants).
      * @param string $content The contents of this line.
      * @param string $terminator The line terminator (e.g. newline, carriage return & newline, empty string).
      * @phpstan-param LineOperation $operation
      */
     public function __construct(
-        public readonly int $originalLineNo,
-        public readonly int $newLineNo,
+        public readonly IntChange $number,
         public readonly string $operation,
         public readonly string $content,
         public readonly string $terminator
     ) {
+        $this->originalLineNo = $this->number->original;
+        $this->newLineNo = $this->number->new;
     }
 
     /**
      * Get the original line number (before change applied), -1 if not present.
      *
-     * @deprecated This data should be accessed via the $originalLineNo property.
+     * @deprecated This data should be accessed via the $lineNumber->original property.
      */
     public function getOriginalLineNo(): int
     {
         $this->triggerDeprecationWarning(__METHOD__, 'originalLineNo');
-        return $this->originalLineNo;
+        return $this->number->original;
     }
 
     /**
      * Get the new line number (after change applied), -1 if not present.
      *
-     * @deprecated This data should be accessed via the $newLineNo property.
+     * @deprecated This data should be accessed via the $lineNumber->new property.
      */
     public function getNewLineNo(): int
     {
         $this->triggerDeprecationWarning(__METHOD__, 'newLineNo');
-        return $this->newLineNo;
+        return $this->number->new;
     }
 
     /**

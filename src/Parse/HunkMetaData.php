@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Parse;
 
+use ptlis\DiffParser\Change\IntChange;
+
 final class HunkMetaData
 {
     public function __construct(
-        public readonly int $originalStart,
-        public readonly int $originalCount,
-        public readonly int $newStart,
-        public readonly int $newCount,
+        public readonly IntChange $startLine,
+        public readonly IntChange $changedLines,
         public readonly int $tokensReadCount,
         public readonly string $lineTerminator
     ) {

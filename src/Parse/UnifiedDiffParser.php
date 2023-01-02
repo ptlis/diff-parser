@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Parse;
 
+use ptlis\DiffParser\Change\IntChange;
+use ptlis\DiffParser\Change\StringChange;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
@@ -96,8 +98,7 @@ final class UnifiedDiffParser
         }
 
         return new File(
-            $originalName,
-            $newName,
+            new StringChange($originalName, $newName),
             $this->getFileOperation($fileTokenList),
             $hunkList
         );
@@ -113,8 +114,8 @@ final class UnifiedDiffParser
     private function parseHunk(array $hunkTokenList): Hunk
     {
         $meta = $this->getHunkMeta($hunkTokenList);
-        $originalLineNo = $meta->originalStart;
-        $newLineNo = $meta->newStart;
+        $originalLineNo = $meta->startLine->original;
+        $newLineNo = $meta->startLine->new;
         $lineList = [];
 
         $tokenCount = \count($hunkTokenList);
@@ -130,8 +131,10 @@ final class UnifiedDiffParser
             }
 
             $lineList[] = new Line(
-                Line::ADDED === $operation ? Line::LINE_NOT_PRESENT : $originalLineNo,
-                Line::REMOVED === $operation ? Line::LINE_NOT_PRESENT : $newLineNo,
+                new IntChange(
+                    Line::ADDED === $operation ? Line::LINE_NOT_PRESENT : $originalLineNo,
+                    Line::REMOVED === $operation ? Line::LINE_NOT_PRESENT : $newLineNo
+                ),
                 $operation,
                 $currentToken->value,
                 $lineTerminator
@@ -147,14 +150,7 @@ final class UnifiedDiffParser
             }
         }
 
-        return new Hunk(
-            $meta->originalStart,
-            $meta->originalCount,
-            $meta->newStart,
-            $meta->newCount,
-            $meta->lineTerminator,
-            $lineList
-        );
+        return new Hunk($meta->startLine, $meta->changedLines, $meta->lineTerminator, $lineList);
     }
 
     /**
@@ -186,11 +182,10 @@ final class UnifiedDiffParser
             $newCount = \intval($hunkTokenList[$tokensReadCount++]->value);
         }
 
+
         return new HunkMetaData(
-            $originalStart,
-            $originalCount,
-            $newStart,
-            $newCount,
+            new IntChange($originalStart, $newStart),
+            new IntChange($originalCount, $newCount),
             $tokensReadCount,
             $hunkTokenList[$tokensReadCount - 1]->lineTerminator
         );
@@ -252,9 +247,9 @@ final class UnifiedDiffParser
             \array_shift($fileTokenList);
         }
         $meta = $this->getHunkMeta($fileTokenList);
-        if (0 === $meta->originalStart && 0 === $meta->originalCount) {
+        if (0 === $meta->startLine->original && 0 === $meta->changedLines->original) {
             $operation = File::CREATED;
-        } elseif (0 === $meta->newStart && 0 === $meta->newCount) {
+        } elseif (0 === $meta->startLine->new && 0 === $meta->changedLines->new) {
             $operation = File::DELETED;
         }
 

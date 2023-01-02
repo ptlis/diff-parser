@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser;
 
+use ptlis\DiffParser\Change\StringChange;
+
 /**
  * Class storing data about changed files.
  *
@@ -23,41 +25,45 @@ final class File
     public const DELETED = 'deleted';
     public const CHANGED = 'changed';
 
+    /** @deprecated This data should be accessed via the $filename->original property.*/
+    public readonly string $originalFilename;
+    /** @deprecated This data should be accessed via the $filename->new property.*/
+    public readonly string $newFilename;
+
     /**
-     * @param string $originalFilename The original filename.
-     * @param string $newFilename The new filename.
      * @param string $operation The nature of the operation, one of class constants.
      * @param array<Hunk> $hunks Array of hunks.
      * @phpstan-param FileOperation $operation
      */
     public function __construct(
-        public readonly string $originalFilename,
-        public readonly string $newFilename,
+        public readonly StringChange $filename,
         public readonly string $operation,
         public readonly array $hunks
     ) {
+        $this->originalFilename = $this->filename->original;
+        $this->newFilename = $this->filename->new;
     }
 
     /**
      * Get the original name of the file.
      *
-     * @deprecated This data should be accessed via the $originalFilename property.
+     * @deprecated This data should be accessed via the $filename->original property.
      */
     public function getOriginalFilename(): string
     {
         $this->triggerDeprecationWarning(__METHOD__, 'originalFilename');
-        return $this->originalFilename;
+        return $this->filename->original;
     }
 
     /**
      * Get the new name of the file.
      *
-     * @deprecated This data should be accessed via the $newFilename property.
+     * @deprecated This data should be accessed via the $filename->new property.
      */
     public function getNewFilename(): string
     {
         $this->triggerDeprecationWarning(__METHOD__, 'newFilename');
-        return $this->newFilename;
+        return $this->filename->new;
     }
 
     /**

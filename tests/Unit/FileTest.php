@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Unit;
 
+use ptlis\DiffParser\Change\IntChange;
+use ptlis\DiffParser\Change\StringChange;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
 use ptlis\DiffParser\Line;
@@ -24,57 +26,49 @@ final class FileTest extends ExpectDeprecationTestCase
     {
         $lineList = [
             new Line(
-                3,
-                4,
+                new IntChange(3, 4),
                 Line::UNCHANGED,
                 'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.',
                 PHP_EOL
             ),
             new Line(
-                4,
-                5,
+                new IntChange(4, 5),
                 Line::UNCHANGED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                5,
-                6,
+                new IntChange(5, 6),
                 Line::UNCHANGED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                6,
-                -1,
+                new IntChange(6, -1),
                 Line::REMOVED,
                 '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)]',
                 PHP_EOL
             ),
             new Line(
-                -1,
-                7,
+                new IntChange(-1, 7),
                 Line::ADDED,
                 '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)]',
                 PHP_EOL
             ),
             new Line(
-                7,
-                -1,
+                new IntChange(7, -1),
                 Line::REMOVED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                8,
-                8,
+                new IntChange(8, 8),
                 Line::UNCHANGED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                9,
-                9,
+                new IntChange(9, 9),
                 Line::UNCHANGED,
                 '## Cautions',
                 PHP_EOL
@@ -82,19 +76,11 @@ final class FileTest extends ExpectDeprecationTestCase
         ];
 
         $hunkList = [
-            new Hunk(
-                3,
-                7,
-                4,
-                6,
-                PHP_EOL,
-                $lineList
-            )
+            new Hunk(new IntChange(3, 4), new IntChange(7, 6), PHP_EOL, $lineList)
         ];
 
         return new File(
-            'README.md',
-            'README.md',
+            new StringChange('README.md', 'README.md'),
             File::CHANGED,
             $hunkList
         );
@@ -123,19 +109,21 @@ final class FileTest extends ExpectDeprecationTestCase
         );
 
         $this->assertEquals($fileString, $file->__toString());
-        $this->assertEquals('README.md', $file->originalFilename);
-        $this->assertEquals('README.md', $file->newFilename);
+        $this->assertEquals('README.md', $file->filename->original);
+        $this->assertEquals('README.md', $file->filename->new);
         $this->assertEquals(File::CHANGED, $file->operation);
         $this->assertCount(1, $file->hunks);
-        $this->assertOldMethodsReturnSameValuesAsProperties($file);
+        $this->assertDeprecatedMethodsReturnSameValuesAsProperties($file);
     }
 
-    private function assertOldMethodsReturnSameValuesAsProperties(File $file): void
+    private function assertDeprecatedMethodsReturnSameValuesAsProperties(File $file): void
     {
-        $this->assertTrue($file->originalFilename === $file->getOriginalFilename());
-        $this->assertTrue($file->newFilename === $file->getNewFilename());
-        $this->assertTrue($file->operation === $file->getOperation());
-        $this->assertTrue($file->hunks === $file->getHunks());
+        $this->assertEquals($file->filename->original, $file->originalFilename, 'Deprecated property originalFilename value must match value of filename->original');
+        $this->assertEquals($file->filename->original, $file->getOriginalFilename(), 'Value returned from deprecated method getOriginalFilename() must match value of filename->original');
+        $this->assertEquals($file->filename->new, $file->newFilename, 'Deprecated property newFilename value must match value of filename->new');
+        $this->assertEquals($file->filename->new, $file->getNewFilename(), 'Value returned from deprecated method getNewFilename() must match value of filename->new');
+        $this->assertEquals($file->operation, $file->getOperation(), 'Value returned from deprecated method getOperation() must match value of operation');
+        $this->assertEquals($file->hunks, $file->getHunks(), 'Value returned from deprecated method getHunks() must match value of hunks');
         $this->expectDeprecationNotice();
     }
 }

@@ -11,6 +11,8 @@ declare(strict_types=1);
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
 use PHPUnit\Framework\TestCase;
+use ptlis\DiffParser\Change\IntChange;
+use ptlis\DiffParser\Change\StringChange;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
@@ -53,18 +55,15 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
-            'README.md',
-            'README.md',
+            new StringChange('README.md', 'README.md'),
             File::DELETED,
             [
                 new Hunk(
-                    1,
-                    1,
-                    0,
-                    0,
+                    new IntChange(1, 0),
+                    new IntChange(1, 0),
                     "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '## Test', '')
+                        new Line(new IntChange(1, -1), Line::REMOVED, '## Test', '')
                     ]
                 )
             ]
@@ -89,20 +88,17 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
-            'bar',
-            '',
+            new StringChange('bar', ''),
             File::DELETED,
             [
                 new Hunk(
-                    1,
-                    3,
-                    0,
-                    0,
+                    new IntChange(1, 0),
+                    new IntChange(3, 0),
                     "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '<?php', "\n"),
-                        new Line(2, -1, Line::REMOVED, '', "\n"),
-                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';', "\n")
+                        new Line(new IntChange(1, -1), Line::REMOVED, '<?php', "\n"),
+                        new Line(new IntChange(2, -1), Line::REMOVED, '', "\n"),
+                        new Line(new IntChange(3, -1), Line::REMOVED, 'echo \'different test\';', "\n")
                     ]
                 )
             ]
@@ -127,20 +123,17 @@ final class DiffParserRemoveTest extends TestCase
         $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
-            'bar',
-            'bar',
+            new StringChange('bar', 'bar'),
             File::DELETED,
             [
                 new Hunk(
-                    1,
-                    3,
-                    0,
-                    0,
+                    new IntChange(1, 0),
+                    new IntChange(3, 0),
                     "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, '<?php', "\n"),
-                        new Line(2, -1, Line::REMOVED, '', "\n"),
-                        new Line(3, -1, Line::REMOVED, 'echo \'different test\';', "\n")
+                        new Line(new IntChange(1, -1), Line::REMOVED, '<?php', "\n"),
+                        new Line(new IntChange(2, -1), Line::REMOVED, '', "\n"),
+                        new Line(new IntChange(3, -1), Line::REMOVED, 'echo \'different test\';', "\n")
                     ]
                 )
             ]

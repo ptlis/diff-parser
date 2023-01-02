@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace ptlis\DiffParser\Test\Unit;
 
+use ptlis\DiffParser\Change\IntChange;
+use ptlis\DiffParser\Change\StringChange;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
@@ -25,57 +27,49 @@ final class ChangesetTest extends ExpectDeprecationTestCase
     {
         $lineList = [
             new Line(
-                3,
-                4,
+                new IntChange(3, 4),
                 Line::UNCHANGED,
                 'A simple VCS wrapper for PHP attempting to offer a consistent API across VCS tools.',
                 PHP_EOL
             ),
             new Line(
-                4,
-                5,
+                new IntChange(4, 5),
                 Line::UNCHANGED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                5,
-                6,
+                new IntChange(5, 6),
                 Line::UNCHANGED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                6,
-                -1,
+                new IntChange(6, -1),
                 Line::REMOVED,
                 '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)]',
                 PHP_EOL
             ),
             new Line(
-                -1,
-                7,
+                new IntChange(-1, 7),
                 Line::ADDED,
                 '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)]',
                 PHP_EOL
             ),
             new Line(
-                7,
-                -1,
+                new IntChange(7, -1),
                 Line::REMOVED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                8,
-                8,
+                new IntChange(8, 8),
                 Line::UNCHANGED,
                 '',
                 PHP_EOL
             ),
             new Line(
-                9,
-                9,
+                new IntChange(9, 9),
                 Line::UNCHANGED,
                 '## Cautions',
                 PHP_EOL
@@ -83,20 +77,12 @@ final class ChangesetTest extends ExpectDeprecationTestCase
         ];
 
         $hunkList = [
-            new Hunk(
-                3,
-                7,
-                4,
-                6,
-                PHP_EOL,
-                $lineList
-            )
+            new Hunk(new IntChange(3, 4), new IntChange(7, 6), PHP_EOL, $lineList)
         ];
 
         $files = [
             new File(
-                'README.md',
-                'README.md',
+                new StringChange('README.md', 'README.md'),
                 File::CHANGED,
                 $hunkList
             )
@@ -129,7 +115,7 @@ final class ChangesetTest extends ExpectDeprecationTestCase
 
         $this->assertEquals($fileString, $changeset->__toString());
         $this->assertCount(1, $changeset->files);
-        $this->assertTrue($changeset->files === $changeset->getFiles());
+        $this->assertEquals($changeset->files, $changeset->getFiles(), 'Value returned from deprecated method getFiles() must match value of files');
         $this->expectDeprecationNotice();
     }
 }

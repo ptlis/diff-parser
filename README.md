@@ -87,8 +87,8 @@ $file = $files[0];   // Get the first changed file
 Get the original and new filenames:
 
 ```php    
-$file->originalFilename;    // Eg 'readme.md' or '' (empty) on create
-$file->newFilename;         // EG 'README.md' or '' (empty) on delete
+$file->filename->original;  // Eg 'readme.md' or '' (empty) on create
+$file->filename->new;       // EG 'README.md' or '' (empty) on delete
 ```
 
 Get the operation that was performed (create, delete or change):
@@ -109,13 +109,18 @@ $hunks = $file->hunks;  // Array of ptlis\DiffParser\Hunk instances.
 $hunk = $hunks[0];  // Get the first hunk for this file
 ```
 
-Get the hunk metadata:
+Get the start line number of the hunk:
 
 ```php
-$hunk->originalStart;   // Eg '0'
-$hunk->originalCount;   // Eg '5'
-$hunk->newStart;        // Eg '0'
-$hunk->newCount;        // Eg '7'
+$hunk->startLine->original; // Eg '0'
+$hunk->startLine->new;      // Eg '0'
+```
+
+Get the number of lines affected in the hunk:
+
+```php
+$hunk->affectedLines->original; // Eg '5'
+$hunk->affectedLines->new;      // Eg '7'
 ```
 
 Get the changed lines:
@@ -134,8 +139,8 @@ $line = $lines[0];  // Get the first line for this hunk
 Get the original and new line numbers:
 
 ```php
-$line->originalLineNo;  // Eg '7' or '-1' on create
-$line->newLineNo;       // Eg '7' or '-1' on delete
+$line->number->original;    // Eg '7' or '-1' on create
+$line->number->new;         // Eg '7' or '-1' on delete
 ```
 
 Get the operation:
@@ -154,8 +159,3 @@ $line->content; // Eg ' $foo = bar;'
 ## Contributing
 
 You can contribute by submitting an Issue to the [issue tracker](https://github.com/ptlis/vcs/issues), improving the documentation or submitting a pull request. For pull requests i'd prefer that the code style and test coverage is maintained, but I am happy to work through any minor issues that may arise so that the request can be merged.
-
-
-## TODO
-
-* Add more tests for robustness - being generated, in theory diffs should be reliable, but we still need to gracefully fail when this assumption is false.

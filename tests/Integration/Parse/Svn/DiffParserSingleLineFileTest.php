@@ -11,6 +11,8 @@ declare(strict_types=1);
 namespace ptlis\DiffParser\Test\Integration\Parse\Svn;
 
 use PHPUnit\Framework\TestCase;
+use ptlis\DiffParser\Change\IntChange;
+use ptlis\DiffParser\Change\StringChange;
 use ptlis\DiffParser\Changeset;
 use ptlis\DiffParser\File;
 use ptlis\DiffParser\Hunk;
@@ -53,19 +55,16 @@ final class DiffParserSingleLineFileTest extends TestCase
         $this->assertCount(1, $fileList[0]->hunks);
 
         $file = new File(
-            'test.txt',
-            'test.txt',
+            new StringChange('test.txt', 'test.txt'),
             File::CHANGED,
             [
                 new Hunk(
-                    1,
-                    1,
-                    1,
-                    1,
+                    new IntChange(1, 1),
+                    new IntChange(1, 1),
                     "\n",
                     [
-                        new Line(1, -1, Line::REMOVED, 'test', "\n"),
-                        new Line(-1, 1, Line::ADDED, 'edited', "\n")
+                        new Line(new IntChange(1, -1), Line::REMOVED, 'test', "\n"),
+                        new Line(new IntChange(-1, 1), Line::ADDED, 'edited', "\n")
                     ]
                 )
             ]
