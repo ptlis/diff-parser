@@ -30,12 +30,20 @@ version: 2
         command: ./vendor/bin/phpunit
 
 jobs:
-  build-8.1:
+  build-81:
     <<: *dockerbuild
     docker:
       - image: php:8.1
 
-  build-8.2:
+  build-82:
     <<: *dockerbuild
     docker:
       - image: php:8.2
+
+
+workflows:
+  version: 2
+  check_compile:
+    jobs:
+      - build-81
+      - build-82
