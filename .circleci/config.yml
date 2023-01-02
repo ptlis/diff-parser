@@ -2,49 +2,40 @@
 # See: https://circleci.com/docs/2.0/language-php/
 version: 2
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+"-": &dockerbuild
+  steps:
+    - checkout
+
+    - run:
+        name: Install System Dependencies
+        command: |
+          apt update
+          apt install -y git libzip-dev zip
+          docker-php-ext-install zip
+
+    - run:
+        name: Install Composer
+        command: |
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+          php composer-setup.php
+          php -r "unlink('composer-setup.php');"
+
+    - run:
+        name: Install PHP Dependencies
+        command: php composer.phar install --no-interaction --prefer-dist
+
+    - run:
+        name: Run Unit Tests
+        command: ./vendor/bin/phpunit
+
 jobs:
-  build:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  build-8.1:
+    <<: *dockerbuild
     docker:
-      # Specify the version you desire here
       - image: php:8.1
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # Using the RAM variation mitigates I/O contention
-      # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
-      #
-      # - image: redis:2.8.19
-
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps:
-      - checkout
-
-      - run:
-          name: Install System Dependencies
-          command: |
-            apt update
-            apt install -y git libzip-dev zip
-            docker-php-ext-install zip
-
-      - run:
-          name: Install Composer
-          command: |
-            php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-            php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-            php composer-setup.php
-            php -r "unlink('composer-setup.php');"
-
-      - run:
-          name: Install PHP Dependencies
-          command: php composer.phar install --no-interaction --prefer-dist
-
-      - run:
-          name: Run Unit Tests
-          command: ./vendor/bin/phpunit
+  build-8.2:
+    <<: *dockerbuild
+    docker:
+      - image: php:8.2
