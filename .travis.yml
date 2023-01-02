@@ -2,6 +2,7 @@ language: php
 
 php:
   - 8.1
+  - 8.2
 
 env:
   - GIT_AUTOCRLF=0
