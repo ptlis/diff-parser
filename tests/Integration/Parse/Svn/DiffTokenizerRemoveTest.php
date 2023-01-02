@@ -15,6 +15,9 @@ use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
+/**
+ * @coversNothing
+ */
 final class DiffTokenizerRemoveTest extends TestCase
 {
     public function testFileRemoveSingleLine(): void

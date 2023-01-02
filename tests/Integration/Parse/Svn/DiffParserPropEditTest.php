@@ -16,6 +16,9 @@ use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
+/**
+ * @coversNothing
+ */
 final class DiffParserPropEditTest extends TestCase
 {
     public function testPropEdit(): void

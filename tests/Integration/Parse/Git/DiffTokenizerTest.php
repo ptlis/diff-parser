@@ -15,6 +15,9 @@ use ptlis\DiffParser\Parse\Token;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\GitDiffNormalizer;
 
+/**
+ * @coversNothing
+ */
 final class DiffTokenizerTest extends TestCase
 {
     public function testTokenCount(): void

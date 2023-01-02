@@ -21,6 +21,9 @@ use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\GitDiffNormalizer;
 
+/**
+ * @coversNothing
+ */
 final class DiffParserSingleLineFileTest extends TestCase
 {
     public function testParseCount(): void

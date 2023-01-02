@@ -21,6 +21,9 @@ use ptlis\DiffParser\Parse\UnifiedDiffParser;
 use ptlis\DiffParser\Parse\UnifiedDiffTokenizer;
 use ptlis\DiffParser\Parse\SvnDiffNormalizer;
 
+/**
+ * @coversNothing
+ */
 final class DiffParserMalformedFilenamesTest extends TestCase
 {
     public function testParseCount(): void
