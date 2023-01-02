@@ -43,7 +43,7 @@ jobs:
 
 workflows:
   version: 2
-  check_compile:
+  php_versions:
     jobs:
       - php-8_1
       - php-8_2
