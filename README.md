@@ -5,7 +5,7 @@ A parser for unified diff files, returning a hydrated object graph.
 Uses __toString() to serialize back into unified diff format.
 
 
-[![Build Status](https://api.travis-ci.com/ptlis/diff-parser.svg?branch=master)](https://app.travis-ci.com/github/ptlis/diff-parser) [![codecov](https://codecov.io/gh/ptlis/diff-parser/branch/master/graph/badge.svg?token=r8NgjZyVVL)](https://codecov.io/gh/ptlis/diff-parser) [![Latest Stable Version](https://poser.pugx.org/ptlis/diff-parser/v/stable.png)](https://packagist.org/packages/ptlis/diff-parser)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/ptlis/diff-parser/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ptlis/diff-parser/tree/main) [![codecov](https://codecov.io/gh/ptlis/diff-parser/branch/master/graph/badge.svg?token=r8NgjZyVVL)](https://codecov.io/gh/ptlis/diff-parser) [![Latest Stable Version](https://poser.pugx.org/ptlis/diff-parser/v/stable.png)](https://packagist.org/packages/ptlis/diff-parser)
 
 
 
@@ -72,17 +72,15 @@ The tree built to store changesets is very simple, in essence:
 
 #### Changeset
 
-From a Changeset you get an array of files that have changed:
+From a Changeset you may iterate over the array of files that have changed:
 
 ```php
-$files = $changeset->files;  // Array of ptlis\DiffParser\File instances.
+foreach ($changeset->files as $file) {
+    // $file is an instance of ptlis\DiffParser\File
+}
 ```
 
 #### File
-
-```php
-$file = $files[0];   // Get the first changed file
-```
 
 Get the original and new filenames:
 
@@ -97,17 +95,15 @@ Get the operation that was performed (create, delete or change):
 $file->operation;   // One of File::CREATED, File::CHANGED, File::DELETED  
 ```
 
-Get the changed hunks for the file:
+From a file you may iterate over the change hunks:
 
 ```php
-$hunks = $file->hunks;  // Array of ptlis\DiffParser\Hunk instances.  
+foreach ($file->hunks as $hunk) {
+    // $hunk is an instance of ptlis\DiffParser\Hunk
+}  
 ```
 
 #### Hunk
-
-```php
-$hunk = $hunks[0];  // Get the first hunk for this file
-```
 
 Get the start line number of the hunk:
 
@@ -123,18 +119,16 @@ $hunk->affectedLines->original; // Eg '5'
 $hunk->affectedLines->new;      // Eg '7'
 ```
 
-Get the changed lines:
+From a hunk you may iterate over the changed lines:
 
 ```php
-$lines = $hunk->lines;  // Array of ptlis\DiffParser\Line instances.  
+foreach ($hunk->lines as $line) {
+    // $line is an instance of ptlis\DiffParser\Line
+}
 ```
 
 
 #### Line
-
-```php
-$line = $lines[0];  // Get the first line for this hunk
-```
 
 Get the original and new line numbers:
 
