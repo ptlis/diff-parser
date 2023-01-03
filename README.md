@@ -4,9 +4,7 @@ A parser for unified diff files, returning a hydrated object graph.
 
 Uses __toString() to serialize back into unified diff format.
 
-
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/ptlis/diff-parser/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/ptlis/diff-parser/tree/main) [![codecov](https://codecov.io/gh/ptlis/diff-parser/branch/master/graph/badge.svg?token=r8NgjZyVVL)](https://codecov.io/gh/ptlis/diff-parser) [![Latest Stable Version](https://poser.pugx.org/ptlis/diff-parser/v/stable.png)](https://packagist.org/packages/ptlis/diff-parser)
-
 
 
 ## Install
@@ -21,40 +19,32 @@ $ composer require ptlis/diff-parser
 ## Usage
 
 
-### Build a Changeset
+### Parsing a diff file
 
-Get a changeset from a file:
+Create a parser:
 
 ```php
-<?php
-
-use ptlis\DiffParser\Parser;
-
-$parser = new Parser();
-
-$changeset = $parser->parseFile('path/to/svn/diff', Parser::VCS_SVN);
+$parser = new \ptlis\DiffParser\Parser();
 ```
 
-Get a changeset from a variable containg the contents of a patch file:
+And then get a changeset from a file path:
 
 ```php
-<?php
+$changeset = $parser->parseFile('path/to/git/diff', Parser::VCS_GIT);
+```
 
-use ptlis\DiffParser\Parser;
+or parse the patch data stored from a variable:
 
-$parser = new Parser();
-
-$patchData = \file_get_contents('/path/to/patchfile');
-
+```php
 $changeset = $parser->parse($patchData, Parser::VCS_SVN);
 ```
 
 
 ### Serialization
 
-All of the value classes implement the ```__toString()``` method to support direct serialization of that component back to unified diff format.
+All the value classes implement the ```__toString()``` method to support direct serialization of that component back to unified diff format.
 
-For example, serialization of a changeset back to a file is as simple as:
+For example this serializes the data in `$changeset` into the file `my.patch`.
 
 ```php
 \file_put_contents('my.patch', $changeset);
@@ -63,7 +53,7 @@ For example, serialization of a changeset back to a file is as simple as:
 
 ### The Object Graph
 
-The tree built to store changesets is very simple, in essence:
+The tree built to store changesets is very simple, mapping one-to-one to the components of a diff file. In essence:
 
 * A Changeset is the root node & contains Files
 * A File contain Hunks
