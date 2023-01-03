@@ -66,8 +66,8 @@ final class DiffParserSingleLineFileTest extends TestCase
                     new IntChange(1, 1),
                     "\n",
                     [
-                        new Line(new IntChange(1, -1), Line::REMOVED, 'test', "\n"),
-                        new Line(new IntChange(-1, 1), Line::ADDED, 'edited', "\n")
+                        new Line(new IntChange(1, Line::LINE_NOT_PRESENT), Line::REMOVED, 'test', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 1), Line::ADDED, 'edited', "\n")
                     ]
                 )
             ]

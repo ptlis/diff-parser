@@ -45,19 +45,19 @@ final class ChangesetTest extends ExpectDeprecationTestCase
                 PHP_EOL
             ),
             new Line(
-                new IntChange(6, -1),
+                new IntChange(6, Line::LINE_NOT_PRESENT),
                 Line::REMOVED,
                 '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)]',
                 PHP_EOL
             ),
             new Line(
-                new IntChange(-1, 7),
+                new IntChange(Line::LINE_NOT_PRESENT, 7),
                 Line::ADDED,
                 '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)]',
                 PHP_EOL
             ),
             new Line(
-                new IntChange(7, -1),
+                new IntChange(7, Line::LINE_NOT_PRESENT),
                 Line::REMOVED,
                 '',
                 PHP_EOL

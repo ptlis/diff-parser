@@ -47,7 +47,7 @@ final class LineTest extends ExpectDeprecationTestCase
         );
 
         $this->assertEquals(9, $line->number->original);
-        $this->assertEquals(-1, $line->number->new);
+        $this->assertEquals(Line::LINE_NOT_PRESENT, $line->number->new);
         $this->assertEquals(Line::REMOVED, $line->operation);
         $this->assertEquals('some stuff', $line->content);
         $this->assertEquals("\r\n", $line->terminator);
@@ -64,7 +64,7 @@ final class LineTest extends ExpectDeprecationTestCase
             "\r"
         );
 
-        $this->assertEquals(-1, $line->number->original);
+        $this->assertEquals(Line::LINE_NOT_PRESENT, $line->number->original);
         $this->assertEquals(11, $line->number->new);
         $this->assertEquals(Line::ADDED, $line->operation);
         $this->assertEquals('really good comment', $line->content);

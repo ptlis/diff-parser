@@ -66,7 +66,7 @@ final class DiffParserRemoveTest extends TestCase
                     new IntChange(1, 0),
                     "\n",
                     [
-                        new Line(new IntChange(1, -1), Line::REMOVED, '## Test', '')
+                        new Line(new IntChange(1, Line::LINE_NOT_PRESENT), Line::REMOVED, '## Test', '')
                     ]
                 )
             ]
@@ -99,9 +99,9 @@ final class DiffParserRemoveTest extends TestCase
                     new IntChange(3, 0),
                     "\n",
                     [
-                        new Line(new IntChange(1, -1), Line::REMOVED, '<?php', "\n"),
-                        new Line(new IntChange(2, -1), Line::REMOVED, '', "\n"),
-                        new Line(new IntChange(3, -1), Line::REMOVED, 'echo \'different test\';', "\n")
+                        new Line(new IntChange(1, Line::LINE_NOT_PRESENT), Line::REMOVED, '<?php', "\n"),
+                        new Line(new IntChange(2, Line::LINE_NOT_PRESENT), Line::REMOVED, '', "\n"),
+                        new Line(new IntChange(3, Line::LINE_NOT_PRESENT), Line::REMOVED, 'echo \'different test\';', "\n")
                     ]
                 )
             ]
@@ -134,9 +134,9 @@ final class DiffParserRemoveTest extends TestCase
                     new IntChange(3, 0),
                     "\n",
                     [
-                        new Line(new IntChange(1, -1), Line::REMOVED, '<?php', "\n"),
-                        new Line(new IntChange(2, -1), Line::REMOVED, '', "\n"),
-                        new Line(new IntChange(3, -1), Line::REMOVED, 'echo \'different test\';', "\n")
+                        new Line(new IntChange(1, Line::LINE_NOT_PRESENT), Line::REMOVED, '<?php', "\n"),
+                        new Line(new IntChange(2, Line::LINE_NOT_PRESENT), Line::REMOVED, '', "\n"),
+                        new Line(new IntChange(3, Line::LINE_NOT_PRESENT), Line::REMOVED, 'echo \'different test\';', "\n")
                     ]
                 )
             ]

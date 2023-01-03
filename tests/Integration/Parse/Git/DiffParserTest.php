@@ -75,13 +75,13 @@ final class DiffParserTest extends TestCase
                         new Line(new IntChange(4, 4), Line::UNCHANGED, '', "\n"),
                         new Line(new IntChange(5, 5), Line::UNCHANGED, '', "\n"),
                         new Line(
-                            new IntChange(6, -1),
+                            new IntChange(6, Line::LINE_NOT_PRESENT),
                             Line::REMOVED,
                             '[![Build Status](https://travis-ci.org/ptlis/conneg.png?branch=master)]',
                             "\n"
                         ),
                         new Line(
-                            new IntChange(-1, 6),
+                            new IntChange(Line::LINE_NOT_PRESENT, 6),
                             Line::ADDED,
                             '[![Build Status](https://travis-ci.org/ptlis/vcs.png?branch=master)]',
                             "\n"
@@ -122,8 +122,8 @@ final class DiffParserTest extends TestCase
                     "\n",
                     [
                         new Line(new IntChange(1, 1), Line::UNCHANGED, '<?xml version="1.0"?>', "\n"),
-                        new Line(new IntChange(2, -1), Line::REMOVED, '<ruleset name="ConNeg"', "\n"),
-                        new Line(new IntChange(-1, 2), Line::ADDED, '<ruleset name="VCS"', "\n"),
+                        new Line(new IntChange(2, Line::LINE_NOT_PRESENT), Line::REMOVED, '<ruleset name="ConNeg"', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 2), Line::ADDED, '<ruleset name="VCS"', "\n"),
                         new Line(new IntChange(3, 3), Line::UNCHANGED, '         xmlns="http://pmd.sf.net/ruleset/1.0.0"', "\n"),
                         new Line(
                             new IntChange(4, 4),
@@ -174,18 +174,18 @@ final class DiffParserTest extends TestCase
                         new Line(new IntChange(41, 41), Line::UNCHANGED, '     * @param string $currentBranch', "\n"),
                         new Line(new IntChange(42, 42), Line::UNCHANGED, '     */', "\n"),
                         new Line(
-                            new IntChange(43, -1),
+                            new IntChange(43, Line::LINE_NOT_PRESENT),
                             Line::REMOVED,
                             '    public function __construct(CommandExecutorInterface $executor, RepositoryConfig '
                             . '$repoConfig, $currentBranch = \'trunk\')',
                             "\n"
                         ),
-                        new Line(new IntChange(44, -1), Line::REMOVED, '    {', "\n"),
-                        new Line(new IntChange(-1, 43), Line::ADDED, '    public function __construct(', "\n"),
-                        new Line(new IntChange(-1, 44), Line::ADDED, '        CommandExecutorInterface $executor,', "\n"),
-                        new Line(new IntChange(-1, 45), Line::ADDED, '        RepositoryConfig $repoConfig,', "\n"),
-                        new Line(new IntChange(-1, 46), Line::ADDED, '        $currentBranch = \'trunk\'', "\n"),
-                        new Line(new IntChange(-1, 47), Line::ADDED, '    ) {', "\n"),
+                        new Line(new IntChange(44, Line::LINE_NOT_PRESENT), Line::REMOVED, '    {', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 43), Line::ADDED, '    public function __construct(', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 44), Line::ADDED, '        CommandExecutorInterface $executor,', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 45), Line::ADDED, '        RepositoryConfig $repoConfig,', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 46), Line::ADDED, '        $currentBranch = \'trunk\'', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 47), Line::ADDED, '    ) {', "\n"),
                         new Line(new IntChange(45, 48), Line::UNCHANGED, '        $this->executor = $executor;', "\n"),
                         new Line(new IntChange(46, 49), Line::UNCHANGED, '        $this->repoConfig = $repoConfig;', "\n"),
                         new Line(new IntChange(47, 50), Line::UNCHANGED, '        $this->currentBranch = $currentBranch;', "\n")
@@ -200,13 +200,13 @@ final class DiffParserTest extends TestCase
                         new Line(new IntChange(66, 69), Line::UNCHANGED, '    public function changeBranch($branch)', "\n"),
                         new Line(new IntChange(67, 70), Line::UNCHANGED, '    {', "\n"),
                         new Line(
-                            new IntChange(68, -1),
+                            new IntChange(68, Line::LINE_NOT_PRESENT),
                             Line::REMOVED,
                             '        if (!$this->meta->branchExists((string)$branch)) {',
                             "\n"
                         ),
                         new Line(
-                            new IntChange(-1, 71),
+                            new IntChange(Line::LINE_NOT_PRESENT, 71),
                             Line::ADDED,
                             '        if (!$this->meta->branchExists((string)$branch) && $this->repoConfig->'
                             . 'getTrunkName() !== $branch) {',
@@ -255,7 +255,7 @@ final class DiffParserTest extends TestCase
                         new Line(new IntChange(10, 10), Line::UNCHANGED, '', "\n"),
                         new Line(new IntChange(11, 11), Line::UNCHANGED, 'namespace ptlis\Vcs\Test;', "\n"),
                         new Line(new IntChange(12, 12), Line::UNCHANGED, '', "\n"),
-                        new Line(new IntChange(13, -1), Line::REMOVED, '', "\n"),
+                        new Line(new IntChange(13, Line::LINE_NOT_PRESENT), Line::REMOVED, '', "\n"),
                         new Line(new IntChange(14, 13), Line::UNCHANGED, 'use ptlis\Vcs\Svn\RepositoryConfig;', "\n"),
                         new Line(new IntChange(15, 14), Line::UNCHANGED, '', "\n"),
                         new Line(
@@ -299,7 +299,7 @@ final class DiffParserTest extends TestCase
                         new Line(new IntChange(48, 48), Line::UNCHANGED, '            $commandExecutor->getArguments()', "\n"),
                         new Line(new IntChange(49, 49), Line::UNCHANGED, '        );', "\n"),
                         new Line(new IntChange(50, 50), Line::UNCHANGED, '    }', "\n"),
-                        new Line(new IntChange(-1, 51), Line::ADDED, '', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 51), Line::ADDED, '', "\n"),
                         new Line(new IntChange(51, 52), Line::UNCHANGED, '    public function testBranchDoesntExist()', "\n"),
                         new Line(new IntChange(52, 53), Line::UNCHANGED, '    {', "\n"),
                         new Line(new IntChange(53, 54), Line::UNCHANGED, '        $this->setExpectedException(', "\n")
@@ -313,8 +313,8 @@ final class DiffParserTest extends TestCase
                         new Line(new IntChange(68, 69), Line::UNCHANGED, '        $vcs = new GitVcs($commandExecutor);', "\n"),
                         new Line(new IntChange(69, 70), Line::UNCHANGED, '', "\n"),
                         new Line(new IntChange(70, 71), Line::UNCHANGED, '        $vcs->changeBranch(\'feat-new-badness\');', "\n"),
-                        new Line(new IntChange(71, -1), Line::REMOVED, '', "\n"),
-                        new Line(new IntChange(72, -1), Line::REMOVED, '', "\n"),
+                        new Line(new IntChange(71, Line::LINE_NOT_PRESENT), Line::REMOVED, '', "\n"),
+                        new Line(new IntChange(72, Line::LINE_NOT_PRESENT), Line::REMOVED, '', "\n"),
                         new Line(new IntChange(73, 72), Line::UNCHANGED, '    }', "\n"),
                         new Line(new IntChange(74, 73), Line::UNCHANGED, '}', "\n"),
                     ]
@@ -351,11 +351,11 @@ final class DiffParserTest extends TestCase
                     [
                         new Line(new IntChange(1, 1), Line::UNCHANGED, 'first line', "\n"),
                         new Line(new IntChange(2, 2), Line::UNCHANGED, 'second line', "\n"),
-                        new Line(new IntChange(3, -1), Line::REMOVED, 'third line', "\n"),
-                        new Line(new IntChange(-1, 3), Line::ADDED, 'test line', "\n"),
-                        new Line(new IntChange(-1, 4), Line::ADDED, 'fourth line', "\n"),
-                        new Line(new IntChange(-1, 5), Line::ADDED, '', "\n"),
-                        new Line(new IntChange(-1, 6), Line::ADDED, 'some other line', ''),
+                        new Line(new IntChange(3, Line::LINE_NOT_PRESENT), Line::REMOVED, 'third line', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 3), Line::ADDED, 'test line', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 4), Line::ADDED, 'fourth line', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 5), Line::ADDED, '', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 6), Line::ADDED, 'some other line', ''),
                     ]
                 )
             ]
@@ -392,11 +392,11 @@ final class DiffParserTest extends TestCase
                     [
                         new Line(new IntChange(1, 1), Line::UNCHANGED, 'first line', "\n"),
                         new Line(new IntChange(2, 2), Line::UNCHANGED, 'second line', "\n"),
-                        new Line(new IntChange(3, -1), Line::REMOVED, 'third line', ''),
-                        new Line(new IntChange(-1, 3), Line::ADDED, 'test line', "\n"),
-                        new Line(new IntChange(-1, 4), Line::ADDED, 'fourth line', "\n"),
-                        new Line(new IntChange(-1, 5), Line::ADDED, '', "\n"),
-                        new Line(new IntChange(-1, 6), Line::ADDED, 'some other line', ''),
+                        new Line(new IntChange(3, Line::LINE_NOT_PRESENT), Line::REMOVED, 'third line', ''),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 3), Line::ADDED, 'test line', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 4), Line::ADDED, 'fourth line', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 5), Line::ADDED, '', "\n"),
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 6), Line::ADDED, 'some other line', ''),
                     ]
                 )
             ]

@@ -43,7 +43,7 @@ final class ParserTest extends TestCase
                     new IntChange(0, 1),
                     "\n",
                     [
-                        new Line(new IntChange(-1, 1), Line::ADDED, '## Test', '')
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 1), Line::ADDED, '## Test', '')
                     ]
                 )
             ]
@@ -72,7 +72,7 @@ final class ParserTest extends TestCase
                     new IntChange(0, 1),
                     "\n",
                     [
-                        new Line(new IntChange(-1, 1), Line::ADDED, '## Test', '')
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 1), Line::ADDED, '## Test', '')
                     ]
                 )
             ]
@@ -101,7 +101,7 @@ final class ParserTest extends TestCase
                     new IntChange(0, 1),
                     "\n",
                     [
-                        new Line(new IntChange(-1, 1), Line::ADDED, '## Test', '')
+                        new Line(new IntChange(Line::LINE_NOT_PRESENT, 1), Line::ADDED, '## Test', '')
                     ]
                 )
             ]

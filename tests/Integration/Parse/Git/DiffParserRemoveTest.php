@@ -66,7 +66,7 @@ final class DiffParserRemoveTest extends TestCase
                     new IntChange(1, 0),
                     "\n",
                     [
-                        new Line(new IntChange(1, -1), Line::REMOVED, '# My project', '')
+                        new Line(new IntChange(1, Line::LINE_NOT_PRESENT), Line::REMOVED, '# My project', '')
                     ]
                 )
             ]
