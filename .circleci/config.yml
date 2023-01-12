@@ -43,19 +43,20 @@ version: 2
         command: ./vendor/bin/phpcs -n --standard=PSR12 src/ tests/
 
 jobs:
-  php-8_1:
+  tests:
     <<: *dockerbuild
     docker:
-      - image: php:8.1
-
-  php-8_2:
-    <<: *dockerbuild
-    docker:
-      - image: php:8.2
+      - image: php:<< parameters.php-version >>
+    parameters:
+      autocrlf:
+        type: bool
 
 workflows:
   version: 2
   php_versions:
     jobs:
-      - php-8_1
-      - php-8_2
+      - tests:
+          matrix:
+            parameters:
+              autocrlf: [0, 1]
+              php-version: [8.1, 8.2]
