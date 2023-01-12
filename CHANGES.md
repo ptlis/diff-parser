@@ -1,8 +1,15 @@
 # Changelog:
 
+## 1.2.0 - 2023-01-12
+
+* Improve the object graph through adding the `IntChange` and `StringChange` classes to encode the before/after values that make up a changeset.
+* Migrate CI Pipeline from TravisCI to CircleCI.
+* Add testing against PHP 8.2 binaries.
+
+
 ## 1.1.1 - 2022-07-02
 
-* Add triggering of E_USER_DEPRECATED notices when deprecated methods are called.
+* Add triggering of `E_USER_DEPRECATED` notices when deprecated methods are called.
 
 
 ## 1.1.0 - 2022-05-22
